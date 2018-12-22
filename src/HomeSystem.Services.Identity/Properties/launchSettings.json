@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "local"
       }
     },
-    "DShop.Api": {
+    "HomeSystem.Services.Identity": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
