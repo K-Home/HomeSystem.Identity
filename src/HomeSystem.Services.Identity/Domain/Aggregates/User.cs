@@ -35,15 +35,13 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         {
         }
 
-        public User(Guid aggregateId, string firstName, string lastName, string email,
-            string passwordHash, string role)
+        public User(Guid aggregateId, string firstName, string lastName, string email, string role)
         {
             AggregateId = aggregateId;
             SetFirstName(firstName);
             SetLastName(lastName);
             SetEmail(email);
             SetRole(role);
-            PasswordHash = passwordHash;
             CreatedAt = DateTime.UtcNow;
         }
 

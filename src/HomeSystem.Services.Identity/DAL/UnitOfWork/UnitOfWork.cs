@@ -18,7 +18,7 @@ namespace HomeSystem.Services.Identity.DAL.UnitOfWork
             {
                 await query();
                 transaction.Commit();
-            }git
+            }
         }
     }
 }
