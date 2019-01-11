@@ -9,7 +9,6 @@
     <PackageReference Include="KShared.Domain" Version="1.0.1" />
     <PackageReference Include="KShared.Exceptions" Version="1.0.1" />
     <PackageReference Include="KShared.Authentication" Version="1.0.1" />
-    <PackageReference Include="KShared.SqlServer" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

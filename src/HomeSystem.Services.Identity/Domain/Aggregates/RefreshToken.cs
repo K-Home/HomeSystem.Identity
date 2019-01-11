@@ -9,6 +9,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
     public class RefreshToken : Entity, ITimestampable
     {
         public Guid UserId { get; private set; }
+        public User User { get; private set; }
         public string Token { get; private set; }
         public DateTime CreatedAt { get; }
         public DateTime? RevokedAt { get; private set; }
