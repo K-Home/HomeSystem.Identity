@@ -22,4 +22,3 @@ namespace HomeSystem.Services.Identity
                 .UseStartup<Startup>();
     }
 }
-gitgit
