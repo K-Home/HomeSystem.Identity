@@ -18,10 +18,10 @@ namespace HomeSystem.Services.Identity.DAL.Repositories
             => await _identityDbContext.Users.AnyAsync(x => x.AggregateId == userId);
 
         public async Task<User> GetByUserIdAsync(Guid userId)
-            => await _identityDbContext.Users.FindAsync(userId);
+            => await _identityDbContext.Users.SingleOrDefaultAsync(x => x.AggregateId == userId);
 
         public async Task<User> GetByEmailAsync(string email)
-            => await _identityDbContext.Users.FindAsync(email);
+            => await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Email == email);
 
         public async Task AddUserAsync(User user)
         {

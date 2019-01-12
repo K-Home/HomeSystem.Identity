@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.Aggregates;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeSystem.Services.Identity.DAL.Repositories
 {
@@ -13,7 +14,7 @@ namespace HomeSystem.Services.Identity.DAL.Repositories
         }
 
         public async Task<RefreshToken> GetAsync(string token)
-            => await _identityDbContext.RefreshTokens.FindAsync(token);
+            => await _identityDbContext.RefreshTokens.SingleOrDefaultAsync(x => x.Token == token);
 
         public async Task AddAsync(RefreshToken token)
         {
