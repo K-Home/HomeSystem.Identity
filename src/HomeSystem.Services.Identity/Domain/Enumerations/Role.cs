@@ -1,5 +1,3 @@
-using KShared.Domain.BaseClasses;
-
 namespace HomeSystem.Services.Identity.Domain.Enumerations
 {
     public class Role

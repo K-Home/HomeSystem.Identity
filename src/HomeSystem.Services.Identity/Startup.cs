@@ -1,42 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using HomeSystem.Services.Identity.DAL.Extensions;
+using HomeSystem.Services.Identity.Settings;
+using KShared.Authentication.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace HomeSystem.Services.Identity
 {
     public class Startup
     {
+        public IContainer Container { get; private set; }
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.Configure<SqlOptions>(Configuration.GetSection("sql"));
+            services.AddEntityFramework();
+            services.AddJwt();
+
+            var builder = new ContainerBuilder();
+            
+            builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
+                .AsImplementedInterfaces();
+            
+            builder.Populate(services);
+            Container = builder.Build();
+
+            return new AutofacServiceProvider(Container);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+            IApplicationLifetime applicationLifetime)
         {
             if (env.IsDevelopment() || env.EnvironmentName == "local")
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAccessTokenValidator();
+            app.UseAuthentication();
             app.UseMvc();
+            
+            applicationLifetime.ApplicationStopped.Register(() => 
+            { 
+                Container.Dispose(); 
+            });
         }
     }
 }
+

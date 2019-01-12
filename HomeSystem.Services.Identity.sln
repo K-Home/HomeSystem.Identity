@@ -17,6 +17,8 @@ ProjectSection(SolutionItems) = preProject
 	scripts\docker-build-local.sh = scripts\docker-build-local.sh
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeSystem.Services.Identity.Tests", "tests\HomeSystem.Services.Identity.Tests\HomeSystem.Services.Identity.Tests.csproj", "{89427C99-9F0B-4A59-82B6-7BE75D4F0A6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +29,13 @@ Global
 		{8EFCB6E5-03AB-40E0-BBB5-A7DD8BE27DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EFCB6E5-03AB-40E0-BBB5-A7DD8BE27DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EFCB6E5-03AB-40E0-BBB5-A7DD8BE27DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89427C99-9F0B-4A59-82B6-7BE75D4F0A6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89427C99-9F0B-4A59-82B6-7BE75D4F0A6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89427C99-9F0B-4A59-82B6-7BE75D4F0A6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89427C99-9F0B-4A59-82B6-7BE75D4F0A6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8EFCB6E5-03AB-40E0-BBB5-A7DD8BE27DF3} = {D09F3FA6-943E-4209-8295-8316F3838513}
+		{89427C99-9F0B-4A59-82B6-7BE75D4F0A6E} = {2E264CB7-957E-47C7-AFEA-D5C7B3D2F574}
 	EndGlobalSection
 EndGlobal
