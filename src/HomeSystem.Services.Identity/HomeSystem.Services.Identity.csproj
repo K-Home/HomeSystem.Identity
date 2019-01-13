@@ -5,12 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1"/>
-    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
+    <PackageReference Include="KShared.Authentication" Version="1.0.2" />
+    <PackageReference Include="KShared.Configuration" Version="1.0.1" />
+    <PackageReference Include="KShared.CQRS" Version="1.0.1" />
     <PackageReference Include="KShared.Domain" Version="1.0.1" />
     <PackageReference Include="KShared.Exceptions" Version="1.0.1" />
-    <PackageReference Include="KShared.Authentication" Version="1.0.1" />
+    <PackageReference Include="KShared.Redis" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Handlers\CommandHandlers" />
+    <Folder Include="Handlers\EventHandlers" />
+    <Folder Include="Handlers\QueryHandlers" />
+    <Folder Include="Messages\Events" />
+    <Folder Include="Messages\Queries" />
   </ItemGroup>
 
 </Project>
