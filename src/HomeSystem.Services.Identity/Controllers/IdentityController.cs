@@ -36,5 +36,19 @@ namespace HomeSystem.Services.Identity.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("sign-in")]
+        public async Task<IActionResult> SignIn(SignIn command)
+            => Ok(await _identityService.SignInAsync(command.Email, command.Password));
+
+        [HttpPut("me/password")]
+        [JwtAuth]
+        public async Task<ActionResult> ChangePassword(ChangePassword command)
+        {
+            await _identityService.ChangePasswordAsync(command.Bind(c => c.UserId, UserId).UserId, 
+                command.CurrentPassword, command.NewPassword);
+
+            return NoContent();
+        }
     }
 }
