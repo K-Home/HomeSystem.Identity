@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using HomeSystem.Services.Identity.Domain.ValueObjects;
 using HomeSystem.Services.Identity.Exceptions;
 using KShared.ClassExtensions;

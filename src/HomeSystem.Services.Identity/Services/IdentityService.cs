@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using HomeSystem.Services.Identity.DAL.Repositories;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.Enumerations;
-using HomeSystem.Services.Identity.Domain.ValueObjects;
 using HomeSystem.Services.Identity.Exceptions;
 using KShared.Authentication.Services;
 using KShared.Authentication.Tokens;
