@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using HomeSystem.Services.Identity.Domain.ValueObjects;
 using HomeSystem.Services.Identity.Exceptions;
+using KShared.ClassExtensions;
 using KShared.Domain.BaseClasses;
 using KShared.Exceptions.Exceptions;
 using Microsoft.AspNetCore.Identity;
@@ -10,17 +12,16 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 {
     public class User : AggregateRoot, IEditable, ITimestampable
     {
-        private static readonly Regex EmailRegex = new Regex(
-            @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-            @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
-            RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
-
         private ISet<RefreshToken> _refreshTokens = new HashSet<RefreshToken>();
+        private ISet<UserSession> _userSessions = new HashSet<UserSession>();
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Email { get; private set; }
+        public string PhoneNumber { get; private set; }
+        public UserAddress Address { get; private set; }
         public string PasswordHash { get; private set; }
         public string Role { get; private set; }
+        public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; }
 
@@ -28,6 +29,12 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         {
             get => _refreshTokens;
             protected set => _refreshTokens = new HashSet<RefreshToken>(value);
+        }
+        
+        public IEnumerable<UserSession> UserSessions
+        {
+            get => _userSessions;
+            protected set => _userSessions = new HashSet<UserSession>(value);
         }
 
         protected User()
@@ -46,7 +53,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
         public void SetFirstName(string firstName)
         {
-            if (string.IsNullOrEmpty(firstName))
+            if (firstName.IsEmpty())
             {
                 throw new DomainException(Codes.FirstNameNotProvided,
                     $"First name not provided.");
@@ -69,7 +76,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
         public void SetLastName(string lastName)
         {
-            if (string.IsNullOrEmpty(lastName))
+            if (lastName.IsEmpty())
             {
                 throw new DomainException(Codes.LastNameNotProvided,
                     $"Last name not provided.");
@@ -92,13 +99,13 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
         public void SetEmail(string email)
         {
-            if (string.IsNullOrEmpty(email))
+            if (email.IsEmpty())
             {
                 throw new DomainException(Codes.EmailNotProvided,
                     $"Email not provided.");
             }
 
-            if (!EmailRegex.IsMatch(email))
+            if (!email.IsEmail())
             {
                 throw new DomainException(Codes.InvalidEmail,
                     $"Invalid email: '{email}'.");
@@ -119,10 +126,21 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             UpdatedAt = DateTime.UtcNow;
         }
 
+        public void SetAddress(UserAddress address)
+        {
+            if (address == null)
+            {
+                throw new DomainException(Codes.AddressNotProvided,
+                    "Address can not be null.");
+            }
+
+            Address = address;
+            UpdatedAt = DateTime.UtcNow;
+        }
 
         public void SetRole(string role)
         {
-            if (string.IsNullOrEmpty(role))
+            if (role.IsEmpty())
             {
                 throw new DomainException(Codes.RoleNotProvided,
                     $"Role not provided.");
@@ -146,6 +164,35 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             }
 
             Role = role.ToLowerInvariant();
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void EnableTwoFactorAuthentication()
+        {
+            TwoFactorAuthentication = true;
+            UpdatedAt = DateTime.UtcNow;
+        }
+        
+        public void DisableTwoFactorAuthentication()
+        {
+            TwoFactorAuthentication = false;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void SetPhoneNumber(string phoneNumber)
+        {
+            if (!phoneNumber.IsPhoneNumber())
+            {
+                throw new DomainException(Codes.InvalidPhoneNumber,
+                    "Invalid phone number");             
+            }
+
+            if (PhoneNumber == phoneNumber)
+            {
+                return;
+            }
+
+            PhoneNumber = phoneNumber;
             UpdatedAt = DateTime.UtcNow;
         }
 

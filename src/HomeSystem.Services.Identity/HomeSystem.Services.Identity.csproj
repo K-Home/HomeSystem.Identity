@@ -8,6 +8,7 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
     <PackageReference Include="KShared.Authentication" Version="1.0.2" />
     <PackageReference Include="KShared.Configuration" Version="1.0.1" />
+    <PackageReference Include="KShared.ClassExtensions" Version="1.0.1" />
     <PackageReference Include="KShared.CQRS" Version="1.0.1" />
     <PackageReference Include="KShared.Domain" Version="1.0.1" />
     <PackageReference Include="KShared.Exceptions" Version="1.0.1" />

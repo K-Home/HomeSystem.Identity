@@ -30,8 +30,7 @@ namespace HomeSystem.Services.Identity
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddCustomMvc();
-            services.Configure<SqlOptions>(Configuration
-                .GetSection("sql"));
+            services.Configure<SqlOptions>(Configuration.GetSection("sql"));
             services.AddEntityFramework();
             services.AddJwt();
             services.AddRedis();
