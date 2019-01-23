@@ -23,7 +23,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public string Role { get; private set; }
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; private set; }
 
         public IEnumerable<RefreshToken> RefreshTokens
         {

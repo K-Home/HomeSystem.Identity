@@ -8,17 +8,17 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 {
     public class OneTimeSecuredOperation : Entity, ITimestampable
     {
-        public string Type { get; protected set; }
-        public string User { get; protected set; }
-        public string Token { get; protected set; }
-        public string RequesterIpAddress { get; protected set; }
-        public string RequesterUserAgent { get; protected set; }
-        public string ConsumerIpAddress { get; protected set; }
-        public string ConsumerUserAgent { get; protected set; }
+        public string Type { get; private set; }
+        public string User { get; private set; }
+        public string Token { get; private set; }
+        public string RequesterIpAddress { get; private set; }
+        public string RequesterUserAgent { get; private set; }
+        public string ConsumerIpAddress { get; private set; }
+        public string ConsumerUserAgent { get; private set; }
         public bool Consumed => ConsumedAt.HasValue;
-        public DateTime? ConsumedAt { get; protected set; }
-        public DateTime Expiry { get; protected set; }
-        public DateTime CreatedAt { get; }
+        public DateTime? ConsumedAt { get; private set; }
+        public DateTime Expiry { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         protected OneTimeSecuredOperation()
         {

@@ -11,7 +11,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public Guid UserId { get; private set; }
         public User User { get; private set; }
         public string Token { get; private set; }
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; private set; }
         public DateTime? RevokedAt { get; private set; }
         public bool Revoked { get; private set; }
 

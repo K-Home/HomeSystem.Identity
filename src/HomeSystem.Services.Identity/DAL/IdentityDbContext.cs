@@ -17,6 +17,8 @@ namespace HomeSystem.Services.Identity.DAL
         
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<OneTimeSecuredOperation> OneTimeSecuredOperations { get; set; }
+        public DbSet<UserSession> UserSessions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

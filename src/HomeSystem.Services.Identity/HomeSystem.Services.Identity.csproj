@@ -14,6 +14,7 @@
     <PackageReference Include="KShared.Exceptions" Version="1.0.1" />
     <PackageReference Include="KShared.Redis" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
