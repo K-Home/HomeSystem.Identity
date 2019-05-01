@@ -5,24 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Handlers\**" />
+    <Content Remove="Handlers\**" />
+    <EmbeddedResource Remove="Handlers\**" />
+    <None Remove="Handlers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
-    <PackageReference Include="KShared.Authentication" Version="1.0.2" />
-    <PackageReference Include="KShared.Configuration" Version="1.0.1" />
-    <PackageReference Include="KShared.ClassExtensions" Version="1.0.1" />
-    <PackageReference Include="KShared.CQRS" Version="1.0.1" />
-    <PackageReference Include="KShared.Domain" Version="1.0.1" />
-    <PackageReference Include="KShared.Exceptions" Version="1.0.1" />
-    <PackageReference Include="KShared.Redis" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Handlers\CommandHandlers" />
-    <Folder Include="Handlers\EventHandlers" />
-    <Folder Include="Handlers\QueryHandlers" />
-    <Folder Include="Messages\Events" />
-    <Folder Include="Messages\Queries" />
+    <ProjectReference Include="..\HomeSystem.Services.Identity.Application\HomeSystem.Services.Identity.Application.csproj" />
   </ItemGroup>
 
 </Project>
