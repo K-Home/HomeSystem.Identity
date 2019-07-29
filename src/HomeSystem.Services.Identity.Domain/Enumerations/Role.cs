@@ -2,34 +2,34 @@ using HomeSystem.Services.Identity.Domain.Types;
 
 namespace HomeSystem.Services.Identity.Domain.Enumerations
 {
-    public class Roles : Enumeration
+    public class Role : Enumeration
     {
-        public static Roles User = new UserRole();
-        public static Roles Editor = new EditorRole();
-        public static Roles Admin = new AdminRole();
-        public static Roles Owner = new OwnerRole();
+        public static Role User = new UserRole();
+        public static Role Editor = new EditorRole();
+        public static Role Admin = new AdminRole();
+        public static Role Owner = new OwnerRole();
 
-        public Roles(int id, string name)
+        public Role(int id, string name)
             : base(id, name)
         {
         }
 
-        private class UserRole : Roles
+        private class UserRole : Role
         {
             public UserRole() : base(1, "user") { }
         }
 
-        private class EditorRole : Roles
+        private class EditorRole : Role
         {
             public EditorRole() : base(2, "editor") { }
         }
 
-        private class AdminRole : Roles
+        private class AdminRole : Role
         {
             public AdminRole() : base(3, "admin") { }
         }
 
-        private class OwnerRole : Roles
+        private class OwnerRole : Role
         {
             public OwnerRole() : base(4, "owner") { }
         }

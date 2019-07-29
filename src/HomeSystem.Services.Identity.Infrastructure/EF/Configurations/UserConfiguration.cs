@@ -10,26 +10,45 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
         {
             builder.HasKey(m => m.Id);
 
+            builder.Property(u => u.Username)
+                .HasColumnName("Username")
+                .HasColumnType("nvarchar")
+                .HasMaxLength(100)
+                .IsRequired();
+
             builder.Property(u => u.FirstName)
                 .HasColumnName("FirstName")
+                .HasColumnType("nvarchar")
+                .HasMaxLength(150)
                 .IsRequired();           
             
             builder.Property(u => u.LastName)
                 .HasColumnName("LastName")
+                .HasColumnType("nvarchar")
+                .HasMaxLength(150)
                 .IsRequired();
 
             builder.Property(u => u.Email)
                 .HasColumnName("Email")
+                .HasColumnType("nvarchar")
                 .IsRequired();
 
             builder.Property(u => u.Role)
                 .HasColumnName("Role")
+                .HasColumnType("smallint")
+                .IsRequired();
+
+            builder.Property(u => u.State)
+                .HasColumnName("State")
+                .HasColumnType("smallint")
                 .IsRequired();
             
             builder.OwnsOne(u => u.Address);
 
             builder.Property(u => u.PhoneNumber)
                 .HasColumnName("PhoneNumber")
+                .HasColumnType("nvarchar")
+                .HasMaxLength(12)
                 .IsRequired();
 
             builder.Property(u => u.TwoFactorAuthentication)
@@ -43,10 +62,6 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
             builder.Property(u => u.CreatedAt)
                 .HasColumnName("CreatedAt")
                 .IsRequired();
-
-            builder.HasMany(u => u.RefreshTokens)
-                .WithOne(rt => rt.User)
-                .HasForeignKey(rt => rt.UserId);
 
             builder.HasMany(u => u.UserSessions)
                 .WithOne(us => us.User)

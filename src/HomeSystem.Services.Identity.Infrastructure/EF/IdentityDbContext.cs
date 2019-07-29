@@ -14,7 +14,6 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF
             _sqlOptions = sqlOptions;
         }
         
-        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<OneTimeSecuredOperation> OneTimeSecuredOperations { get; set; }
         public DbSet<UserSession> UserSessions { get; set; }
@@ -38,12 +37,11 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            
-            modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserSessionConfiguration());
             modelBuilder.ApplyConfiguration(new OneTimeSecuredOperationConfiguration());
+            
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

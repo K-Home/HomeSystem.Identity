@@ -3,45 +3,50 @@ using HomeSystem.Services.Identity.Domain.Extensions;
 using HomeSystem.Services.Identity.Domain.Types;
 using HomeSystem.Services.Identity.Domain.Types.Base;
 using HomeSystem.Services.Identity.Domain.ValueObjects;
-using HomeSystem.Services.Identity.Exceptions;
-using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using HomeSystem.Services.Identity.Domain.Enumerations;
+using HomeSystem.Services.Identity.Domain.Services;
 
 namespace HomeSystem.Services.Identity.Domain.Aggregates
 {
     public class User : AggregateRootBase, IEditable, ITimestampable
     {
+        private static readonly Regex NameRegex = new Regex("^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._.-]+(?<![_.-])$",
+            RegexOptions.Compiled);
+
+        private readonly List<UserSession> _userSessions = new List<UserSession>();
+        
+        public string Username { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Email { get; private set; }
         public string PhoneNumber { get; private set; }
         public UserAddress Address { get; private set; }
-        public string PasswordHash { get; private set; }
-        public string Role { get; private set; }
+        public string Password { get; private set; }
+        public string Salt { get; private set; }
+        public Role Role { get; private set; }
+        public States State { get; private set; }
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; }
-
-        private List<RefreshToken> _refreshTokens;
-        private List<UserSession> _userSessions;
-
-        public IEnumerable<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
-        public IEnumerable<UserSession> UserSessions => _userSessions.AsReadOnly();
+        
+        
+        public IEnumerable<UserSession> UserSessions => _userSessions;
 
         protected User()
         {
-            _refreshTokens = new List<RefreshToken>();
-            _userSessions = new List<UserSession>();
         }
 
-        public User(Guid id, string firstName, string lastName, string email, string role)
+        public User(Guid id, string email, Role role)
         {
             Id = id;
-            SetFirstName(firstName);
-            SetLastName(lastName);
+            Username = $"user-{Id:N}";
             SetEmail(email);
             SetRole(role);
+            State = States.Incomplete;
+            
             CreatedAt = DateTime.UtcNow;
         }
 
@@ -132,26 +137,26 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void SetRole(string role)
+        public void SetRole(Role role)
         {
-            if (role.IsEmpty())
+            if (role.Name.IsEmpty())
             {
                 throw new DomainException(Codes.RoleNotProvided,
                     $"Role not provided.");
             }
 
-            if (role.Length > 30)
+            if (role.Name.Length > 30)
             {
                 throw new DomainException(Codes.InvalidRole,
                     $"Role name is too long.");
             }
 
-            if (Role == role.ToLowerInvariant())
+            if (Equals(Role, role))
             {
                 return;
             }
 
-            Role = role.ToLowerInvariant();
+            Role = role;
             UpdatedAt = DateTime.UtcNow;
         }
 
@@ -165,6 +170,96 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         {
             TwoFactorAuthentication = false;
             UpdatedAt = DateTime.UtcNow;
+        }
+        
+        public void Lock()
+        {
+            if (Equals(State, States.Locked))
+            {
+                throw new DomainException(Codes.UserAlreadyLocked, 
+                    $"User with id: '{Id}' was already locked.");
+            }
+            State = States.Locked;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void Unlock()
+        {
+            if (!Equals(State, States.Locked))
+            {
+                throw new DomainException(Codes.UserNotLocked, 
+                    $"User with id: '{Id}' is not locked.");
+            }
+            State = States.Active;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void Activate()
+        {
+            if (Equals(State, States.Active))
+            {
+                throw new DomainException(Codes.UserAlreadyActive, 
+                    $"User with id: '{Id}' was already activated.");
+            }
+            State = States.Active;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void SetUnconfirmed()
+        {
+            if (Equals(State, States.Unconfirmed))
+            {
+                throw new DomainException(Codes.UserAlreadyUnconfirmed, 
+                    $"User with id: '{Id}' was already set as unconfirmed.");
+            }
+            State = States.Unconfirmed;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void MarkAsDeleted()
+        {
+            if (Equals(State, States.Active))
+            {
+                throw new DomainException(Codes.UserAlreadyDeleted, 
+                    $"User with id: '{Id}' was already marked as deleted.");
+            }
+            State = States.Deleted;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void SetPassword(string password, IEncrypter encrypter)
+        {
+            if (password.IsEmpty())
+            {
+                throw new DomainException(Codes.InvalidPassword,
+                    "Password can not be empty.");
+            }
+            if (password.Length < 4)
+            {
+                throw new DomainException(Codes.InvalidPassword,
+                    "Password must contain at least 4 characters.");
+
+            }
+            if (password.Length > 100)
+            {
+                throw new DomainException(Codes.InvalidPassword,
+                    "Password can not contain more than 100 characters.");
+            }
+
+            var salt = encrypter.GetSalt(password);
+            var hash = encrypter.GetHash(password, salt);
+
+            Password = hash;
+            Salt = salt;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public bool ValidatePassword(string password, IEncrypter encrypter)
+        {
+            var hashedPassword = encrypter.GetHash(password, Salt);
+            var areEqual = Password.Equals(hashedPassword);
+
+            return areEqual;
         }
 
         public void SetPhoneNumber(string phoneNumber)
@@ -182,23 +277,6 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
             PhoneNumber = phoneNumber;
             UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void SetPassword(string password, IPasswordHasher<User> passwordHasher)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                throw new DomainException(Codes.InvalidPassword,
-                    "Password can not be empty.");
-            }
-
-            PasswordHash = passwordHasher.HashPassword(this, password);
-        }
-
-        public bool ValidatePassword(string password, IPasswordHasher<User> passwordHasher)
-        {
-            return passwordHasher.VerifyHashedPassword(this, PasswordHash, password) !=
-                   PasswordVerificationResult.Failed;
         }
     }
 }

@@ -1,7 +1,6 @@
 using HomeSystem.Services.Identity.Domain.Exceptions;
 using HomeSystem.Services.Identity.Domain.Types;
 using HomeSystem.Services.Identity.Domain.Types.Base;
-using HomeSystem.Services.Identity.Exceptions;
 using System;
 
 namespace HomeSystem.Services.Identity.Domain.Aggregates

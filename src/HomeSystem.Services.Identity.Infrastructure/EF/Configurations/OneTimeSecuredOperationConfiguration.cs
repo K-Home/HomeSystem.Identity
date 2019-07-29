@@ -12,6 +12,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
 
             builder.Property(otso => otso.Type)
                 .HasColumnName("Type")
+                .HasMaxLength(100)
                 .IsRequired();
             
             builder.Property(otso => otso.User)
@@ -20,6 +21,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
             
             builder.Property(otso => otso.Token)
                 .HasColumnName("Token")
+                .HasMaxLength(500)
                 .IsRequired();
 
             builder.Property(otso => otso.Expiry)
@@ -31,16 +33,20 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
                 .IsRequired();
 
             builder.Property(otso => otso.RequesterIpAddress)
-                .HasColumnName("RequesterIpAddress");
+                .HasColumnName("RequesterIpAddress")
+                .HasMaxLength(50);
             
             builder.Property(otso => otso.RequesterUserAgent)
-                .HasColumnName("RequesterUserAgent");
+                .HasColumnName("RequesterUserAgent")
+                .HasMaxLength(50);
             
             builder.Property(otso => otso.ConsumerIpAddress)
-                .HasColumnName("ConsumerIpAddress");
+                .HasColumnName("ConsumerIpAddress")
+                .HasMaxLength(50);
             
             builder.Property(otso => otso.ConsumerUserAgent)
-                .HasColumnName("ConsumerUserAgent");
+                .HasColumnName("ConsumerUserAgent")
+                .HasMaxLength(50);
             
             builder.Property(otso => otso.ConsumedAt)
                 .HasColumnName("ConsumedAt");

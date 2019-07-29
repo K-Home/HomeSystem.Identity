@@ -2,6 +2,7 @@
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using HomeSystem.Services.Identity.Infrastructure.EF.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,8 @@ namespace HomeSystem.Services.Identity
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentityDbContext();
+            
             var builder = new ContainerBuilder();   
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                 .AsImplementedInterfaces();      

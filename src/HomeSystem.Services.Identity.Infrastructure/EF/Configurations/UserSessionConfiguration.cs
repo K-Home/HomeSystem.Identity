@@ -15,14 +15,17 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
                 .IsRequired();
             
             builder.Property(us => us.Key)
-                .HasColumnName("Key");
+                .HasColumnName("Key")
+                .HasMaxLength(1000);
             
             builder.Property(us => us.UserAgent)
-                .HasColumnName("UserAgent");
+                .HasColumnName("UserAgent")
+                .HasMaxLength(50);
             
             builder.Property(us => us.IpAddress)
-                .HasColumnName("IpAddress");
-            
+                .HasColumnName("IpAddress")
+                .HasMaxLength(50);
+
             builder.Property(us => us.ParentId)
                 .HasColumnName("ParentId");
             
