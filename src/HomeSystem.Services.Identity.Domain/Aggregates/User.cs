@@ -31,8 +31,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; }
-        
-        
+            
         public IEnumerable<UserSession> UserSessions => _userSessions;
 
         protected User()
@@ -45,13 +44,19 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             Username = $"user-{Id:N}";
             SetEmail(email);
             SetRole(role);
-            State = States.Incomplete;
+            State = States.Incomplete;        
             
             CreatedAt = DateTime.UtcNow;
         }
 
         public void SetFirstName(string firstName)
         {
+            if (!NameRegex.IsMatch(firstName))
+            {
+                throw new DomainException(Codes.InvalidFirstName,
+                    $"Invalid first name.");
+            }
+            
             if (firstName.IsEmpty())
             {
                 throw new DomainException(Codes.FirstNameNotProvided,
@@ -75,6 +80,12 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
         public void SetLastName(string lastName)
         {
+            if (NameRegex.IsMatch(lastName))
+            {
+                throw new DomainException(Codes.InvalidLastName,
+                    $"Invalid last name.");
+            }
+            
             if (lastName.IsEmpty())
             {
                 throw new DomainException(Codes.LastNameNotProvided,
