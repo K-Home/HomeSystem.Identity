@@ -1,14 +1,15 @@
 using HomeSystem.Services.Identity.Domain.Aggregates;
+using HomeSystem.Services.Identity.Domain.SeedWork;
 using System;
 using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Domain.Repositories
 {
-    public interface IUserSessionRepository
+    public interface IUserSessionRepository : IRepository<UserSession>
     {
         Task<UserSession> GetByIdAsync(Guid id);
         Task AddAsync(UserSession session);
-        Task UpdateAsync(UserSession session);
-        Task DeleteAsync(Guid id);
+        void Update(UserSession session);
+        void Delete(UserSession session);
     }
 }

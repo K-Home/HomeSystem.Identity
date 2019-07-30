@@ -2,18 +2,21 @@ using System;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.Repositories;
+using HomeSystem.Services.Identity.Domain.SeedWork;
 using HomeSystem.Services.Identity.Infrastructure.EF;
 using Microsoft.EntityFrameworkCore;
 
-namespace HomeSystem.Services.Identity.Infrastructure.Repositories
+namespace HomeSystem.Services.Identity.Infrastructure.EF.Repositories
 {
     public class OneTimeSecuredOperationRepository : IOneTimeSecuredOperationRepository
     {
         private readonly IdentityDbContext _identityDbContext;
 
+        public IUnitOfWork UnitOfWork => _identityDbContext;
+
         public OneTimeSecuredOperationRepository(IdentityDbContext identityDbContext)
         {
-            _identityDbContext = identityDbContext;
+            _identityDbContext = identityDbContext ?? throw new ArgumentNullException(nameof(identityDbContext));
         }
 
         public async Task<OneTimeSecuredOperation> GetAsync(Guid id)
@@ -26,13 +29,11 @@ namespace HomeSystem.Services.Identity.Infrastructure.Repositories
         public async Task AddAsync(OneTimeSecuredOperation operation)
         {
             await _identityDbContext.OneTimeSecuredOperations.AddAsync(operation);
-            await _identityDbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(OneTimeSecuredOperation operation)
+        public void Update(OneTimeSecuredOperation operation)
         {
-            _identityDbContext.OneTimeSecuredOperations.Update(operation);
-            await _identityDbContext.SaveChangesAsync();
+            _identityDbContext.Entry(operation).State = EntityState.Modified;
         }
     }
 }

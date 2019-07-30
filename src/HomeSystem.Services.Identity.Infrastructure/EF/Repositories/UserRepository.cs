@@ -2,14 +2,16 @@ using System;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.Repositories;
-using HomeSystem.Services.Identity.Infrastructure.EF;
+using HomeSystem.Services.Identity.Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
 
-namespace HomeSystem.Services.Identity.Infrastructure.Repositories
+namespace HomeSystem.Services.Identity.Infrastructure.EF.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly IdentityDbContext _identityDbContext;
+
+        public IUnitOfWork UnitOfWork => _identityDbContext;
 
         public UserRepository(IdentityDbContext identityDbContext)
         {
@@ -28,20 +30,16 @@ namespace HomeSystem.Services.Identity.Infrastructure.Repositories
         public async Task AddUserAsync(User user)
         {
             await _identityDbContext.Users.AddAsync(user);
-            await _identityDbContext.SaveChangesAsync();
         }
 
-        public async Task EditUserAsync(User user)
+        public void EditUser(User user)
         {
-            _identityDbContext.Users.Update(user);
-            await _identityDbContext.SaveChangesAsync();
+            _identityDbContext.Entry(user).State = EntityState.Modified;
         }
 
-        public async Task DeleteUserAsync(Guid userId)
+        public void DeleteUser(User user)
         {
-            var user = await GetByUserIdAsync(userId);
             _identityDbContext.Users.Remove(user);
-            await _identityDbContext.SaveChangesAsync();
         }
     }
 }
