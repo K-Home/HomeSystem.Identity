@@ -2,7 +2,7 @@ using System;
 
 namespace HomeSystem.Services.Identity.Application.Dtos
 {
-    public class SessionDto
+    public class UserSessionDto
     {
         public Guid Id { get; set; }
         public string UserId { get; set; }
