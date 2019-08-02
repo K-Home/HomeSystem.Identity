@@ -1,13 +1,13 @@
-using System;
-using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.SeedWork;
 using HomeSystem.Services.Identity.Infrastructure.EF.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
+using System;
+using System.Data;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Infrastructure.EF
 {

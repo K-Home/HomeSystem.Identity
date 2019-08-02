@@ -1,8 +1,8 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Infrastructure.Extensions;
+﻿using HomeSystem.Services.Identity.Infrastructure.Extensions;
 using MediatR;
 using Serilog;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Behaviors
 {

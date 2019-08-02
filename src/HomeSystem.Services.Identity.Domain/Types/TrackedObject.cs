@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
+using System.Collections.Generic;
 
 namespace HomeSystem.Services.Identity.Domain.Types
 {

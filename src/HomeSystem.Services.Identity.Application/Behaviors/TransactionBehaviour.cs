@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Infrastructure.EF;
+﻿using HomeSystem.Services.Identity.Infrastructure.EF;
 using HomeSystem.Services.Identity.Infrastructure.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Behaviors
 {

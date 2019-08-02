@@ -1,7 +1,7 @@
+using HomeSystem.Services.Identity.Domain.Extensions;
 using System;
 using System.Security.Cryptography;
 using System.Text;
-using HomeSystem.Services.Identity.Domain.Extensions;
 
 namespace HomeSystem.Services.Identity.Domain.Services
 {

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using HomeSystem.Services.Identity.Infrastructure.Extensions;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace HomeSystem.Services.Identity.Application.Behaviors

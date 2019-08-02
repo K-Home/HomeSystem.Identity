@@ -1,12 +1,12 @@
+using HomeSystem.Services.Identity.Domain.Extensions;
+using HomeSystem.Services.Identity.Infrastructure.Extensions;
+using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using HomeSystem.Services.Identity.Domain.Extensions;
-using HomeSystem.Services.Identity.Infrastructure.Extensions;
-using Microsoft.IdentityModel.Tokens;
-using Serilog;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Authorization
 {

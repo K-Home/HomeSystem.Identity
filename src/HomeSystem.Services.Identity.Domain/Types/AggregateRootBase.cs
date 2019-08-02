@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using HomeSystem.Services.Identity.Domain.Types.Base;
 using MediatR;
+using System;
+using System.Collections.Generic;
 
 namespace HomeSystem.Services.Identity.Domain.Types
 {

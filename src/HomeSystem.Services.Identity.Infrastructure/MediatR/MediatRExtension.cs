@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Domain.Types;
+﻿using HomeSystem.Services.Identity.Domain.Types;
 using HomeSystem.Services.Identity.Infrastructure.EF;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Infrastructure.MediatR
 {

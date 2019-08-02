@@ -1,9 +1,9 @@
-using System;
 using HomeSystem.Services.Identity.Infrastructure.Logging.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
+using System;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Logging
 {

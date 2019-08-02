@@ -1,12 +1,12 @@
+using HomeSystem.Services.Identity.Domain.Enumerations;
 using HomeSystem.Services.Identity.Domain.Exceptions;
 using HomeSystem.Services.Identity.Domain.Extensions;
+using HomeSystem.Services.Identity.Domain.Services;
 using HomeSystem.Services.Identity.Domain.Types;
 using HomeSystem.Services.Identity.Domain.Types.Base;
 using HomeSystem.Services.Identity.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
-using HomeSystem.Services.Identity.Domain.Enumerations;
-using HomeSystem.Services.Identity.Domain.Services;
 
 namespace HomeSystem.Services.Identity.Domain.Aggregates
 {

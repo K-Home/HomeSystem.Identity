@@ -1,9 +1,9 @@
-using System;
-using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.Repositories;
 using HomeSystem.Services.Identity.Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Infrastructure.EF.Repositories
 {
