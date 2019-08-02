@@ -2,28 +2,28 @@ using HomeSystem.Services.Identity.Domain.Types;
 
 namespace HomeSystem.Services.Identity.Domain.Enumerations
 {
-    public class OneTimeSecuredOperationType : Enumeration
+    public class OneTimeSecuredOperations : Enumeration
     {
-        public static OneTimeSecuredOperationType ResetPassword = new ResetPasswordOperation();
-        public static OneTimeSecuredOperationType ActivateAccount = new ActivateAccountOperation();
-        public static OneTimeSecuredOperationType LoginWith2Factor = new LoginWith2FactorOperation();
+        public static OneTimeSecuredOperations ResetPassword = new ResetPasswordOperation();
+        public static OneTimeSecuredOperations ActivateAccount = new ActivateAccountOperation();
+        public static OneTimeSecuredOperations LoginWith2Factor = new LoginWith2FactorOperation();
 
-        public OneTimeSecuredOperationType(int id, string name)
+        public OneTimeSecuredOperations(int id, string name)
             : base(id, name)
         {
         }
 
-        private class ResetPasswordOperation : OneTimeSecuredOperationType
+        private class ResetPasswordOperation : OneTimeSecuredOperations
         {
             public ResetPasswordOperation() : base(1, "reset_password") { }
         }
 
-        private class ActivateAccountOperation : OneTimeSecuredOperationType
+        private class ActivateAccountOperation : OneTimeSecuredOperations
         {
             public ActivateAccountOperation() : base(2, "activate_account") { }
         }
 
-        private class LoginWith2FactorOperation : OneTimeSecuredOperationType
+        private class LoginWith2FactorOperation : OneTimeSecuredOperations
         {
             public LoginWith2FactorOperation() : base(3, "login_with_two_factor") { }
         }

@@ -3,6 +3,7 @@ using HomeSystem.Services.Identity.Domain.Repositories;
 using HomeSystem.Services.Identity.Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Infrastructure.EF.Repositories
@@ -18,14 +19,25 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Repositories
             _identityDbContext = identityDbContext;
         }
 
-        public async Task<bool> ExistsAsync(Guid userId)
-            => await _identityDbContext.Users.AnyAsync(x => x.Id == userId);
+        public async Task<bool> ExistsAsync(Expression<Func<User, bool>> predicate)
+            => await _identityDbContext.Users.AnyAsync(predicate);
 
         public async Task<User> GetByUserIdAsync(Guid userId)
             => await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
 
+        public async Task<User> GetByNameAsync(string name)
+            => await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Username == name);
+
         public async Task<User> GetByEmailAsync(string email)
             => await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Email == email);
+
+        public async Task<string> GetStateAsync(Guid id)
+        {
+            var user = await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Id == id);
+            var userState = user.State.Name;
+
+            return userState;
+        }
 
         public async Task AddUserAsync(User user)
         {

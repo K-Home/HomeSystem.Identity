@@ -13,6 +13,8 @@ namespace HomeSystem.Services.Identity.Domain
         public static string InvalidCredentials = "invalid_credentials";
         public static string InvalidCurrentPassword = "invalid_current_password";
         public static string InvalidSecuredOperation = "invalid_secured_operation";
+        public static string InvalidSessionKey = "invalid_session_key";
+        public static string InvalidFile = "invalid_file";
 
         public static string FirstNameNotProvided = "first_name_not_provided";
         public static string LastNameNotProvided = "last_name_not_provided";
@@ -23,9 +25,17 @@ namespace HomeSystem.Services.Identity.Domain
 
         public static string UserNotFound = "user_not_found";
         public static string RefreshTokenNotFound = "refresh_token_not_found";
+        public static string OperationNotFound = "operation_not_found";
+        public static string SessionNotFound = "session_not_found";
         
         public static string EmailInUse = "email_in_use";
+        public static string UserIdInUse = "user_id_in_use";
+        public static string UserNameInUse = "user_name_in_use";
+
+        public static string InactiveUser = "inactive_user";
+        public static string OwnerCannotBeLocked = "owner_cannot_be_locked";
         
+        public static string UserNameAlreadySet = "user_name_already_set";
         public static string SessionAlreadyDestroyed = "session_already_destroyed";
         public static string SessionAlreadyRefreshed = "session_already_refreshed";
         public static string UserAlreadyLocked = "user_already_locked";

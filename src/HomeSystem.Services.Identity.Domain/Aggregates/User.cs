@@ -43,7 +43,8 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             Username = $"user-{Id:N}";
             SetEmail(email);
             SetRole(role);
-            State = States.Incomplete;        
+            State = States.Incomplete;   
+            TwoFactorAuthentication = false;     
             
             CreatedAt = DateTime.UtcNow;
         }
@@ -103,6 +104,43 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             }
 
             LastName = lastName.ToLowerInvariant();
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void SetUserName(string name)
+        {
+            if (State != States.Incomplete)
+            {
+                throw new DomainException(Codes.UserNameAlreadySet,
+                    $"User name has been already set: {Username}");
+            }
+
+            if (name.IsEmpty())
+            {
+                throw new ArgumentException("User name can not be empty.", nameof(name));
+            }
+
+            if (Username.EqualsCaseInvariant(name))
+            {
+                return;
+            }
+
+            if (name.Length < 2)
+            {
+                throw new ArgumentException("User name is too short.", nameof(name));
+            }
+
+            if (name.Length > 50)
+            {
+                throw new ArgumentException("User name is too long.", nameof(name));
+            }
+
+            if (name.IsName() == false)
+            {
+                throw new ArgumentException("User name doesn't meet the required criteria.", nameof(name));
+            }
+
+            Username = name;
             UpdatedAt = DateTime.UtcNow;
         }
 
