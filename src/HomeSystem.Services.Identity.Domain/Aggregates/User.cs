@@ -13,7 +13,8 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
     public class User : AggregateRootBase, IEditable, ITimestampable
     {
         private List<UserSession> _userSessions;
-        
+
+        public Avatar Avatar { get; private set; }
         public string Username { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
@@ -38,6 +39,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public User(Guid id, string email, Role role)
         {
             Id = id;
+            Avatar = Avatar.Empty;
             Username = $"user-{Id:N}";
             SetEmail(email);
             SetRole(role);
@@ -165,6 +167,23 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             }
 
             Role = role;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void SetAvatar(Avatar avatar)
+        {
+            if (avatar == null)
+            {
+                return;
+            }
+
+            Avatar = avatar;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void RemoveAvatar()
+        {
+            Avatar = Avatar.Empty;
             UpdatedAt = DateTime.UtcNow;
         }
 
