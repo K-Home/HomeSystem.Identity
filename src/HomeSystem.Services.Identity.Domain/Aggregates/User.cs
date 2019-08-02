@@ -5,7 +5,6 @@ using HomeSystem.Services.Identity.Domain.Types.Base;
 using HomeSystem.Services.Identity.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using HomeSystem.Services.Identity.Domain.Enumerations;
 using HomeSystem.Services.Identity.Domain.Services;
 
@@ -13,10 +12,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 {
     public class User : AggregateRootBase, IEditable, ITimestampable
     {
-        private static readonly Regex NameRegex = new Regex("^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._.-]+(?<![_.-])$",
-            RegexOptions.Compiled);
-
-        private readonly List<UserSession> _userSessions = new List<UserSession>();
+        private List<UserSession> _userSessions;
         
         public string Username { get; private set; }
         public string FirstName { get; private set; }
@@ -32,10 +28,11 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; }
             
-        public IEnumerable<UserSession> UserSessions => _userSessions;
+        public IEnumerable<UserSession> UserSessions => _userSessions.AsReadOnly();
 
         protected User()
         {
+            _userSessions = new List<UserSession>();
         }
 
         public User(Guid id, string email, Role role)
@@ -51,7 +48,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
         public void SetFirstName(string firstName)
         {
-            if (!NameRegex.IsMatch(firstName))
+            if (!firstName.IsName())
             {
                 throw new DomainException(Codes.InvalidFirstName,
                     $"Invalid first name.");
@@ -80,7 +77,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
         public void SetLastName(string lastName)
         {
-            if (NameRegex.IsMatch(lastName))
+            if (lastName.IsName())
             {
                 throw new DomainException(Codes.InvalidLastName,
                     $"Invalid last name.");
@@ -182,7 +179,24 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             TwoFactorAuthentication = false;
             UpdatedAt = DateTime.UtcNow;
         }
-        
+
+        public void SetPhoneNumber(string phoneNumber)
+        {
+            if (!phoneNumber.IsPhoneNumber())
+            {
+                throw new DomainException(Codes.InvalidPhoneNumber,
+                    "Invalid phone number");
+            }
+
+            if (PhoneNumber == phoneNumber)
+            {
+                return;
+            }
+
+            PhoneNumber = phoneNumber;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
         public void Lock()
         {
             if (Equals(State, States.Locked))
@@ -271,23 +285,6 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             var areEqual = Password.Equals(hashedPassword);
 
             return areEqual;
-        }
-
-        public void SetPhoneNumber(string phoneNumber)
-        {
-            if (!phoneNumber.IsPhoneNumber())
-            {
-                throw new DomainException(Codes.InvalidPhoneNumber,
-                    "Invalid phone number");             
-            }
-
-            if (PhoneNumber == phoneNumber)
-            {
-                return;
-            }
-
-            PhoneNumber = phoneNumber;
-            UpdatedAt = DateTime.UtcNow;
         }
     }
 }
