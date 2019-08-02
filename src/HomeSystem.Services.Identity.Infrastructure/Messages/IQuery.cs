@@ -2,7 +2,7 @@
 
 namespace HomeSystem.Services.Identity.Infrastructure.Messages
 {
-    public interface IQuery<out T> : IRequest<T> where T : class
+    public interface IQuery<out T> : IRequest<T> 
     {
     }
 }
