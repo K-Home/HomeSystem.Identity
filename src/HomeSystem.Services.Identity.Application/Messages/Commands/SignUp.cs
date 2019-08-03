@@ -19,7 +19,13 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         
         [DataMember]
         public string Name { get; }
-        
+
+        [DataMember]
+        public string FirstName { get; }
+
+        [DataMember]
+        public string LastName { get; }
+
         [DataMember]
         public Role Role { get; }
         
@@ -31,12 +37,14 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
 
         [JsonConstructor]
         public SignUp(Request request, string email, string password, string name, 
-            Role role, States state, string accessToken)
+            string firstName, string lastName, Role role, States state, string accessToken)
         {
             Request = request;
             Email = email;
             Password = password;
             Name = name;
+            FirstName = firstName;
+            LastName = lastName;
             Role = role;
             State = state;
             AccessToken = accessToken;

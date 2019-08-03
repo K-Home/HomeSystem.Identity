@@ -10,9 +10,6 @@
 
   <ItemGroup>
     <Folder Include="Dtos" />
-    <Folder Include="Handlers\DomainEventHandlers\" />
-    <Folder Include="Handlers\CommandHandlers\" />
-    <Folder Include="Handlers\QueryHandlers\" />
     <Folder Include="Mappings" />
     <Folder Include="Services" />
   </ItemGroup>

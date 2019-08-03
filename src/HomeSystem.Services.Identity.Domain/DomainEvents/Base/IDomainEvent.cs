@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace HomeSystem.Services.Identity.Infrastructure.Messages
+namespace HomeSystem.Services.Domain.DomainEvents.Base
 {
     public interface IDomainEvent : INotification
     {

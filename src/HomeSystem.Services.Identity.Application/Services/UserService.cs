@@ -17,15 +17,15 @@ namespace HomeSystem.Services.Identity.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IEncrypter _encrypter;
-        private readonly IOneTimeSecuredOperationService _seruredOperationService;
+        private readonly IOneTimeSecuredOperationService _securedOperationService;
 
         public UserService(IUserRepository userRepository,
             IEncrypter encrypter,
-            IOneTimeSecuredOperationService seruredOperationService)
+            IOneTimeSecuredOperationService securedOperationService)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
-            _seruredOperationService = seruredOperationService ?? throw new ArgumentNullException(nameof(seruredOperationService));
+            _securedOperationService = securedOperationService ?? throw new ArgumentNullException(nameof(securedOperationService));
         }
 
         public async Task<bool> IsNameAvailableAsync(string name)
@@ -47,7 +47,7 @@ namespace HomeSystem.Services.Identity.Application.Services
             => await _userRepository.GetUsers();
 
         public async Task SignUpAsync(Guid userId, string email, Role role,
-            string provider, string password = null, string externalUserId = null,
+            string password = null, string externalUserId = null,
             bool activate = true, string name = null, string firstName = null,
             string lastName = null)
         {
@@ -112,11 +112,11 @@ namespace HomeSystem.Services.Identity.Application.Services
 
         public async Task ActivateAsync(string email, string token)
         {
-            await _seruredOperationService.ConsumeAsync(
+            await _securedOperationService.ConsumeAsync(
                 OneTimeSecuredOperations.ActivateAccount.Name, email, token);
 
             var user = await _userRepository.GetByEmailAsync(email);
-            if (user != null)
+            if (user == null)
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email: '{email}' has not been found.");
@@ -129,7 +129,7 @@ namespace HomeSystem.Services.Identity.Application.Services
         public async Task LockAsync(Guid userId)
         {
             var user = await _userRepository.GetOrThrowAsync(userId);
-            if (user.Role == Role.Owner)
+            if (Equals(user.Role, Role.Owner))
             {
                 throw new ServiceException(Codes.OwnerCannotBeLocked,
                     $"Owner account: '{userId}' can not be locked.");

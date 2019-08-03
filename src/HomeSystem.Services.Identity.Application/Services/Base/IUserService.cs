@@ -17,7 +17,7 @@ namespace HomeSystem.Services.Identity.Application.Services.Base
         Task<IEnumerable<User>> BrowseAsync();
 
         Task SignUpAsync(Guid userId, string email, Role role,
-            string provider, string password = null, string externalUserId = null,
+            string password = null, string externalUserId = null,
             bool activate = true, string name = null, string firstName = null, 
             string lastName = null);
 
