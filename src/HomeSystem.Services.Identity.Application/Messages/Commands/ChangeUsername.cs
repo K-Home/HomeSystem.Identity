@@ -1,21 +1,27 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {
     public class ChangeUsername : IAuthenticatedCommand
     {
-        public Guid Id { get; }
+        [DataMember]
+        public Request Request { get; }
+        
+        [DataMember]
         public Guid UserId { get; }
+        
+        [DataMember]
         public string Name { get; }
-        public DateTime When { get; }
 
-        public ChangeUsername(Guid id, Guid userId, string name, DateTime when)
+        [JsonConstructor]
+        public ChangeUsername(Request request, Guid userId, string name)
         {
-            Id = id;
+            Request = request;
             UserId = userId;
             Name = name;
-            When = when;
         }
     }
 }

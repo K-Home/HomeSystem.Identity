@@ -1,21 +1,31 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {
     public class ChangePassword : IAuthenticatedCommand
     {
-        public Guid Id { get; }
+        [DataMember]
+        public Request Request { get; }
+        
+        [DataMember]
         public Guid UserId { get; }
-        public string Name { get; }
-        public DateTime When { get; }
+        
+        [DataMember]
+        public string CurrentPassword { get; }
+        
+        [DataMember]
+        public string NewPassword { get; }
 
-        public ChangePassword(Guid id, Guid userId, string name, DateTime when)
+        [JsonConstructor]
+        public ChangePassword(Request request, Guid userId, string currentPassword, string newPassword)
         {
-            Id = id;
+            Request = request;
             UserId = userId;
-            Name = name;
-            When = when;
+            CurrentPassword = currentPassword;
+            NewPassword = newPassword;
         }
     }
 }

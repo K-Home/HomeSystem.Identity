@@ -1,19 +1,45 @@
 ﻿using System;
+using System.Runtime.Serialization;
+using HomeSystem.Services.Identity.Domain.Enumerations;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {
     public class SignUp : ICommand
     {
-        public Guid Id { get; }
+        [DataMember]
+        public Request Request { get; }
+        
+        [DataMember]
+        public string Email { get; }
+        
+        [DataMember]
+        public string Password { get; }
+        
+        [DataMember]
         public string Name { get; }
-        public DateTime When { get; }
+        
+        [DataMember]
+        public Role Role { get; }
+        
+        [DataMember]
+        public States State { get; }
+        
+        [DataMember]
+        public string AccessToken { get; }
 
-        public SignUp(Guid id, string name, DateTime when)
+        [JsonConstructor]
+        public SignUp(Request request, string email, string password, string name, 
+            Role role, States state, string accessToken)
         {
-            Id = id;
+            Request = request;
+            Email = email;
+            Password = password;
             Name = name;
-            When = when;
+            Role = role;
+            State = state;
+            AccessToken = accessToken;
         }
     }
 }

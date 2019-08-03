@@ -1,21 +1,31 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {
-    public class RefreshUserSession : IAuthenticatedCommand
+    public class RefreshUserSession : ICommand
     {
-        public Guid Id { get; }
-        public Guid UserId { get; }
-        public string Name { get; }
-        public DateTime When { get; }
+        [DataMember]
+        public Request Request { get; }
+        
+        [DataMember]
+        public Guid SessionId { get; }
+        
+        [DataMember]
+        public Guid NewSessionId { get; }
+        
+        [DataMember]
+        public string Key { get; }
 
-        public RefreshUserSession(Guid id, Guid userId, string name, DateTime when)
+        [JsonConstructor]
+        public RefreshUserSession(Request request, Guid sessionId, Guid newSessionId, string key)
         {
-            Id = id;
-            UserId = userId;
-            Name = name;
-            When = when;
+            Request = request;
+            SessionId = sessionId;
+            NewSessionId = newSessionId;
+            Key = key;
         }
     }
 }

@@ -1,21 +1,27 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {
     public class SignOut : IAuthenticatedCommand
     {
-        public Guid Id { get; }
-        public Guid UserId { get; }
-        public string Name { get; }
-        public DateTime When { get; }
+        [DataMember] 
+        public Request Request { get; }
 
-        public SignOut(Guid id, Guid userId, string name, DateTime when)
+        [DataMember] 
+        public Guid SessionId { get; }
+
+        [DataMember] 
+        public Guid UserId { get; }
+
+        [JsonConstructor]
+        public SignOut(Request request, Guid sessionId, Guid userId)
         {
-            Id = id;
+            Request = request;
+            SessionId = sessionId;
             UserId = userId;
-            Name = name;
-            When = when;
         }
     }
 }

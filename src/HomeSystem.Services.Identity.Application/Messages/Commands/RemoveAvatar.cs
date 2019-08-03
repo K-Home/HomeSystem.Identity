@@ -1,21 +1,23 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {
     public class RemoveAvatar : IAuthenticatedCommand
     {
-        public Guid Id { get; }
+        [DataMember]
+        public Request Request { get; }
+        
+        [DataMember]
         public Guid UserId { get; }
-        public string Name { get; }
-        public DateTime When { get; }
 
-        public RemoveAvatar(Guid id, Guid userId, string name, DateTime when)
+        [JsonConstructor]
+        public RemoveAvatar(Request request, Guid userId)
         {
-            Id = id;
+            Request = request;
             UserId = userId;
-            Name = name;
-            When = when;
         }
     }
 }

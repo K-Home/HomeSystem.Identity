@@ -1,21 +1,49 @@
 ﻿using System;
+using System.Runtime.Serialization;
+using HomeSystem.Services.Identity.Domain.ValueObjects;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {
     public class EditUser : IAuthenticatedCommand
     {
-        public Guid Id { get; }
+        [DataMember]
+        public Request Request { get; }
+        
+        [DataMember]
         public Guid UserId { get; }
+        
+        [DataMember]
+        public string Email { get; }
+        
+        [DataMember]
         public string Name { get; }
-        public DateTime When { get; }
+        
+        [DataMember]
+        public string FirstName { get; }
+        
+        [DataMember]
+        public string LastName { get; }
+        
+        [DataMember]
+        public string PhoneNumber { get; }
+        
+        [DataMember]
+        public UserAddress Address { get; }
 
-        public EditUser(Guid id, Guid userId, string name, DateTime when)
+        [JsonConstructor]
+        public EditUser(Request request, Guid userId, string email, string name, 
+            string firstName, string lastName, string phoneNumber, UserAddress address)
         {
-            Id = id;
+            Request = request;
             UserId = userId;
+            Email = email;
             Name = name;
-            When = when;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            Address = address;
         }
     }
 }

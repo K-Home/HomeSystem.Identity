@@ -1,21 +1,27 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {
-    public class ResetPassword : IAuthenticatedCommand
+    public class ResetPassword : ICommand
     {
-        public Guid Id { get; }
-        public Guid UserId { get; }
-        public string Name { get; }
-        public DateTime When { get; }
+        [DataMember]
+        public Request Request { get; }
+        
+        [DataMember]
+        public string Email { get; }
+        
+        [DataMember]
+        public string Endpoint { get; }
 
-        public ResetPassword(Guid id, Guid userId, string name, DateTime when)
+        [JsonConstructor]
+        public ResetPassword(Request request, string email, string endpoint)
         {
-            Id = id;
-            UserId = userId;
-            Name = name;
-            When = when;
+            Request = request;
+            Email = email;
+            Endpoint = endpoint;
         }
     }
 }

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {
-    public class DisableTwoFactorAuthorization : IAuthenticatedCommand
+    public class EnabledTwoFactorAuthorization : IAuthenticatedCommand
     {
         [DataMember]
         public Request Request { get; }
@@ -14,14 +14,14 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public Guid UserId { get; }
         
         [DataMember]
-        public bool DisableTwoFactorAuthentication { get; }
+        public bool EnableTwoFactorAuthorization { get; }
 
         [JsonConstructor]
-        public DisableTwoFactorAuthorization(Request request, Guid userId, bool disableTwoFactorAuthentication)
+        public EnabledTwoFactorAuthorization(Request request, Guid userId, bool enableTwoFactorAuthorization)
         {
             Request = request;
             UserId = userId;
-            DisableTwoFactorAuthentication = disableTwoFactorAuthentication;
+            EnableTwoFactorAuthorization = enableTwoFactorAuthorization;
         }
     }
 }
