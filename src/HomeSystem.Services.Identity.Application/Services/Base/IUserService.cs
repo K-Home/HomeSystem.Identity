@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.Enumerations;
+using HomeSystem.Services.Identity.Domain.ValueObjects;
 
 namespace HomeSystem.Services.Identity.Application.Services.Base
 {
@@ -12,6 +14,7 @@ namespace HomeSystem.Services.Identity.Application.Services.Base
         Task<User> GetByNameAsync(string name);
         Task<User> GetByEmailAsync(string email);
         Task<string> GetStateAsync(Guid userId);
+        Task<IEnumerable<User>> BrowseAsync();
 
         Task SignUpAsync(Guid userId, string email, Role role,
             string provider, string password = null, string externalUserId = null,

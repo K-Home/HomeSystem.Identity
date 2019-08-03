@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Application.Exceptions;
 using HomeSystem.Services.Identity.Application.Extensions;
@@ -41,6 +42,9 @@ namespace HomeSystem.Services.Identity.Application.Services
 
         public async Task<string> GetStateAsync(Guid userId)
             => await _userRepository.GetStateAsync(userId);
+
+        public async Task<IEnumerable<User>> BrowseAsync()
+            => await _userRepository.GetUsers();
 
         public async Task SignUpAsync(Guid userId, string email, Role role,
             string provider, string password = null, string externalUserId = null,

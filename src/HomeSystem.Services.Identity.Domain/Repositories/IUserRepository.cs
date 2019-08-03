@@ -1,6 +1,7 @@
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.SeedWork;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace HomeSystem.Services.Identity.Domain.Repositories
         Task<User> GetByUserIdAsync(Guid userId);
         Task<User> GetByNameAsync(string name);
         Task<User> GetByEmailAsync(string email);
+        Task<IEnumerable<User>> GetUsers();
         Task<string> GetStateAsync(Guid id);
         Task AddUserAsync(User user);
         void EditUser(User user);

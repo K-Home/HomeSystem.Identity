@@ -3,6 +3,7 @@ using HomeSystem.Services.Identity.Domain.Repositories;
 using HomeSystem.Services.Identity.Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -31,6 +32,9 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Repositories
         public async Task<User> GetByEmailAsync(string email)
             => await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Email == email);
 
+        public async Task<IEnumerable<User>> GetUsers()
+            => await _identityDbContext.Users.ToListAsync();
+        
         public async Task<string> GetStateAsync(Guid id)
         {
             var user = await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Id == id);
