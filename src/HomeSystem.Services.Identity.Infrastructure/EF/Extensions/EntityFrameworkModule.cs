@@ -4,13 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace HomeSystem.Services.Identity.Infrastructure.EF.Extensions
 {
-    public static class Extensions
+    public static class EntityFrameworkModule
     {
         public static void AddEntityFramework(IServiceCollection services)
         {
             services.AddEntityFrameworkInMemoryDatabase()
                 .AddEntityFrameworkSqlServer()
-                .AddDbContext<IdentityDbContext>(ServiceLifetime.Scoped);
+                .AddDbContext<IdentityDbContext>();
 
             services.AddScoped<IOneTimeSecuredOperationRepository, OneTimeSecuredOperationRepository>();        
             services.AddScoped<IUserRepository, UserRepository>();        

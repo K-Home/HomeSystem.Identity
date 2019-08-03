@@ -1,12 +1,12 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using HomeSystem.Services.Identity.Infrastructure.EF.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
+using static HomeSystem.Services.Identity.Infrastructure.EF.Extensions.EntityFrameworkModule;
 
 namespace HomeSystem.Services.Identity
 {
@@ -22,7 +22,7 @@ namespace HomeSystem.Services.Identity
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityDbContext();
+            AddEntityFramework(services);
             
             var builder = new ContainerBuilder();   
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
