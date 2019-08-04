@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
+using HomeSystem.Services.Identity.Application.Modules;
+using HomeSystem.Services.Identity.Infrastructure.Authorization.Extensions;
+using HomeSystem.Services.Identity.Infrastructure.Files.Modules;
 using static HomeSystem.Services.Identity.Infrastructure.EF.Extensions.EntityFrameworkModule;
 
 namespace HomeSystem.Services.Identity
@@ -22,12 +25,18 @@ namespace HomeSystem.Services.Identity
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            AddEntityFramework(services);
-            
-            var builder = new ContainerBuilder();   
-            builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
-                .AsImplementedInterfaces();      
-       
+            services.AddMvc();
+            services.AddJwtAuth();
+            services.AddEntityFramework();
+
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<FilesModule>();
+            builder.RegisterModule<MapperModule>();
+            builder.RegisterModule<ApplicationModule>();
+            builder.RegisterModule<MediatRModule>();
+            builder.Populate(services);
+
             Container = builder.Build();
 
             return new AutofacServiceProvider(Container);

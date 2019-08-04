@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
 using Newtonsoft.Json;
 

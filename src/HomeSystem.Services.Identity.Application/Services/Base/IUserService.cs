@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.Enumerations;
-using HomeSystem.Services.Identity.Domain.ValueObjects;
 
 namespace HomeSystem.Services.Identity.Application.Services.Base
 {

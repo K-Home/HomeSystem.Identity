@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using HomeSystem.Services.Identity.Infrastructure.Logging;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace HomeSystem.Services.Identity
@@ -12,6 +13,7 @@ namespace HomeSystem.Services.Identity
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseLogging()
                 .UseStartup<Startup>();
     }
 }
