@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Application.Exceptions;
 using HomeSystem.Services.Identity.Application.Services.Base;
@@ -123,5 +124,9 @@ namespace HomeSystem.Services.Identity.Application.Services
             await _userSessionRepository.AddAsync(newSession);
             _userSessionRepository.Delete(parentSession);
         }
+
+        public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
+            => await _userSessionRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+        
     }
 }

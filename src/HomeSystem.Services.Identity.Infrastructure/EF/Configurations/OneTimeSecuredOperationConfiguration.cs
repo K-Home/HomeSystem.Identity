@@ -34,11 +34,13 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
 
             builder.Property(otso => otso.RequesterIpAddress)
                 .HasColumnName("RequesterIpAddress")
-                .HasMaxLength(50);
-            
+                .HasMaxLength(50)
+                .IsRequired();
+
             builder.Property(otso => otso.RequesterUserAgent)
                 .HasColumnName("RequesterUserAgent")
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsRequired();
             
             builder.Property(otso => otso.ConsumerIpAddress)
                 .HasColumnName("ConsumerIpAddress")

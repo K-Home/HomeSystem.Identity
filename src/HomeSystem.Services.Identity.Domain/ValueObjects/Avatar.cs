@@ -1,6 +1,6 @@
-﻿using System;
-using HomeSystem.Services.Identity.Domain.Extensions;
+﻿using HomeSystem.Services.Identity.Domain.Extensions;
 using HomeSystem.Services.Identity.Domain.Types;
+using System;
 
 namespace HomeSystem.Services.Identity.Domain.ValueObjects
 {

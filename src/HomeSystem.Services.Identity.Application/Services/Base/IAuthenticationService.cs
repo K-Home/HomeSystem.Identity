@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 
@@ -18,5 +19,7 @@ namespace HomeSystem.Services.Identity.Application.Services.Base
 
         Task RefreshSessionAsync(Guid sessionId, Guid newSessionId,
             string sessionKey, string ipAddress = null, string userAgent = null);
+
+        Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

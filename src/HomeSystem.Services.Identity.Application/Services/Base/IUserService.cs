@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.Enumerations;
@@ -27,5 +28,6 @@ namespace HomeSystem.Services.Identity.Application.Services.Base
         Task DeleteAsync(Guid userId, bool soft);
         Task EnabledTwoFactorAuthorization(Guid userId);
         Task DisableTwoFactorAuthorization(Guid userId);
+        Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

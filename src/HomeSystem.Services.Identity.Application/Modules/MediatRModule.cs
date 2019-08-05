@@ -3,6 +3,7 @@ using System.Reflection;
 using HomeSystem.Services.Identity.Application.Behaviors;
 using HomeSystem.Services.Identity.Application.Handlers.CommandHandlers;
 using HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers;
+using HomeSystem.Services.Identity.Infrastructure.MediatR.Bus;
 using MediatR;
 using Module = Autofac.Module;
 
@@ -20,6 +21,10 @@ namespace HomeSystem.Services.Identity.Application.Modules
 
             builder.RegisterAssemblyTypes(typeof(SignedUpDomainEventHandler).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(INotificationHandler<>));
+
+            builder.RegisterType<MediatRBus>().As<IMediatRBus>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
 
             builder.Register<ServiceFactory>(context =>
             {

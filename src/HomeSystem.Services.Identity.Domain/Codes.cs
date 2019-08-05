@@ -2,7 +2,7 @@ namespace HomeSystem.Services.Identity.Domain
 {
     public static class Codes
     {
-        public static string RefreshTokenAlreadyRevoked = "refresh_token_already_revoked";
+        public static string Error = "error";
 
         public static string InvalidFirstName = "invalid_first_name";
         public static string InvalidLastName = "invalid_first_name";
@@ -19,12 +19,11 @@ namespace HomeSystem.Services.Identity.Domain
         public static string FirstNameNotProvided = "first_name_not_provided";
         public static string LastNameNotProvided = "last_name_not_provided";
         public static string EmailNotProvided = "email_not_provided";
-        public static string RoleNotProvided = "role_not_provided";
         public static string AddressNotProvided = "address_not_provided";
         public static string UserNotLocked = "user_not_locked";
 
         public static string UserNotFound = "user_not_found";
-        public static string RefreshTokenNotFound = "refresh_token_not_found";
+
         public static string OperationNotFound = "operation_not_found";
         public static string SessionNotFound = "session_not_found";
         

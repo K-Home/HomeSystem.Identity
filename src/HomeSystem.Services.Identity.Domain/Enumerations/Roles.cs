@@ -1,5 +1,3 @@
-using HomeSystem.Services.Identity.Domain.Types;
-
 namespace HomeSystem.Services.Identity.Domain.Enumerations
 {
     public class Roles

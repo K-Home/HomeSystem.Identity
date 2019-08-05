@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Application.Exceptions;
 using HomeSystem.Services.Identity.Application.Extensions;
@@ -184,5 +185,8 @@ namespace HomeSystem.Services.Identity.Application.Services
             user.DisableTwoFactorAuthentication();
             _userRepository.EditUser(user);
         }
+
+        public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
+            => await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }

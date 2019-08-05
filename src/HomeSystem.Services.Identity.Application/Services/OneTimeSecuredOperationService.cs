@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Application.Exceptions;
 using HomeSystem.Services.Identity.Application.Services.Base;
@@ -53,5 +54,8 @@ namespace HomeSystem.Services.Identity.Application.Services
             operation.Consume();
             _oneTimeSecuredOperationRepository.Update(operation);
         }
+
+        public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
+            => await _oneTimeSecuredOperationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 }
