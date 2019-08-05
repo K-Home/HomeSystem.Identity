@@ -28,7 +28,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public string State { get; private set; }
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; private set; }
             
         public IEnumerable<UserSession> UserSessions => _userSessions.AsReadOnly();
         public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations => _oneTimeSecuredOperations.AsReadOnly();
@@ -36,6 +36,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         protected User()
         {
             _userSessions = new List<UserSession>();
+            _oneTimeSecuredOperations = new List<OneTimeSecuredOperation>();
         }
 
         public User(Guid id, string email, string role)

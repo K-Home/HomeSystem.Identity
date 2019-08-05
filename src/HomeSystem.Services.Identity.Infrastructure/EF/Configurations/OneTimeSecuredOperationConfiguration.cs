@@ -14,11 +14,11 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
                 .HasColumnName("Type")
                 .HasMaxLength(100)
                 .IsRequired();
-            
-            builder.Property(otso => otso.User)
-                .HasColumnName("User")
+
+            builder.Property(otso => otso.UserId)
+                .HasColumnName("UserId")
                 .IsRequired();
-            
+
             builder.Property(otso => otso.Token)
                 .HasColumnName("Token")
                 .HasMaxLength(500)
@@ -53,7 +53,6 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
 
             builder.Property(otso => otso.Consumed)
                 .HasColumnName("Consumed")
-                .HasColumnType("bit")
                 .IsRequired();
 
             builder.Ignore(otso => otso.DomainEvents);

@@ -9,24 +9,29 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
     public class OneTimeSecuredOperation : EntityBase, ITimestampable
     {
         public string Type { get; private set; }
-        public string UserEmail { get; private set; }
+        public Guid UserId { get; private set; }
         public User User { get; private set; }
         public string Token { get; private set; }
         public string RequesterIpAddress { get; private set; }
         public string RequesterUserAgent { get; private set; }
         public string ConsumerIpAddress { get; private set; }
         public string ConsumerUserAgent { get; private set; }
-        public bool Consumed => ConsumedAt.HasValue;
         public DateTime? ConsumedAt { get; private set; }
         public DateTime Expiry { get; private set; }
         public DateTime CreatedAt { get; private set; }
+
+        public bool Consumed
+        {
+            get => IsConsumed();
+            set { } //Required by EF
+        }
 
         protected OneTimeSecuredOperation()
         {
         }
 
         public OneTimeSecuredOperation(Guid id, string type,
-            string userEmail, string token, DateTime expiry,
+            Guid userId, string token, DateTime expiry,
             string ipAddress = null, string userAgent = null)
         {
             if (type.IsEmpty())
@@ -35,7 +40,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                     "Type can not be empty.");
             }
 
-            if (userEmail.IsEmpty())
+            if (userId == Guid.Empty)
             {
                 throw new DomainException(Codes.InvalidSecuredOperation,
                     "User can not be empty.");
@@ -49,7 +54,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
             Id = id;
             Type = type;
-            UserEmail = userEmail;
+            UserId = userId;
             Token = token;
             Expiry = expiry.ToUniversalTime();
             RequesterIpAddress = ipAddress;
@@ -77,5 +82,8 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
             return Expiry > DateTime.UtcNow;
         }
+
+        private bool IsConsumed()
+            => ConsumedAt.HasValue;
     }
 }

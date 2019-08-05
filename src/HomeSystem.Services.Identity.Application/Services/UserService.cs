@@ -121,15 +121,15 @@ namespace HomeSystem.Services.Identity.Application.Services
 
         public async Task ActivateAsync(string email, string token)
         {
-            await _securedOperationService.ConsumeAsync(
-                OneTimeSecuredOperations.ActivateAccount, email, token);
-
             var user = await _userRepository.GetByEmailAsync(email);
             if (user == null)
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email: '{email}' has not been found.");
             }
+
+            await _securedOperationService.ConsumeAsync(
+                OneTimeSecuredOperations.ActivateAccount, user.Id, token);
 
             user.Activate();
             _userRepository.EditUser(user);

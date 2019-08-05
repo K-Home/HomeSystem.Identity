@@ -8,7 +8,12 @@ namespace HomeSystem.Services.Identity.Domain.ValueObjects
     {
         public string Name { get; protected set; }
         public string Url { get; protected set; }
-        public bool IsEmpty => Name.IsEmpty();
+
+        public bool IsEmpty
+        {
+            get => Name.IsEmpty();
+            set { } //Required by EF
+        }
 
         protected Avatar()
         {
@@ -20,10 +25,12 @@ namespace HomeSystem.Services.Identity.Domain.ValueObjects
             {
                 throw new ArgumentException("Avatar name can not be empty.", nameof(name));
             }
+
             if (url.IsEmpty())
             {
                 throw new ArgumentException("Avatar Url can not be empty.", nameof(url));
             }
+
             Name = name;
             Url = url;
         }

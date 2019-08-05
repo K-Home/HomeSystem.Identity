@@ -73,7 +73,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
 
             builder.HasMany(u => u.OneTimeSecuredOperations)
                 .WithOne(us => us.User)
-                .HasForeignKey(us => us.UserEmail);
+                .HasForeignKey(us => us.UserId);
 
             builder.Ignore(u => u.DomainEvents);
         }

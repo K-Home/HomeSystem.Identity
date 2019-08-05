@@ -55,7 +55,7 @@ namespace HomeSystem.Services.Identity.Application.Services
             }
 
             await _oneTimeSecuredOperationService.CreateAsync(operationId, OneTimeSecuredOperations.ResetPassword,
-                email, DateTime.UtcNow.AddDays(1));
+                user.Id, DateTime.UtcNow.AddDays(1));
         }
 
         public async Task SetNewAsync(string email, string token, string password)
@@ -69,7 +69,7 @@ namespace HomeSystem.Services.Identity.Application.Services
             }
 
             await _oneTimeSecuredOperationService.ConsumeAsync(OneTimeSecuredOperations.ResetPassword,
-                email, token);
+                user.Id, token);
 
             user.SetPassword(password, _encrypter);
             _userRepository.EditUser(user);

@@ -17,7 +17,6 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
                 .IsRequired();
 
             builder.Property(a => a.IsEmpty)
-                .HasColumnType("bit")
                 .IsRequired();
         }
     }
