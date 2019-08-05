@@ -19,7 +19,10 @@ namespace HomeSystem.Services.Identity.Infrastructure.Authorization.Extensions
             }
 
             var settings = new JwtTokenSettings();
-            services.Configure<JwtTokenSettings>(opt => configuration.GetSection(SectionName).Bind(settings));
+            var section = configuration.GetSection(SectionName);
+            services.Configure<JwtTokenSettings>(section);
+            section.Bind(settings);
+            services.AddSingleton(settings);
             services.AddSingleton<IJwtTokenHandler, JwtTokenHandler>();
             services.AddAuthentication()
                 .AddJwtBearer(cfg =>

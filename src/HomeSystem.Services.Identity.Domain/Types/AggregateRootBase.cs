@@ -7,7 +7,7 @@ namespace HomeSystem.Services.Identity.Domain.Types
 {
     public abstract class AggregateRootBase : TrackedObject, IAggregateRoot
     {
-        public virtual Guid Id { get; protected set; }
+        public Guid Id { get; protected set; }
         private int? _requestedHashCode;
 
         public override void AddDomainEvent(INotification eventItem)

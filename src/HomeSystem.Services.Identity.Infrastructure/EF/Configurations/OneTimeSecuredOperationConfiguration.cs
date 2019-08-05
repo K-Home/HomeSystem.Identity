@@ -55,6 +55,8 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
                 .HasColumnName("Consumed")
                 .HasColumnType("bit")
                 .IsRequired();
+
+            builder.Ignore(otso => otso.DomainEvents);
         }
     }
 }

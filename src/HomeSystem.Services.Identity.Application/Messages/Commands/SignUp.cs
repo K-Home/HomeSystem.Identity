@@ -26,17 +26,17 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string LastName { get; }
 
         [DataMember]
-        public Role Role { get; }
+        public string Role { get; }
         
         [DataMember]
-        public States State { get; }
+        public string State { get; }
         
         [DataMember]
         public string AccessToken { get; }
 
         [JsonConstructor]
         public SignUp(Request request, string email, string password, string name, 
-            string firstName, string lastName, Role role, States state, string accessToken)
+            string firstName, string lastName, string role, string state, string accessToken)
         {
             Request = request;
             Email = email;

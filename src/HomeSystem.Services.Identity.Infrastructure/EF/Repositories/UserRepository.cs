@@ -38,7 +38,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Repositories
         public async Task<string> GetStateAsync(Guid id)
         {
             var user = await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Id == id);
-            var userState = user.State.Name;
+            var userState = user.State;
 
             return userState;
         }

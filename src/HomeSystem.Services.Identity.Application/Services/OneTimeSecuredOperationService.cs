@@ -31,7 +31,7 @@ namespace HomeSystem.Services.Identity.Application.Services
             await _oneTimeSecuredOperationRepository.AddAsync(operation);
         }
 
-        public async Task<bool> CanBeConsumedAsync(string type,  string user, string token)
+        public async Task<bool> CanBeConsumedAsync(string type, string user, string token)
         {
             var operation = await _oneTimeSecuredOperationRepository
                 .GetAsync(type, user, token);

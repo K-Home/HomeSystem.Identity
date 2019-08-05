@@ -46,12 +46,13 @@ namespace HomeSystem.Services.Identity.Application.Services
         public async Task<IEnumerable<User>> BrowseAsync()
             => await _userRepository.GetUsers();
 
-        public async Task SignUpAsync(Guid userId, string email, Role role,
+        public async Task SignUpAsync(Guid userId, string email, string role,
             string password = null, string externalUserId = null,
             bool activate = true, string name = null, string firstName = null,
             string lastName = null)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
+
             if (user != null)
             {
                 throw new ServiceException(Codes.UserIdInUse,
@@ -59,6 +60,7 @@ namespace HomeSystem.Services.Identity.Application.Services
             }
 
             user = await _userRepository.GetByEmailAsync(email);
+
             if (user != null)
             {
                 throw new ServiceException(Codes.EmailInUse,
@@ -66,10 +68,17 @@ namespace HomeSystem.Services.Identity.Application.Services
             }
 
             user = await _userRepository.GetByNameAsync(name);
+
             if (user != null)
             {
                 throw new ServiceException(Codes.UserNameInUse,
                     $"User with name: {name} already exists!");
+            }
+
+            if (!Roles.IsValid(role))
+            {
+                throw new ServiceException(Codes.InvalidRole,
+                    $"Can not create a new account for user id: '{userId}', invalid role: '{role}'.");
             }
 
             user = new User(userId, email, role);
@@ -113,7 +122,7 @@ namespace HomeSystem.Services.Identity.Application.Services
         public async Task ActivateAsync(string email, string token)
         {
             await _securedOperationService.ConsumeAsync(
-                OneTimeSecuredOperations.ActivateAccount.Name, email, token);
+                OneTimeSecuredOperations.ActivateAccount, email, token);
 
             var user = await _userRepository.GetByEmailAsync(email);
             if (user == null)
@@ -129,7 +138,8 @@ namespace HomeSystem.Services.Identity.Application.Services
         public async Task LockAsync(Guid userId)
         {
             var user = await _userRepository.GetOrThrowAsync(userId);
-            if (Equals(user.Role, Role.Owner))
+
+            if (user.Role == Roles.Owner)
             {
                 throw new ServiceException(Codes.OwnerCannotBeLocked,
                     $"Owner account: '{userId}' can not be locked.");

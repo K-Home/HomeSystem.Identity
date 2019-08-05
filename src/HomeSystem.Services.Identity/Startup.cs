@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Reflection;
 using HomeSystem.Services.Identity.Application.Modules;
 using HomeSystem.Services.Identity.Infrastructure.Authorization.Extensions;
 using HomeSystem.Services.Identity.Infrastructure.Files.Modules;

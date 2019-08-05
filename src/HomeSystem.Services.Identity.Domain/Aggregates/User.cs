@@ -23,8 +23,8 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public UserAddress Address { get; private set; }
         public string Password { get; private set; }
         public string Salt { get; private set; }
-        public Role Role { get; private set; }
-        public States State { get; private set; }
+        public string Role { get; private set; }
+        public string State { get; private set; }
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; }
@@ -36,7 +36,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             _userSessions = new List<UserSession>();
         }
 
-        public User(Guid id, string email, Role role)
+        public User(Guid id, string email, string role)
         {
             Id = id;
             Avatar = Avatar.Empty;
@@ -109,7 +109,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
         public void SetUserName(string name)
         {
-            if (State != States.Incomplete)
+            if (!Equals(State, States.Incomplete))
             {
                 throw new DomainException(Codes.UserNameAlreadySet,
                     $"User name has been already set: {Username}");
@@ -185,24 +185,10 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void SetRole(Role role)
+        public void SetRole(string role)
         {
-            if (role.Name.IsEmpty())
-            {
-                throw new DomainException(Codes.RoleNotProvided,
-                    $"Role not provided.");
-            }
-
-            if (role.Name.Length > 30)
-            {
-                throw new DomainException(Codes.InvalidRole,
-                    $"Role name is too long.");
-            }
-
-            if (Equals(Role, role))
-            {
+            if (Role == role)
                 return;
-            }
 
             Role = role;
             UpdatedAt = DateTime.UtcNow;
@@ -261,6 +247,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                 throw new DomainException(Codes.UserAlreadyLocked, 
                     $"User with id: '{Id}' was already locked.");
             }
+
             State = States.Locked;
             UpdatedAt = DateTime.UtcNow;
         }
@@ -272,6 +259,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                 throw new DomainException(Codes.UserNotLocked, 
                     $"User with id: '{Id}' is not locked.");
             }
+
             State = States.Active;
             UpdatedAt = DateTime.UtcNow;
         }
@@ -283,6 +271,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                 throw new DomainException(Codes.UserAlreadyActive, 
                     $"User with id: '{Id}' was already activated.");
             }
+
             State = States.Active;
             UpdatedAt = DateTime.UtcNow;
         }
@@ -294,6 +283,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                 throw new DomainException(Codes.UserAlreadyUnconfirmed, 
                     $"User with id: '{Id}' was already set as unconfirmed.");
             }
+
             State = States.Unconfirmed;
             UpdatedAt = DateTime.UtcNow;
         }
@@ -305,6 +295,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                 throw new DomainException(Codes.UserAlreadyDeleted, 
                     $"User with id: '{Id}' was already marked as deleted.");
             }
+
             State = States.Deleted;
             UpdatedAt = DateTime.UtcNow;
         }

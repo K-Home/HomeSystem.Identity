@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
 using System;
 using System.Data;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -43,7 +44,12 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF
                 return;
             }
 
-            optionsBuilder.UseSqlServer(_sqlOptions.Value.ConnectionString);
+            optionsBuilder.UseSqlServer(_sqlOptions.Value.ConnectionString,
+                sqlOptions =>
+                {
+                    sqlOptions.MigrationsAssembly(typeof(IdentityDbContext).GetTypeInfo().Assembly.GetName().Name);
+                    sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,6 +57,8 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserSessionConfiguration());
             modelBuilder.ApplyConfiguration(new OneTimeSecuredOperationConfiguration());
+            modelBuilder.ApplyConfiguration(new AvatarConfiguration());
+            modelBuilder.ApplyConfiguration(new UserAddressConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

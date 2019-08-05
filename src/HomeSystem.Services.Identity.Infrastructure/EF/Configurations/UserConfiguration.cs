@@ -12,44 +12,44 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
 
             builder.Property(u => u.Username)
                 .HasColumnName("Username")
-                .HasColumnType("nvarchar")
                 .HasMaxLength(100)
                 .IsRequired();
 
             builder.Property(u => u.FirstName)
                 .HasColumnName("FirstName")
-                .HasColumnType("nvarchar")
-                .HasMaxLength(150)
-                .IsRequired();           
-            
+                .HasMaxLength(150);
+
             builder.Property(u => u.LastName)
                 .HasColumnName("LastName")
-                .HasColumnType("nvarchar")
-                .HasMaxLength(150)
-                .IsRequired();
+                .HasMaxLength(150);
 
             builder.Property(u => u.Email)
                 .HasColumnName("Email")
-                .HasColumnType("nvarchar")
+                .HasMaxLength(300)
+                .IsRequired();
+
+            builder.Property(u => u.Password)
+                .HasColumnName("Password")
+                .HasMaxLength(1000)
+                .IsRequired();
+
+            builder.Property(u => u.Salt)
+                .HasColumnName("Salt")
+                .HasMaxLength(500)
                 .IsRequired();
 
             builder.Property(u => u.Role)
                 .HasColumnName("Role")
-                .HasColumnType("smallint")
                 .IsRequired();
 
             builder.Property(u => u.State)
                 .HasColumnName("State")
-                .HasColumnType("smallint")
+                .HasMaxLength(30)
                 .IsRequired();
-            
-            builder.OwnsOne(u => u.Address);
 
             builder.Property(u => u.PhoneNumber)
                 .HasColumnName("PhoneNumber")
-                .HasColumnType("nvarchar")
-                .HasMaxLength(12)
-                .IsRequired();
+                .HasMaxLength(12);
 
             builder.Property(u => u.TwoFactorAuthentication)
                 .HasColumnName("TwoFactorAuthentication")
@@ -63,9 +63,15 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
                 .HasColumnName("CreatedAt")
                 .IsRequired();
 
+            builder.OwnsOne(u => u.Address);
+
+            builder.OwnsOne(u => u.Avatar);
+
             builder.HasMany(u => u.UserSessions)
                 .WithOne(us => us.User)
                 .HasForeignKey(us => us.UserId);
+
+            builder.Ignore(u => u.DomainEvents);
         }
     }
 }

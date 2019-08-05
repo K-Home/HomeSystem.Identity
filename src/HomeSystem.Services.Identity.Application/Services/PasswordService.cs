@@ -47,26 +47,30 @@ namespace HomeSystem.Services.Identity.Application.Services
         public async Task ResetAsync(Guid operationId, string email)
         {
             var user = await _userRepository.GetByEmailAsync(email);
+
             if (user == null)
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email: '{email}' has not been found.");
             }
-            await _oneTimeSecuredOperationService.CreateAsync(operationId, OneTimeSecuredOperations.ResetPassword.Name,
+
+            await _oneTimeSecuredOperationService.CreateAsync(operationId, OneTimeSecuredOperations.ResetPassword,
                 email, DateTime.UtcNow.AddDays(1));
         }
 
         public async Task SetNewAsync(string email, string token, string password)
         {
             var user = await _userRepository.GetByEmailAsync(email);
+
             if (user == null)
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email: '{email}' has not been found.");
             }
 
-            await _oneTimeSecuredOperationService.ConsumeAsync(OneTimeSecuredOperations.ResetPassword.Name,
+            await _oneTimeSecuredOperationService.ConsumeAsync(OneTimeSecuredOperations.ResetPassword,
                 email, token);
+
             user.SetPassword(password, _encrypter);
             _userRepository.EditUser(user);
         }

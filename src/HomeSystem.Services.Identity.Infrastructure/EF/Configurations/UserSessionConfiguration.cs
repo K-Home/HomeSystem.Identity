@@ -43,6 +43,8 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
             builder.Property(us => us.CreatedAt)
                 .HasColumnName("CreatedAt")
                 .IsRequired();
+
+            builder.Ignore(us => us.DomainEvents);
         }
     }
 }
