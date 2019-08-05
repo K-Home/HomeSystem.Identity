@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using HomeSystem.Services.Identity.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -18,10 +19,9 @@ namespace HomeSystem.Services.Identity.Infrastructure.Authorization.Extensions
                 configuration = serviceProvider.GetService<IConfiguration>();
             }
 
-            var settings = new JwtTokenSettings();
             var section = configuration.GetSection(SectionName);
+            var settings = configuration.GetOptions<JwtTokenSettings>(SectionName);
             services.Configure<JwtTokenSettings>(section);
-            section.Bind(settings);
             services.AddSingleton(settings);
             services.AddSingleton<IJwtTokenHandler, JwtTokenHandler>();
             services.AddAuthentication()

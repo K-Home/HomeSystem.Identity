@@ -1,5 +1,6 @@
 using HomeSystem.Services.Identity.Domain.Repositories;
 using HomeSystem.Services.Identity.Infrastructure.EF.Repositories;
+using HomeSystem.Services.Identity.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,8 +20,10 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Extensions
             }
 
             var section = configuration.GetSection(SectionName);
+            var settings = configuration.GetOptions<SqlOptions>(SectionName);
             services.Configure<SqlOptions>(section);
-            
+            services.AddSingleton(settings);
+
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<IdentityDbContext>();
 
