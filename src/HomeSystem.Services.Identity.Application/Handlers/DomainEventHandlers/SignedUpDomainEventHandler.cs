@@ -1,7 +1,7 @@
-using System.Threading;
-using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.DomainEvents;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers
 {

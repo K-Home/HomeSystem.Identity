@@ -1,7 +1,6 @@
-﻿using System.Runtime.Serialization;
-using HomeSystem.Services.Identity.Domain.Enumerations;
-using HomeSystem.Services.Identity.Infrastructure.Messages;
+﻿using HomeSystem.Services.Identity.Infrastructure.Messages;
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {

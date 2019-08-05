@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using MediatR;
+using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 
 namespace HomeSystem.Services.Identity.Infrastructure.MediatR.Bus
 {

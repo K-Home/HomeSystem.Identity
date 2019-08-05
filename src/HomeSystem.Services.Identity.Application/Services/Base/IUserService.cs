@@ -1,9 +1,8 @@
+using HomeSystem.Services.Identity.Domain.Aggregates;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Domain.Aggregates;
-using HomeSystem.Services.Identity.Domain.Enumerations;
 
 namespace HomeSystem.Services.Identity.Application.Services.Base
 {

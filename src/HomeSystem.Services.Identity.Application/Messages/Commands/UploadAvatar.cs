@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.Serialization;
-using HomeSystem.Services.Identity.Infrastructure.Files;
+﻿using HomeSystem.Services.Identity.Infrastructure.Files;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
 using Newtonsoft.Json;
+using System;
+using System.Runtime.Serialization;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Commands
 {

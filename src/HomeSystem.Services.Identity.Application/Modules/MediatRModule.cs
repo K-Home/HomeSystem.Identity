@@ -1,10 +1,10 @@
 ﻿using Autofac;
-using System.Reflection;
 using HomeSystem.Services.Identity.Application.Behaviors;
 using HomeSystem.Services.Identity.Application.Handlers.CommandHandlers;
 using HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers;
 using HomeSystem.Services.Identity.Infrastructure.MediatR.Bus;
 using MediatR;
+using System.Reflection;
 using Module = Autofac.Module;
 
 namespace HomeSystem.Services.Identity.Application.Modules

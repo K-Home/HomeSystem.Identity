@@ -1,10 +1,10 @@
-﻿using System;
+﻿using HomeSystem.Services.Identity.Domain.Extensions;
+using HomeSystem.Services.Identity.Infrastructure.Files.Base;
+using Serilog;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Domain.Extensions;
-using HomeSystem.Services.Identity.Infrastructure.Files.Base;
-using Serilog;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Files
 {

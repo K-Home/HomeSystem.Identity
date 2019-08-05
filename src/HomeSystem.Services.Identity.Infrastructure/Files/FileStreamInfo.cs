@@ -1,5 +1,5 @@
-﻿using System.IO;
-using HomeSystem.Services.Identity.Domain.Types;
+﻿using HomeSystem.Services.Identity.Domain.Types;
+using System.IO;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Files
 {

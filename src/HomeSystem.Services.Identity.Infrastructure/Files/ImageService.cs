@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using HomeSystem.Services.Identity.Infrastructure.Files.Base;
+﻿using HomeSystem.Services.Identity.Infrastructure.Files.Base;
 using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Files
 {

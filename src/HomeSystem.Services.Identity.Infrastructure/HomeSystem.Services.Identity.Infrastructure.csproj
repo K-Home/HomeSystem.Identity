@@ -26,4 +26,8 @@
     <ProjectReference Include="..\HomeSystem.Services.Identity.Domain\HomeSystem.Services.Identity.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="RabbitMQ\" />
+  </ItemGroup>
+
 </Project>

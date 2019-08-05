@@ -1,8 +1,8 @@
-using System.Threading;
-using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Application.Messages.Queries;
 using HomeSystem.Services.Identity.Application.Services.Base;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
 {

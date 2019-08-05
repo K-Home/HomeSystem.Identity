@@ -1,6 +1,6 @@
-﻿using System;
+﻿using HomeSystem.Services.Identity.Infrastructure.Files.Base;
+using System;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Infrastructure.Files.Base;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Files
 {

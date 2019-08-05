@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MediatR;
+using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 
 namespace HomeSystem.Services.Identity.Infrastructure.MediatR.Bus
 {
@@ -15,14 +13,16 @@ namespace HomeSystem.Services.Identity.Infrastructure.MediatR.Bus
             _mediator = mediator;
         }
 
-        public async Task Send<TCommand>(TCommand command) where TCommand : IRequest
+        public async Task Send<TCommand>(TCommand command, CancellationToken cancellationToken = default(CancellationToken))
+            where TCommand : IRequest
         {
-            await _mediator.Send(command);
+            await _mediator.Send(command, cancellationToken);
         }
 
-        public async Task Publish<TEvent>(TEvent @event) where TEvent : INotification
+        public async Task Publish<TEvent>(TEvent @event, CancellationToken cancellationToken = default(CancellationToken)) 
+            where TEvent : INotification
         {
-            await _mediator.Publish(@event);
+            await _mediator.Publish(@event, cancellationToken);
         }
     }
 }

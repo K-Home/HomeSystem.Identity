@@ -1,5 +1,5 @@
-using System;
 using HomeSystem.Services.Identity.Domain.Exceptions;
+using System;
 
 namespace HomeSystem.Services.Identity.Application.Exceptions
 {

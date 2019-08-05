@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Application.Exceptions;
 using HomeSystem.Services.Identity.Application.Services.Base;
 using HomeSystem.Services.Identity.Domain;
@@ -9,6 +7,8 @@ using HomeSystem.Services.Identity.Domain.ValueObjects;
 using HomeSystem.Services.Identity.Infrastructure.Files;
 using HomeSystem.Services.Identity.Infrastructure.Files.Base;
 using Serilog;
+using System;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Services
 {

@@ -1,8 +1,8 @@
-﻿using System.Text;
-using HomeSystem.Services.Identity.Infrastructure.Extensions;
+﻿using HomeSystem.Services.Identity.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Authorization.Extensions
 {

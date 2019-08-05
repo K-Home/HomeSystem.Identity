@@ -1,13 +1,13 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using HomeSystem.Services.Identity.Application.Modules;
+using HomeSystem.Services.Identity.Infrastructure.Authorization.Extensions;
+using HomeSystem.Services.Identity.Infrastructure.Files.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using HomeSystem.Services.Identity.Application.Modules;
-using HomeSystem.Services.Identity.Infrastructure.Authorization.Extensions;
-using HomeSystem.Services.Identity.Infrastructure.Files.Modules;
 using static HomeSystem.Services.Identity.Infrastructure.EF.Extensions.EntityFrameworkModule;
 
 namespace HomeSystem.Services.Identity

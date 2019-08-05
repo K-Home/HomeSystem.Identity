@@ -1,9 +1,9 @@
-using System;
-using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Application.Exceptions;
 using HomeSystem.Services.Identity.Domain;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.Repositories;
+using System;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Extensions
 {

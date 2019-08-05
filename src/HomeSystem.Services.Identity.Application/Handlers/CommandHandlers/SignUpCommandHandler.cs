@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Application.Messages.Commands;
+﻿using HomeSystem.Services.Identity.Application.Messages.Commands;
 using HomeSystem.Services.Identity.Application.Services.Base;
 using HomeSystem.Services.Identity.Domain;
 using HomeSystem.Services.Identity.Domain.DomainEvents;
@@ -9,6 +6,9 @@ using HomeSystem.Services.Identity.Domain.Exceptions;
 using HomeSystem.Services.Identity.Infrastructure.MediatR.Bus;
 using MediatR;
 using Serilog;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
 {

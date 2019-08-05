@@ -1,7 +1,7 @@
-﻿using System;
-using HomeSystem.Services.Identity.Infrastructure.Files.Base;
+﻿using HomeSystem.Services.Identity.Infrastructure.Files.Base;
 using Serilog;
 using SixLabors.ImageSharp;
+using System;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Files
 {
