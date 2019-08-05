@@ -13,6 +13,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
     public class User : AggregateRootBase, IEditable, ITimestampable
     {
         private List<UserSession> _userSessions;
+        private List<OneTimeSecuredOperation> _oneTimeSecuredOperations;
 
         public Avatar Avatar { get; private set; }
         public string Username { get; private set; }
@@ -30,6 +31,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public DateTime CreatedAt { get; }
             
         public IEnumerable<UserSession> UserSessions => _userSessions.AsReadOnly();
+        public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations => _oneTimeSecuredOperations.AsReadOnly();
 
         protected User()
         {

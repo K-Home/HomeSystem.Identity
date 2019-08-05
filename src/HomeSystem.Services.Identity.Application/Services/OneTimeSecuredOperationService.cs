@@ -24,17 +24,17 @@ namespace HomeSystem.Services.Identity.Application.Services
         public async Task<OneTimeSecuredOperation> GetAsync(Guid id)
             => await _oneTimeSecuredOperationRepository.GetAsync(id);
 
-        public async Task CreateAsync(Guid id, string type, string user, DateTime expiry)
+        public async Task CreateAsync(Guid id, string type, string userEmail, DateTime expiry)
         {
             var token = _encrypter.GetRandomSecureKey();
-            var operation = new OneTimeSecuredOperation(id, type, user, token, expiry);
+            var operation = new OneTimeSecuredOperation(id, type, userEmail, token, expiry);
             await _oneTimeSecuredOperationRepository.AddAsync(operation);
         }
 
-        public async Task<bool> CanBeConsumedAsync(string type, string user, string token)
+        public async Task<bool> CanBeConsumedAsync(string type, string userEmail, string token)
         {
             var operation = await _oneTimeSecuredOperationRepository
-                .GetAsync(type, user, token);
+                .GetAsync(type, userEmail, token);
 
             return operation != null && operation.CanBeConsumed();
         }

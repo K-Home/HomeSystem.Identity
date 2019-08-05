@@ -8,7 +8,7 @@ namespace HomeSystem.Services.Identity.Domain.Repositories
     public interface IOneTimeSecuredOperationRepository : IRepository<OneTimeSecuredOperation>
     {
         Task<OneTimeSecuredOperation> GetAsync(Guid id);
-        Task<OneTimeSecuredOperation> GetAsync(string type, string user, string token);
+        Task<OneTimeSecuredOperation> GetAsync(string type, string userEmail, string token);
         Task AddAsync(OneTimeSecuredOperation operation);
         void Update(OneTimeSecuredOperation operation);
     }

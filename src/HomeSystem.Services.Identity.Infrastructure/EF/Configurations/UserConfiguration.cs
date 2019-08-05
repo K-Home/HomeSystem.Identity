@@ -71,6 +71,10 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
                 .WithOne(us => us.User)
                 .HasForeignKey(us => us.UserId);
 
+            builder.HasMany(u => u.OneTimeSecuredOperations)
+                .WithOne(us => us.User)
+                .HasForeignKey(us => us.UserEmail);
+
             builder.Ignore(u => u.DomainEvents);
         }
     }

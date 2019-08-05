@@ -21,9 +21,9 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Repositories
         public async Task<OneTimeSecuredOperation> GetAsync(Guid id)
             => await _identityDbContext.OneTimeSecuredOperations.SingleOrDefaultAsync(otso => otso.Id == id);
 
-        public async Task<OneTimeSecuredOperation> GetAsync(string type, string user, string token)
+        public async Task<OneTimeSecuredOperation> GetAsync(string type, string userEmail, string token)
             => await _identityDbContext.OneTimeSecuredOperations.SingleOrDefaultAsync(otso =>
-                otso.Type == type && otso.User == user && otso.Token == token);
+                otso.Type == type && otso.UserEmail == userEmail && otso.Token == token);
 
         public async Task AddAsync(OneTimeSecuredOperation operation)
         {

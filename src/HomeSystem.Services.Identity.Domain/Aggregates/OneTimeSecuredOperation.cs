@@ -9,7 +9,8 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
     public class OneTimeSecuredOperation : EntityBase, ITimestampable
     {
         public string Type { get; private set; }
-        public string User { get; private set; }
+        public string UserEmail { get; private set; }
+        public User User { get; private set; }
         public string Token { get; private set; }
         public string RequesterIpAddress { get; private set; }
         public string RequesterUserAgent { get; private set; }
@@ -25,7 +26,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         }
 
         public OneTimeSecuredOperation(Guid id, string type,
-            string user, string token, DateTime expiry,
+            string userEmail, string token, DateTime expiry,
             string ipAddress = null, string userAgent = null)
         {
             if (type.IsEmpty())
@@ -34,7 +35,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                     "Type can not be empty.");
             }
 
-            if (user.IsEmpty())
+            if (userEmail.IsEmpty())
             {
                 throw new DomainException(Codes.InvalidSecuredOperation,
                     "User can not be empty.");
@@ -48,7 +49,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
             Id = id;
             Type = type;
-            User = user;
+            UserEmail = userEmail;
             Token = token;
             Expiry = expiry.ToUniversalTime();
             RequesterIpAddress = ipAddress;
