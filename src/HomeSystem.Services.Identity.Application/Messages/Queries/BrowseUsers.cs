@@ -1,10 +1,14 @@
 ﻿using HomeSystem.Services.Identity.Application.Dtos;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
-using System.Collections.Generic;
+using HomeSystem.Services.Identity.Infrastructure.Pagination;
 
 namespace HomeSystem.Services.Identity.Application.Messages.Queries
 {
-    public class BrowseUsers : IQuery<IEnumerable<UserDto>>
+    public class BrowseUsers : IQuery<PagedResult<UserDto>>
     {
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public string OrderBy { get; set; }
+        public bool Ascending { get; set; }
     }
 }

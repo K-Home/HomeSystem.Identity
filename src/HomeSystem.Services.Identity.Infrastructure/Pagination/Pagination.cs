@@ -8,7 +8,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.Pagination
 {
     public static class Pagination
     {
-        public static async Task<PagedResults<TReturn>> PaginateAsync<T, TReturn>(
+        public static async Task<PagedResult<T>> PaginateAsync<T>(
             IQueryable<T> queryable,
             int page,
             int pageSize,
@@ -21,14 +21,14 @@ namespace HomeSystem.Services.Identity.Infrastructure.Pagination
                 .OrderByPropertyOrField(orderBy, ascending)
                 .Skip(skipAmount)
                 .Take(pageSize)
-                .ProjectTo<TReturn>();
+                .ProjectTo<T>();
 
             var totalNumberOfRecords = await queryable.CountAsync();
             var results = await projection.ToListAsync();
             var mod = totalNumberOfRecords % pageSize;
             var totalPageCount = totalNumberOfRecords / pageSize + (mod == 0 ? 0 : 1);
 
-            return new PagedResults<TReturn>
+            return new PagedResult<T>
             {
                 Results = results,
                 PageNumber = page,

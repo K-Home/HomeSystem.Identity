@@ -2,7 +2,7 @@
 
 namespace HomeSystem.Services.Identity.Infrastructure.Pagination
 {
-    public class PagedResults<T>
+    public class PagedResult<T>
     {
         /// <summary>
         /// The page number this page represents. 
