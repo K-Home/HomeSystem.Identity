@@ -27,7 +27,8 @@ namespace HomeSystem.Services.Identity.Infrastructure.MassTransit.Extensions
                 {
                     var rabbitMqOptions = context.Resolve<RabbitMqOptions>();
 
-                    var host = config.Host(new Uri(rabbitMqOptions.HostAddress), h =>
+                    var host = config.Host(rabbitMqOptions.HostName, rabbitMqOptions.Port, 
+                        rabbitMqOptions.VirtualHost, h =>
                     {
                         h.Username(rabbitMqOptions.Username);
                         h.Password(rabbitMqOptions.Password);
