@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
 {
-    public class GetUserSessionQueryHandler : IRequestHandler<GetUserSession, UserSessionDto>
+    public class GetUserSessionQueryHandler : IRequestHandler<GetUserSessionQuery, UserSessionDto>
     {
         private readonly IMapper _mapper;
         private readonly IAuthenticationService _authenticationService;
@@ -20,7 +20,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
             _authenticationService = authenticationService;
         }
         
-        public async Task<UserSessionDto> Handle(GetUserSession query, CancellationToken cancellationToken)
+        public async Task<UserSessionDto> Handle(GetUserSessionQuery query, CancellationToken cancellationToken)
         {
             var session = await _authenticationService.GetSessionAsync(query.Id);
             var mappedSession = _mapper.Map<UserSession, UserSessionDto>(session);

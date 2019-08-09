@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
 {
-    public class GetUserByNameQueryHandler : IRequestHandler<GetUserByName, UserDto>
+    public class GetUserByNameQueryHandler : IRequestHandler<GetUserByNameQuery, UserDto>
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
@@ -20,7 +20,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
             _userService = userService;
         }
         
-        public async Task<UserDto> Handle(GetUserByName query, CancellationToken cancellationToken)
+        public async Task<UserDto> Handle(GetUserByNameQuery query, CancellationToken cancellationToken)
         {
             var user = await _userService.GetByNameAsync(query.Name);
             var mappedUser = _mapper.Map<User, UserDto>(user);

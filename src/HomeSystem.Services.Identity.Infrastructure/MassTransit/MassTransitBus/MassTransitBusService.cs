@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Infrastructure.MassTransit.Options;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
 using MassTransit;
 
 namespace HomeSystem.Services.Identity.Infrastructure.MassTransit.MassTransitBus
 {
-    public class BusService : IBusService
+    public class MassTransitBusService : IMassTransitBusService
     {
-        private readonly IBusService _busService;
+        private readonly IBusControl _busControl;
         private readonly IBus _bus;
 
-        public BusService(IBusService busService, IBus bus)
+        public MassTransitBusService(IBusControl busControl, IBus bus)
         {
-            _busService = busService ?? throw new ArgumentNullException(nameof(busService));
+            _busControl = busControl ?? throw new ArgumentNullException(nameof(busControl));
             _bus = bus ?? throw new ArgumentNullException(nameof(bus));
         }
 
@@ -34,13 +33,12 @@ namespace HomeSystem.Services.Identity.Infrastructure.MassTransit.MassTransitBus
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await _busService.StartAsync(cancellationToken);
-            var rab = new RabbitMqOptions();
+            await _busControl.StartAsync(cancellationToken);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            await _busService.StopAsync(cancellationToken);
+            await _busControl.StopAsync(cancellationToken);
         }
     }
 }

@@ -12,7 +12,7 @@ using HomeSystem.Services.Identity.Infrastructure.Pagination;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
 {
-    public class BrowseUsersQueryHandler : IRequestHandler<BrowseUsers, PagedResult<UserDto>>
+    public class BrowseUsersQueryHandler : IRequestHandler<BrowseUsersQuery, PagedResult<UserDto>>
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
@@ -23,7 +23,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
             _userService = userService;
         }
 
-        public async Task<PagedResult<UserDto>> Handle(BrowseUsers query, CancellationToken cancellationToken)
+        public async Task<PagedResult<UserDto>> Handle(BrowseUsersQuery query, CancellationToken cancellationToken)
         {
             var users = await _userService.BrowseAsync();
             var mappedUsers = _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users).AsQueryable();

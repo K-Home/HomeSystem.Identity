@@ -47,7 +47,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.MassTransit.Extensions
             .As<IBusControl>()
             .As<IBus>();
 
-            builder.RegisterType<BusService>().As<IBusService>()
+            builder.RegisterType<MassTransitBusService>().As<IMassTransitBusService>()
                 .AsImplementedInterfaces()
                 .SingleInstance();
         }

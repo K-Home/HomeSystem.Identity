@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
 {
-    public class IsNameAvailableQueryHandler : IRequestHandler<GetNameAvailablity, bool>
+    public class IsNameAvailableQueryHandler : IRequestHandler<GetNameAvailablityQuery, bool>
     {
         private readonly IUserService _userService;
 
@@ -15,7 +15,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
             _userService = userService;
         }
 
-        public async Task<bool> Handle(GetNameAvailablity query, CancellationToken cancellationToken)
+        public async Task<bool> Handle(GetNameAvailablityQuery query, CancellationToken cancellationToken)
         {
             var available = await _userService.IsNameAvailableAsync(query.Name);
 

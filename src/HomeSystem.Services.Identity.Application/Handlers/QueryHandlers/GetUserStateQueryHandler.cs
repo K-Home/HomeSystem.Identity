@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
 {
-    public class GetUserStateQueryHandler : IRequestHandler<GetUserState, string>
+    public class GetUserStateQueryHandler : IRequestHandler<GetUserStateQuery, string>
     {
         private readonly IUserService _userService;
 
@@ -15,7 +15,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
             _userService = userService;
         }
         
-        public async Task<string> Handle(GetUserState query, CancellationToken cancellationToken)
+        public async Task<string> Handle(GetUserStateQuery query, CancellationToken cancellationToken)
         {
             var state = await _userService.GetStateAsync(query.Id);
 
