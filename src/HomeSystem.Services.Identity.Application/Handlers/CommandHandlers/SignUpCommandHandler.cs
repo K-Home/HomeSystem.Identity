@@ -36,7 +36,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
             try
             {
                 await _massTransitBusService.SendAsync(
-                    new RequestCreatedIntegrationCommand(command.Request.Id, userId, "users/signup", ""),
+                    new RequestCreatedIntegrationCommand(command.Request.Id, userId, "accounts/sign-up", ""),
                     cancellationToken);
 
                 await _userService.SignUpAsync(userId, command.Email, command.Role, command.Password, activate: true,

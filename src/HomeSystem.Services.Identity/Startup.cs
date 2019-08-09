@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using HomeSystem.Services.Identity.Infrastructure.MassTransit.Extensions;
 using static HomeSystem.Services.Identity.Infrastructure.EF.Extensions.EntityFrameworkModule;
 
 namespace HomeSystem.Services.Identity
@@ -34,6 +35,7 @@ namespace HomeSystem.Services.Identity
             builder.RegisterModule<MapperModule>();
             builder.RegisterModule<ApplicationModule>();
             builder.RegisterModule<MediatRModule>();
+            builder.RegisterModule<MassTransitModule>();
             builder.Populate(services);
 
             Container = builder.Build();
