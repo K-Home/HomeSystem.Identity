@@ -1,8 +1,8 @@
-﻿using System;
+﻿using HomeSystem.Services.Identity.Infrastructure.Messages;
+using MassTransit;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Infrastructure.Messages;
-using MassTransit;
 
 namespace HomeSystem.Services.Identity.Infrastructure.MassTransit.MassTransitBus
 {

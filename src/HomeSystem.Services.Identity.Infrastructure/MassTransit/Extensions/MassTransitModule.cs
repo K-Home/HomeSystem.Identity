@@ -1,10 +1,9 @@
 ﻿using Autofac;
 using GreenPipes;
-using HomeSystem.Services.Identity.Infrastructure.MassTransit.Options;
-using MassTransit;
-using System;
 using HomeSystem.Services.Identity.Infrastructure.Extensions;
 using HomeSystem.Services.Identity.Infrastructure.MassTransit.MassTransitBus;
+using HomeSystem.Services.Identity.Infrastructure.MassTransit.Options;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 
 namespace HomeSystem.Services.Identity.Infrastructure.MassTransit.Extensions

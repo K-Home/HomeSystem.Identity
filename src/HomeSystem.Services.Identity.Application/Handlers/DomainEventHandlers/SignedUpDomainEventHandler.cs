@@ -1,10 +1,10 @@
-using System;
+using HomeSystem.Services.Identity.Application.IntegrationMessages.IntegrationEvents;
 using HomeSystem.Services.Identity.Domain.DomainEvents;
+using HomeSystem.Services.Identity.Infrastructure.MassTransit.MassTransitBus;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Application.IntegrationMessages.IntegrationEvents;
-using HomeSystem.Services.Identity.Infrastructure.MassTransit.MassTransitBus;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers
 {

@@ -11,10 +11,16 @@ namespace HomeSystem.Services.Identity.Infrastructure.Files
 {
     public class ImageService : IImageService
     {
-        private static readonly ILogger Logger = Log.Logger;
         private static readonly double SmallSize = 200;
         private static readonly double MediumSize = 640;
         private static readonly double BigSize = 1200;
+
+        private readonly ILogger _logger;
+
+        public ImageService(ILogger logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
 
         public File ProcessImage(File file, double size)
         {
@@ -27,7 +33,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.Files
 
         public IDictionary<string, File> ProcessImage(File file)
         {
-            Logger.Information($"Processing image: '{file.Name}', content type: '{file.ContentType}', " +
+            _logger.Information($"Processing image: '{file.Name}', content type: '{file.ContentType}', " +
                          $"size: {file.SizeBytes} bytes.");
 
             using (var originalImage = Image.Load(file.Bytes))

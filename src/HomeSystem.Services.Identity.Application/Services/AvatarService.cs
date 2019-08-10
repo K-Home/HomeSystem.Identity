@@ -6,7 +6,6 @@ using HomeSystem.Services.Identity.Domain.Repositories;
 using HomeSystem.Services.Identity.Domain.ValueObjects;
 using HomeSystem.Services.Identity.Infrastructure.Files;
 using HomeSystem.Services.Identity.Infrastructure.Files.Base;
-using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -14,7 +13,6 @@ namespace HomeSystem.Services.Identity.Application.Services
 {
     public class AvatarService : IAvatarService
     {
-        private static readonly ILogger Logger = Log.Logger;
         private readonly IUserRepository _userRepository;
         private readonly IFileHandler _fileHandler;
         private readonly IImageService _imageService;

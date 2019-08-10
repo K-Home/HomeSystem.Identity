@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Infrastructure.Messages;
+﻿using HomeSystem.Services.Identity.Infrastructure.Messages;
 using Microsoft.Extensions.Hosting;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Infrastructure.MassTransit.MassTransitBus
 {

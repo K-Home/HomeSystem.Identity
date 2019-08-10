@@ -10,7 +10,12 @@ namespace HomeSystem.Services.Identity.Infrastructure.Files
 {
     public class FileResolver : IFileResolver
     {
-        private static readonly ILogger Logger = Log.Logger;
+        private readonly ILogger _logger;
+
+        public FileResolver(ILogger logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
 
         public File FromBase64(string base64, string name, string contentType)
         {
@@ -45,7 +50,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.Files
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, $"There was an error when trying to get a stream from URL: {url}.");
+                _logger.Error(ex, $"There was an error when trying to get a stream from URL: {url}.");
 
                 return Stream.Null;
             }

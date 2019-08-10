@@ -3,12 +3,12 @@ using HomeSystem.Services.Identity.Application.Dtos;
 using HomeSystem.Services.Identity.Application.Messages.Queries;
 using HomeSystem.Services.Identity.Application.Services.Base;
 using HomeSystem.Services.Identity.Domain.Aggregates;
+using HomeSystem.Services.Identity.Infrastructure.Pagination;
 using MediatR;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Infrastructure.Pagination;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.QueryHandlers
 {

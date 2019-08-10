@@ -1,23 +1,18 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Application.Messages.Commands;
-using HomeSystem.Services.Identity.Infrastructure.Extensions;
+﻿using HomeSystem.Services.Identity.Application.Messages.Commands;
 using HomeSystem.Services.Identity.Infrastructure.MediatR.Bus;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Controllers
 {
     public class AccountsController : BaseController
     {
-        private readonly Logger<AccountsController> _logger;
         private readonly IMediatRBus _mediatRBus;
 
-        public AccountsController(Logger<AccountsController> logger, IMediatRBus mediatRBus)
+        public AccountsController(IMediatRBus mediatRBus)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _mediatRBus = mediatRBus ?? throw new ArgumentNullException(nameof(logger));
+            _mediatRBus = mediatRBus ?? throw new ArgumentNullException(nameof(mediatRBus));
         }
 
         [HttpPost]

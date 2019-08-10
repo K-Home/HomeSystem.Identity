@@ -48,9 +48,8 @@ namespace HomeSystem.Services.Identity.Application.Services
             => await _userRepository.GetUsers();
 
         public async Task SignUpAsync(Guid userId, string email, string role,
-            string password = null, string externalUserId = null,
-            bool activate = true, string name = null, string firstName = null,
-            string lastName = null)
+            string password = null, bool activate = true, string name = null, 
+            string firstName = null, string lastName = null)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
 

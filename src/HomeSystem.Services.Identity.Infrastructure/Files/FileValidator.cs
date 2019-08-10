@@ -7,7 +7,12 @@ namespace HomeSystem.Services.Identity.Infrastructure.Files
 {
     public class FileValidator : IFileValidator
     {
-        private static readonly ILogger Logger = Log.Logger;
+        private readonly ILogger _logger;
+
+        public FileValidator(ILogger logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
 
         public bool IsImage(File file)
         {
@@ -20,7 +25,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.Files
             }
             catch (Exception exception)
             {
-                Logger.Error(exception, "Error while reading image from stream");
+                _logger.Error(exception, "Error while reading image from stream");
 
                 return false;
             }
