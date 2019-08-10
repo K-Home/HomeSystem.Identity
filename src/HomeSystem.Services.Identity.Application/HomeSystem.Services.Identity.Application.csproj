@@ -13,9 +13,4 @@
     <ProjectReference Include="..\HomeSystem.Services.Identity.Infrastructure\HomeSystem.Services.Identity.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos" />
-    <Folder Include="Mappings" />
-  </ItemGroup>
-
 </Project>
