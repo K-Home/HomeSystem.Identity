@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Migrations
 {
@@ -46,8 +46,8 @@ namespace HomeSystem.Services.Identity.Infrastructure.Migrations
                     Type = table.Column<string>(maxLength: 100, nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     Token = table.Column<string>(maxLength: 500, nullable: false),
-                    RequesterIpAddress = table.Column<string>(maxLength: 50, nullable: true),
-                    RequesterUserAgent = table.Column<string>(maxLength: 50, nullable: true),
+                    RequesterIpAddress = table.Column<string>(maxLength: 50, nullable: false),
+                    RequesterUserAgent = table.Column<string>(maxLength: 50, nullable: false),
                     ConsumerIpAddress = table.Column<string>(maxLength: 50, nullable: true),
                     ConsumerUserAgent = table.Column<string>(maxLength: 50, nullable: true),
                     ConsumedAt = table.Column<DateTime>(nullable: true),
