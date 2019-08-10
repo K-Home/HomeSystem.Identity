@@ -1,22 +1,21 @@
+using HomeSystem.Services.Identity.Domain.Extensions;
+using HomeSystem.Services.Identity.Infrastructure.Extensions;
+using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using HomeSystem.Services.Identity.Domain.Extensions;
-using HomeSystem.Services.Identity.Infrastructure.Extensions;
-using Microsoft.IdentityModel.Tokens;
-using Serilog;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Authorization
 {
     public class JwtTokenHandler : IJwtTokenHandler
     {
-        private static readonly ILogger Logger = Log.Logger;
-
         private const string RoleClaim = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
         private const string StateClaim = "state";
-        
+
+        private readonly ILogger _logger;
         private readonly JwtTokenSettings _settings;
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
         private TokenValidationParameters _tokenValidationParameters;
@@ -24,8 +23,9 @@ namespace HomeSystem.Services.Identity.Infrastructure.Authorization
         private SigningCredentials _signingCredentials;
         private JwtHeader _jwtHeader;
 
-        public JwtTokenHandler(JwtTokenSettings settings)
+        public JwtTokenHandler(ILogger logger, JwtTokenSettings settings)
         {
+            _logger = logger;
             _settings = settings;
 
             InitializeHmac();
@@ -123,7 +123,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.Authorization
             }
             catch (Exception exception)
             {
-                Logger.Error(exception, $"JWT Token parser error. {exception.Message}");
+                _logger.Error(exception, $"JWT Token parser error. {exception.Message}");
 
                 return null;
             }

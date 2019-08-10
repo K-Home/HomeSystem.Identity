@@ -1,9 +1,11 @@
-using System;
 using HomeSystem.Services.Identity.Infrastructure.Logging.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.Graylog;
+using Serilog.Sinks.Graylog.Core.Transport;
+using System;
 
 namespace HomeSystem.Services.Identity.Infrastructure.Logging
 {
@@ -23,10 +25,12 @@ namespace HomeSystem.Services.Identity.Infrastructure.Logging
                 applicationName = string.IsNullOrWhiteSpace(applicationName)
                     ? Environment.GetEnvironmentVariable("APPLICATION_NAME")
                     : applicationName;
+
                 loggerConfiguration.Enrich.FromLogContext()
                     .MinimumLevel.Is(level)
                     .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
                     .Enrich.WithProperty("ApplicationName", applicationName);
+
                 Configure(loggerConfiguration, options);
             });
 
@@ -34,21 +38,35 @@ namespace HomeSystem.Services.Identity.Infrastructure.Logging
         {
             var consoleOptions = options.Console ?? new ConsoleOptions();
             var fileOptions = options.File ?? new FileOptions();
+            var grayLogOptions = options.GrayLog ?? new GrayLogOptions();
+
             if (consoleOptions.Enabled)
             {
                 loggerConfiguration.WriteTo.Console();
             }
 
-            if (!fileOptions.Enabled)
-                return;
-
-            var path = string.IsNullOrWhiteSpace(fileOptions.Path) ? "logs/logs.txt" : fileOptions.Path;
-            if (!Enum.TryParse<RollingInterval>(fileOptions.Interval, true, out var interval))
+            if (fileOptions.Enabled)
             {
-                interval = RollingInterval.Day;
+                var path = string.IsNullOrWhiteSpace(fileOptions.Path) ? "logs/logs.txt" : fileOptions.Path;
+
+                if (!Enum.TryParse<RollingInterval>(fileOptions.Interval, true, out var interval))
+                {
+                    interval = RollingInterval.Day;
+                }
+
+                loggerConfiguration.WriteTo.File(path, rollingInterval: interval);
             }
 
-            loggerConfiguration.WriteTo.File(path, rollingInterval: interval);
+            if (grayLogOptions.Enabled)
+            {
+                loggerConfiguration.WriteTo.Graylog(
+                    new GraylogSinkOptions
+                    {
+                        HostnameOrAddress = grayLogOptions.Address,
+                        Port = grayLogOptions.Port,
+                        TransportType = TransportType.Http
+                    });
+            }
         }
     }
 }

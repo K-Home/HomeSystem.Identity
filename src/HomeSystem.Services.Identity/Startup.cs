@@ -1,12 +1,15 @@
-﻿using System;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using HomeSystem.Services.Identity.Infrastructure.EF.Extensions;
+using HomeSystem.Services.Identity.Application.Modules;
+using HomeSystem.Services.Identity.Infrastructure.Authorization.Extensions;
+using HomeSystem.Services.Identity.Infrastructure.Files.Modules;
+using HomeSystem.Services.Identity.Infrastructure.MassTransit.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using static HomeSystem.Services.Identity.Infrastructure.EF.Extensions.EntityFrameworkModule;
 
 namespace HomeSystem.Services.Identity
 {
@@ -22,12 +25,21 @@ namespace HomeSystem.Services.Identity
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityDbContext();
-            
-            var builder = new ContainerBuilder();   
-            builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
-                .AsImplementedInterfaces();      
-       
+            services.AddMvc();
+            services.AddJwtAuth();
+            services.AddEntityFramework();
+
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<FilesModule>();
+            builder.RegisterModule<MapperModule>();
+            builder.RegisterModule<ApplicationModule>();
+            builder.RegisterModule<MediatRModule>();
+            builder.RegisterModule<MassTransitModule>();
+            builder.RegisterResourceModule();
+
+            builder.Populate(services);
+
             Container = builder.Build();
 
             return new AutofacServiceProvider(Container);

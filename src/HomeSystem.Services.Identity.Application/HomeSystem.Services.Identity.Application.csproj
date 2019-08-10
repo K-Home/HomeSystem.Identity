@@ -5,13 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HomeSystem.Services.Identity.Infrastructure\HomeSystem.Services.Identity.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Dtos" />
     <Folder Include="Mappings" />
-    <Folder Include="Services" />
   </ItemGroup>
 
 </Project>

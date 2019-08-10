@@ -1,23 +1,21 @@
+using HomeSystem.Services.Identity.Domain.Enumerations;
 using HomeSystem.Services.Identity.Domain.Exceptions;
 using HomeSystem.Services.Identity.Domain.Extensions;
+using HomeSystem.Services.Identity.Domain.Services;
 using HomeSystem.Services.Identity.Domain.Types;
 using HomeSystem.Services.Identity.Domain.Types.Base;
 using HomeSystem.Services.Identity.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using HomeSystem.Services.Identity.Domain.Enumerations;
-using HomeSystem.Services.Identity.Domain.Services;
 
 namespace HomeSystem.Services.Identity.Domain.Aggregates
 {
     public class User : AggregateRootBase, IEditable, ITimestampable
     {
-        private static readonly Regex NameRegex = new Regex("^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._.-]+(?<![_.-])$",
-            RegexOptions.Compiled);
+        private List<UserSession> _userSessions;
+        private List<OneTimeSecuredOperation> _oneTimeSecuredOperations;
 
-        private readonly List<UserSession> _userSessions = new List<UserSession>();
-        
+        public Avatar Avatar { get; private set; }
         public string Username { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
@@ -26,32 +24,36 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public UserAddress Address { get; private set; }
         public string Password { get; private set; }
         public string Salt { get; private set; }
-        public Role Role { get; private set; }
-        public States State { get; private set; }
+        public string Role { get; private set; }
+        public string State { get; private set; }
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; private set; }
             
-        public IEnumerable<UserSession> UserSessions => _userSessions;
+        public IEnumerable<UserSession> UserSessions => _userSessions.AsReadOnly();
+        public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations => _oneTimeSecuredOperations.AsReadOnly();
 
         protected User()
         {
+            _userSessions = new List<UserSession>();
+            _oneTimeSecuredOperations = new List<OneTimeSecuredOperation>();
         }
 
-        public User(Guid id, string email, Role role)
+        public User(Guid id, string email, string role)
         {
             Id = id;
+            Avatar = Avatar.Empty;
             Username = $"user-{Id:N}";
             SetEmail(email);
             SetRole(role);
-            State = States.Incomplete;        
-            
+            State = States.Incomplete;   
+            TwoFactorAuthentication = false;
             CreatedAt = DateTime.UtcNow;
         }
 
         public void SetFirstName(string firstName)
         {
-            if (!NameRegex.IsMatch(firstName))
+            if (!firstName.IsName())
             {
                 throw new DomainException(Codes.InvalidFirstName,
                     $"Invalid first name.");
@@ -80,7 +82,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
         public void SetLastName(string lastName)
         {
-            if (NameRegex.IsMatch(lastName))
+            if (lastName.IsName())
             {
                 throw new DomainException(Codes.InvalidLastName,
                     $"Invalid last name.");
@@ -104,6 +106,43 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             }
 
             LastName = lastName.ToLowerInvariant();
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void SetUserName(string name)
+        {
+            if (!Equals(State, States.Incomplete))
+            {
+                throw new DomainException(Codes.UserNameAlreadySet,
+                    $"User name has been already set: {Username}");
+            }
+
+            if (name.IsEmpty())
+            {
+                throw new ArgumentException("User name can not be empty.", nameof(name));
+            }
+
+            if (Username.EqualsCaseInvariant(name))
+            {
+                return;
+            }
+
+            if (name.Length < 2)
+            {
+                throw new ArgumentException("User name is too short.", nameof(name));
+            }
+
+            if (name.Length > 50)
+            {
+                throw new ArgumentException("User name is too long.", nameof(name));
+            }
+
+            if (name.IsName() == false)
+            {
+                throw new ArgumentException("User name doesn't meet the required criteria.", nameof(name));
+            }
+
+            Username = name;
             UpdatedAt = DateTime.UtcNow;
         }
 
@@ -138,36 +177,36 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
         public void SetAddress(UserAddress address)
         {
-            if (address == null)
-            {
-                throw new DomainException(Codes.AddressNotProvided,
-                    "Address can not be null.");
-            }
+            if (Address.Equals(address))
+                return;
 
             Address = address;
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void SetRole(Role role)
+        public void SetRole(string role)
         {
-            if (role.Name.IsEmpty())
-            {
-                throw new DomainException(Codes.RoleNotProvided,
-                    $"Role not provided.");
-            }
+            if (Role == role)
+                return;
 
-            if (role.Name.Length > 30)
-            {
-                throw new DomainException(Codes.InvalidRole,
-                    $"Role name is too long.");
-            }
+            Role = role;
+            UpdatedAt = DateTime.UtcNow;
+        }
 
-            if (Equals(Role, role))
+        public void SetAvatar(Avatar avatar)
+        {
+            if (avatar == null)
             {
                 return;
             }
 
-            Role = role;
+            Avatar = avatar;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void RemoveAvatar()
+        {
+            Avatar = Avatar.Empty;
             UpdatedAt = DateTime.UtcNow;
         }
 
@@ -182,7 +221,24 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             TwoFactorAuthentication = false;
             UpdatedAt = DateTime.UtcNow;
         }
-        
+
+        public void SetPhoneNumber(string phoneNumber)
+        {
+            if (!phoneNumber.IsPhoneNumber())
+            {
+                throw new DomainException(Codes.InvalidPhoneNumber,
+                    "Invalid phone number");
+            }
+
+            if (PhoneNumber == phoneNumber)
+            {
+                return;
+            }
+
+            PhoneNumber = phoneNumber;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
         public void Lock()
         {
             if (Equals(State, States.Locked))
@@ -190,6 +246,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                 throw new DomainException(Codes.UserAlreadyLocked, 
                     $"User with id: '{Id}' was already locked.");
             }
+
             State = States.Locked;
             UpdatedAt = DateTime.UtcNow;
         }
@@ -201,6 +258,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                 throw new DomainException(Codes.UserNotLocked, 
                     $"User with id: '{Id}' is not locked.");
             }
+
             State = States.Active;
             UpdatedAt = DateTime.UtcNow;
         }
@@ -212,6 +270,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                 throw new DomainException(Codes.UserAlreadyActive, 
                     $"User with id: '{Id}' was already activated.");
             }
+
             State = States.Active;
             UpdatedAt = DateTime.UtcNow;
         }
@@ -223,6 +282,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                 throw new DomainException(Codes.UserAlreadyUnconfirmed, 
                     $"User with id: '{Id}' was already set as unconfirmed.");
             }
+
             State = States.Unconfirmed;
             UpdatedAt = DateTime.UtcNow;
         }
@@ -234,6 +294,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
                 throw new DomainException(Codes.UserAlreadyDeleted, 
                     $"User with id: '{Id}' was already marked as deleted.");
             }
+
             State = States.Deleted;
             UpdatedAt = DateTime.UtcNow;
         }
@@ -271,23 +332,6 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             var areEqual = Password.Equals(hashedPassword);
 
             return areEqual;
-        }
-
-        public void SetPhoneNumber(string phoneNumber)
-        {
-            if (!phoneNumber.IsPhoneNumber())
-            {
-                throw new DomainException(Codes.InvalidPhoneNumber,
-                    "Invalid phone number");             
-            }
-
-            if (PhoneNumber == phoneNumber)
-            {
-                return;
-            }
-
-            PhoneNumber = phoneNumber;
-            UpdatedAt = DateTime.UtcNow;
         }
     }
 }

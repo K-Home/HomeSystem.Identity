@@ -1,15 +1,17 @@
-using System;
-using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Domain.Aggregates;
 using HomeSystem.Services.Identity.Domain.Repositories;
-using HomeSystem.Services.Identity.Infrastructure.EF;
+using HomeSystem.Services.Identity.Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
-namespace HomeSystem.Services.Identity.Infrastructure.Repositories
+namespace HomeSystem.Services.Identity.Infrastructure.EF.Repositories
 {
     public class UserSessionRepository : IUserSessionRepository
     {
         private readonly IdentityDbContext _identityDbContext;
+
+        public IUnitOfWork UnitOfWork => _identityDbContext;
 
         public UserSessionRepository(IdentityDbContext identityDbContext)
         {
@@ -22,20 +24,16 @@ namespace HomeSystem.Services.Identity.Infrastructure.Repositories
         public async Task AddAsync(UserSession session)
         {
             await _identityDbContext.UserSessions.AddAsync(session);
-            await _identityDbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(UserSession session)
+        public void Update(UserSession session)
         {
-            _identityDbContext.UserSessions.Update(session);
-            await _identityDbContext.SaveChangesAsync();
+            _identityDbContext.Entry(session).State = EntityState.Modified;
         }
 
-        public async Task DeleteAsync(Guid id)
+        public void Delete(UserSession session)
         {
-            var userSession = await GetByIdAsync(id);
-            _identityDbContext.UserSessions.Remove(userSession);
-            await _identityDbContext.SaveChangesAsync();
+            _identityDbContext.UserSessions.Remove(session);
         }
     }
 }

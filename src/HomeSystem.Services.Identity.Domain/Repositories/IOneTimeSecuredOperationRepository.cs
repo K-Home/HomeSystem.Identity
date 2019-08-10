@@ -1,14 +1,15 @@
 using HomeSystem.Services.Identity.Domain.Aggregates;
+using HomeSystem.Services.Identity.Domain.SeedWork;
 using System;
 using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Domain.Repositories
 {
-    public interface IOneTimeSecuredOperationRepository
+    public interface IOneTimeSecuredOperationRepository : IRepository<OneTimeSecuredOperation>
     {
         Task<OneTimeSecuredOperation> GetAsync(Guid id);
-        Task<OneTimeSecuredOperation> GetAsync(string type, string user, string token);
+        Task<OneTimeSecuredOperation> GetAsync(string type, Guid userId, string token);
         Task AddAsync(OneTimeSecuredOperation operation);
-        Task UpdateAsync(OneTimeSecuredOperation operation);
+        void Update(OneTimeSecuredOperation operation);
     }
 }
