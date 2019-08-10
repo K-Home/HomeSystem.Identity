@@ -47,8 +47,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
             SetEmail(email);
             SetRole(role);
             State = States.Incomplete;   
-            TwoFactorAuthentication = false;     
-            
+            TwoFactorAuthentication = false;
             CreatedAt = DateTime.UtcNow;
         }
 
@@ -178,11 +177,8 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 
         public void SetAddress(UserAddress address)
         {
-            if (address == null)
-            {
-                throw new DomainException(Codes.AddressNotProvided,
-                    "Address can not be null.");
-            }
+            if (Address.Equals(address))
+                return;
 
             Address = address;
             UpdatedAt = DateTime.UtcNow;

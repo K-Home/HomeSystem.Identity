@@ -14,13 +14,13 @@ namespace HomeSystem.Services.Identity.Application.IntegrationMessages.Integrati
         public Guid UserId { get; }
 
         [DataMember]
-        public string Resource { get; }
+        public Resource Resource { get; }
 
         [DataMember]
         public string Message { get; }
 
         [JsonConstructor]
-        public RequestCreatedIntegrationCommand(Guid requestId, Guid userId, string resource, string message)
+        public RequestCreatedIntegrationCommand(Guid requestId, Guid userId, Resource resource, string message)
         {
             RequestId = requestId;
             UserId = userId;

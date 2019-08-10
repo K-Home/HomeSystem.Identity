@@ -1,10 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Domain.Extensions;
+﻿using HomeSystem.Services.Identity.Domain.Extensions;
+using HomeSystem.Services.Identity.Infrastructure;
 using HomeSystem.Services.Identity.Infrastructure.MediatR.Bus;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
 using HomeSystem.Services.Identity.Infrastructure.Pagination;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Controllers
 {
@@ -16,18 +17,20 @@ namespace HomeSystem.Services.Identity.Controllers
         private static readonly string PageLink = "page";
 
         private readonly IMediatRBus _mediatRBus;
+        private readonly AppOptions _settings;
 
-        public BaseController(IMediatRBus mediatRBus)
+        public BaseController(IMediatRBus mediatRBus, AppOptions settings)
         {
             _mediatRBus = mediatRBus ?? throw new ArgumentNullException(nameof(mediatRBus));
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
-        protected async Task<IActionResult> SendAsync<TCommand>(TCommand command, Guid? resourceId = null,
-            string resource = "") where TCommand : ICommand
+        protected async Task<IActionResult> SendAsync<TCommand>(TCommand command, string endpoint = "") 
+            where TCommand : class, ICommand
         {
             await _mediatRBus.SendAsync(command);
 
-            return Accepted(command.Request.Id, resource);
+            return Accepted(command.Request.Id, $"{_settings.ServiceName}/{endpoint}");
         }
 
         protected async Task<IActionResult> QueryAsync<TQuery, TResult>(TQuery query) 

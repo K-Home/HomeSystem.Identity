@@ -1,10 +1,10 @@
 using HomeSystem.Services.Identity.Application.IntegrationMessages.IntegrationEvents;
-using HomeSystem.Services.Identity.Domain.DomainEvents;
 using HomeSystem.Services.Identity.Infrastructure.MassTransit.MassTransitBus;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using HomeSystem.Services.Identity.Application.Messages.DomainEvents;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers
 {
@@ -22,7 +22,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers
         public async Task Handle(SignedUp @event, CancellationToken cancellationToken)
         {
             await _massTransitBusService.PublishAsync(new SignedUpIntegrationEvent(@event.RequestId, @event.UserId,
-                @event.Role, @event.State), cancellationToken);
+                @event.Resource, @event.Role, @event.State), cancellationToken);
         }
 
         public async Task Handle(SignedUpRejected @event, CancellationToken cancellationToken)

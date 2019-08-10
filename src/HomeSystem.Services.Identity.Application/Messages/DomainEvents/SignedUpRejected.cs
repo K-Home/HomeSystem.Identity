@@ -1,7 +1,7 @@
-﻿using HomeSystem.Services.Domain.DomainEvents.Base;
-using System;
+﻿using System;
+using HomeSystem.Services.Identity.Infrastructure.Messages;
 
-namespace HomeSystem.Services.Identity.Domain.DomainEvents
+namespace HomeSystem.Services.Identity.Application.Messages.DomainEvents
 {
     public class SignedUpRejected : IDomainRejectedEvent
     {

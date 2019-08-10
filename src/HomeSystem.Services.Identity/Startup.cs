@@ -36,6 +36,8 @@ namespace HomeSystem.Services.Identity
             builder.RegisterModule<ApplicationModule>();
             builder.RegisterModule<MediatRModule>();
             builder.RegisterModule<MassTransitModule>();
+            builder.RegisterResourceModule();
+
             builder.Populate(services);
 
             Container = builder.Build();
