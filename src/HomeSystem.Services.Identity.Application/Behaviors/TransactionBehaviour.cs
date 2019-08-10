@@ -7,10 +7,11 @@ using Serilog.Context;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using HomeSystem.Services.Identity.Infrastructure.Messages;
 
 namespace HomeSystem.Services.Identity.Application.Behaviors
 {
-    public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICommand
     {
         private readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;
         private readonly IdentityDbContext _dbContext;

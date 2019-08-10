@@ -33,10 +33,10 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public UserAddress Address { get; }
 
         [JsonConstructor]
-        public EditUserCommand(Request request, Guid userId, string email, string name, 
+        public EditUserCommand(Guid userId, string email, string name, 
             string firstName, string lastName, string phoneNumber, UserAddress address)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             UserId = userId;
             Email = email;
             Name = name;

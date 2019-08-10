@@ -18,9 +18,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public File Avatar { get; }
 
         [JsonConstructor]
-        public UploadAvatarCommand(Request request, Guid userId, File avatar)
+        public UploadAvatarCommand(Guid userId, File avatar)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             UserId = userId;
             Avatar = avatar;
         }

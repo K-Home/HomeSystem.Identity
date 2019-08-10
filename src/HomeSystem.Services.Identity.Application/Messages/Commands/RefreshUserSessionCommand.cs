@@ -20,9 +20,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string Key { get; }
 
         [JsonConstructor]
-        public RefreshUserSessionCommand(Request request, Guid sessionId, Guid newSessionId, string key)
+        public RefreshUserSessionCommand(Guid sessionId, Guid newSessionId, string key)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             SessionId = sessionId;
             NewSessionId = newSessionId;
             Key = key;

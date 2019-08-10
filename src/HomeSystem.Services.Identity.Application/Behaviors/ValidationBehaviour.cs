@@ -6,10 +6,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HomeSystem.Services.Identity.Application.Exceptions;
+using HomeSystem.Services.Identity.Infrastructure.Messages;
 
 namespace HomeSystem.Services.Identity.Application.Behaviors
 {
-    public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICommand
     {
         private readonly ILogger<ValidatorBehavior<TRequest, TResponse>> _logger;
         private readonly IValidator<TRequest>[] _validators;

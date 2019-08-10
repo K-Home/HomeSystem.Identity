@@ -2,7 +2,7 @@
 
 namespace HomeSystem.Services.Identity.Infrastructure.Messages
 {
-    public interface ICommand : IRequest<bool>
+    public interface ICommand : IRequest
     {
         Request Request { get; }
     }

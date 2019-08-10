@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using HomeSystem.Services.Identity.Infrastructure.Messages;
 
 namespace HomeSystem.Services.Identity.Infrastructure.MediatR.Bus
 {
@@ -13,13 +14,18 @@ namespace HomeSystem.Services.Identity.Infrastructure.MediatR.Bus
             _mediator = mediator;
         }
 
-        public async Task<bool> Send<TCommand>(TCommand command, CancellationToken cancellationToken = default(CancellationToken))
-            where TCommand : IRequest<bool>
+        public async Task SendAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default(CancellationToken))
+            where TCommand : IRequest
         {
-            return await _mediator.Send(command, cancellationToken);
+            await _mediator.Send(command, cancellationToken);
         }
 
-        public async Task Publish<TEvent>(TEvent @event, CancellationToken cancellationToken = default(CancellationToken)) 
+        public async Task<TResult> QueryAsync<TQuery, TResult>(TQuery query, CancellationToken cancellationToken = default(CancellationToken)) where TQuery : IQuery<TResult>
+        {
+            return await _mediator.Send(query, cancellationToken);
+        }
+
+        public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default(CancellationToken)) 
             where TEvent : INotification
         {
             await _mediator.Publish(@event, cancellationToken);

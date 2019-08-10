@@ -14,9 +14,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public Guid UserId { get; }
 
         [JsonConstructor]
-        public RemoveAvatarCommand(Request request, Guid userId)
+        public RemoveAvatarCommand( Guid userId)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             UserId = userId;
         }
     }

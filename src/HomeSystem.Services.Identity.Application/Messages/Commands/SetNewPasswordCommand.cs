@@ -19,9 +19,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string Password { get; }
 
         [JsonConstructor]
-        public SetNewPasswordCommand(Request request, string email, string token, string password)
+        public SetNewPasswordCommand(string email, string token, string password)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             Email = email;
             Token = token;
             Password = password;

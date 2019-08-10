@@ -17,9 +17,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string Name { get; }
 
         [JsonConstructor]
-        public ChangeUsernameCommand(Request request, Guid userId, string name)
+        public ChangeUsernameCommand(Guid userId, string name)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             UserId = userId;
             Name = name;
         }

@@ -17,9 +17,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public bool EnableTwoFactorAuthorization { get; }
 
         [JsonConstructor]
-        public EnabledTwoFactorAuthorizationCommand(Request request, Guid userId, bool enableTwoFactorAuthorization)
+        public EnabledTwoFactorAuthorizationCommand(Guid userId, bool enableTwoFactorAuthorization)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             UserId = userId;
             EnableTwoFactorAuthorization = enableTwoFactorAuthorization;
         }

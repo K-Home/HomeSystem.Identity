@@ -16,9 +16,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string Token { get; }
 
         [JsonConstructor]
-        public ActivateAccountCommand(Request request, string email, string token)
+        public ActivateAccountCommand(string email, string token)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             Email = email;
             Token = token;
         }

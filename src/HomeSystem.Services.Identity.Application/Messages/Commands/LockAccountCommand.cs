@@ -17,9 +17,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string LockUserId { get; }
 
         [JsonConstructor]
-        public LockAccountCommand(Request request, Guid userId, string lockUserId)
+        public LockAccountCommand(Guid userId, string lockUserId)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             UserId = userId;
             LockUserId = lockUserId;
         }

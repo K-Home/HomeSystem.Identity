@@ -25,11 +25,6 @@ namespace HomeSystem.Services.Identity.Infrastructure.Pagination
         public int TotalNumberOfRecords { get; set; }
 
         /// <summary> 
-        /// The URL to the next page - if null, there are no more pages. 
-        /// </summary> 
-        public string NextPageUrl { get; set; }
-
-        /// <summary> 
         /// The records this page represents. 
         /// </summary> 
         public IEnumerable<T> Results { get; set; }

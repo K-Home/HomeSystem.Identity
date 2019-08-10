@@ -17,9 +17,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public Guid UserId { get; }
 
         [JsonConstructor]
-        public SignOutCommand(Request request, Guid sessionId, Guid userId)
+        public SignOutCommand(Guid sessionId, Guid userId)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             SessionId = sessionId;
             UserId = userId;
         }

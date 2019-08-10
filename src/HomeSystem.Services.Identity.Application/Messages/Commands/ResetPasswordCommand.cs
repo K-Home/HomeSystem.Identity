@@ -16,9 +16,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string Endpoint { get; }
 
         [JsonConstructor]
-        public ResetPasswordCommand(Request request, string email, string endpoint)
+        public ResetPasswordCommand(string email, string endpoint)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             Email = email;
             Endpoint = endpoint;
         }

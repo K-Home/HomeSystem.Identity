@@ -26,10 +26,10 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string AccessToken { get; }
         
         [JsonConstructor]
-        public SignInCommand(Request request, Guid sessionId, string email, 
+        public SignInCommand(Guid sessionId, string email, 
             string password, string ipAddress, string accessToken)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             SessionId = sessionId;
             Email = email;
             Password = password;

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
 {
-    public class SignUpCommandHandler : IRequestHandler<SignUpCommand, bool>
+    public class SignUpCommandHandler : AsyncRequestHandler<SignUpCommand>
     {
         private readonly IMassTransitBusService _massTransitBusService;
         private readonly IMediatRBus _mediatRBus;
@@ -29,35 +29,31 @@ namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<bool> Handle(SignUpCommand command, CancellationToken cancellationToken)
+        protected override async Task Handle(SignUpCommand command, CancellationToken cancellationToken)
         {
             var userId = Guid.NewGuid();
 
             try
             {
                 await _massTransitBusService.SendAsync(
-                    new RequestCreatedIntegrationCommand(command.Request.Id, userId, "accounts/sign-up", ""),
+                    new RequestCreatedIntegrationCommand(command.Request.Id, userId, "accounts/sign-up", string.Empty),
                     cancellationToken);
 
                 await _userService.SignUpAsync(userId, command.Email, command.Role, command.Password, activate: true,
                     name: command.UserName, firstName: command.FirstName, lastName: command.LastName);
 
-                return await _userService.SaveChangesAsync(cancellationToken);
+                await _userService.SaveChangesAsync(cancellationToken);
             }
             catch (HomeSystemException customException)
             {
-                await _mediatRBus.Publish(new SignedUpRejected(command.Request.Id, userId, customException.Message,
+                await _mediatRBus.PublishAsync(new SignedUpRejected(command.Request.Id, userId, customException.Message,
                     customException.Code), cancellationToken);
-
-                return false;
             }
             catch (Exception exception)
             {
                 _logger.Error("Error occured while signing up a user", exception);
-                await _mediatRBus.Publish(new SignedUpRejected(command.Request.Id, userId, exception.Message,
+                await _mediatRBus.PublishAsync(new SignedUpRejected(command.Request.Id, userId, exception.Message,
                     Codes.Error), cancellationToken);
-
-                return false;
             }
         }
     }

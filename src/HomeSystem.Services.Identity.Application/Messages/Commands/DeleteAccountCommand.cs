@@ -17,9 +17,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public bool Soft { get; }
 
         [JsonConstructor]
-        public DeleteAccountCommand(Request request, Guid userId, bool soft)
+        public DeleteAccountCommand(Guid userId, bool soft)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             UserId = userId;
             Soft = soft;
         }

@@ -20,9 +20,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string NewPassword { get; }
 
         [JsonConstructor]
-        public ChangePasswordCommand(Request request, Guid userId, string currentPassword, string newPassword)
+        public ChangePasswordCommand(Guid userId, string currentPassword, string newPassword)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             UserId = userId;
             CurrentPassword = currentPassword;
             NewPassword = newPassword;

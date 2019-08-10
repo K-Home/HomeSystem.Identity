@@ -17,9 +17,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string UnlockUserId { get; }
 
         [JsonConstructor]
-        public UnlockAccountCommand(Request request, Guid userId, string unlockUserId)
+        public UnlockAccountCommand(Guid userId, string unlockUserId)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             UserId = userId;
             UnlockUserId = unlockUserId;
         }

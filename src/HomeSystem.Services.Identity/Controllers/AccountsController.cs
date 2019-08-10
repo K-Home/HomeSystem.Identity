@@ -1,32 +1,22 @@
 ﻿using HomeSystem.Services.Identity.Application.Messages.Commands;
 using HomeSystem.Services.Identity.Infrastructure.MediatR.Bus;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HomeSystem.Services.Identity.Controllers
 {
     public class AccountsController : BaseController
     {
-        private readonly IMediatRBus _mediatRBus;
-
         public AccountsController(IMediatRBus mediatRBus)
+            : base(mediatRBus)
         {
-            _mediatRBus = mediatRBus ?? throw new ArgumentNullException(nameof(mediatRBus));
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("sign-up")]
-        public async Task<IActionResult> SignUp([FromBody]SignUpCommand command)
-        {
-            var result = await _mediatRBus.Send(command);
-
-            if (!result)
-            {
-                return BadRequest();
-            }
-
-            return Ok();
-        }
+        public async Task<IActionResult> SignUp([FromBody] SignUpCommand command)
+            => await SendAsync(command, command.Request.Id, "accounts");
     }
 }

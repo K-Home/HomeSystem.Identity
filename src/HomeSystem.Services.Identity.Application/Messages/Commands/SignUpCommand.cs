@@ -31,10 +31,10 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public string State { get; }
 
         [JsonConstructor]
-        public SignUpCommand(Request request, string email, string password, string userName, 
+        public SignUpCommand(string email, string password, string userName, 
             string firstName, string lastName, string role, string state)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             Email = email;
             Password = password;
             UserName = userName;

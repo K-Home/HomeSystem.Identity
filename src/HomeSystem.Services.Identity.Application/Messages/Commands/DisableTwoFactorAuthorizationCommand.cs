@@ -17,9 +17,9 @@ namespace HomeSystem.Services.Identity.Application.Messages.Commands
         public bool DisableTwoFactorAuthentication { get; }
 
         [JsonConstructor]
-        public DisableTwoFactorAuthorizationCommand(Request request, Guid userId, bool disableTwoFactorAuthentication)
+        public DisableTwoFactorAuthorizationCommand(Guid userId, bool disableTwoFactorAuthentication)
         {
-            Request = request;
+            Request = Request.New<SignUpCommand>();
             UserId = userId;
             DisableTwoFactorAuthentication = disableTwoFactorAuthentication;
         }
