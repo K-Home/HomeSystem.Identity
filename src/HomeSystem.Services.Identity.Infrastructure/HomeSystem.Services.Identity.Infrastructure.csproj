@@ -5,12 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="RabbitMQ\**" />
-    <EmbeddedResource Remove="RabbitMQ\**" />
-    <None Remove="RabbitMQ\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.3" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="AutoMapper" Version="8.0.0"></PackageReference>
@@ -34,10 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HomeSystem.Services.Identity.Domain\HomeSystem.Services.Identity.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Handlers\" />
   </ItemGroup>
 
 </Project>

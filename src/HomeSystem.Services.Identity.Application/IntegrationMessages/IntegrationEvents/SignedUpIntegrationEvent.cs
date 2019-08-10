@@ -3,7 +3,9 @@ using Newtonsoft.Json;
 using System;
 using System.Runtime.Serialization;
 
-namespace HomeSystem.Services.Identity.Application.IntegrationMessages.IntegrationEvents
+// namespace must be the same in services, required by MassTransit library
+// https://stackoverflow.com/questions/52477283/masstransit-consume-equal-objects-defined-in-different-namespaces
+namespace HomeSystem.IntegrationMessages.IntegrationEvents
 {
     public class SignedUpIntegrationEvent : IIntegrationEvent
     {
