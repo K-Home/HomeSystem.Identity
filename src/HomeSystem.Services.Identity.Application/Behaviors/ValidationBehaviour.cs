@@ -2,11 +2,10 @@
 using HomeSystem.Services.Identity.Infrastructure.Extensions;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
+using HomeSystem.Services.Identity.Application.Exceptions;
 
 namespace HomeSystem.Services.Identity.Application.Behaviors
 {
@@ -37,9 +36,8 @@ namespace HomeSystem.Services.Identity.Application.Behaviors
             {
                 _logger.LogWarning("Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}", typeName, request, failures);
 
-                //todo change it to custom exception
-                throw new Exception(
-                    $"Command Validation Errors for type {typeof(TRequest).Name}", new ValidationException("Validation exception"/*failures*/));
+                throw new ServiceException(
+                    $"Command Validation Errors for type {typeof(TRequest).Name}", new ValidationException("Validation exception", failures));
             }
 
             return await next();

@@ -40,7 +40,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
                     cancellationToken);
 
                 await _userService.SignUpAsync(userId, command.Email, command.Role, command.Password, activate: true,
-                    name: command.Name, firstName: command.FirstName, lastName: command.LastName);
+                    name: command.UserName, firstName: command.FirstName, lastName: command.LastName);
 
                 return await _userService.SaveChangesAsync(cancellationToken);
             }
