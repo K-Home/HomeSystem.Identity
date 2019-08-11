@@ -86,17 +86,21 @@ namespace HomeSystem.Services.Identity.Application.Services
             if (!password.IsEmpty())
                 user.SetPassword(password, _encrypter);
 
-            if (name.IsNotEmpty() && firstName.IsNotEmpty() && lastName.IsNotEmpty())
+            if (name.IsNotEmpty())
             {
                 user.SetUserName(name);
-                user.SetFirstName(firstName);
-                user.SetLastName(lastName);
 
                 if (activate)
                     user.Activate();
                 else
                     user.SetUnconfirmed();
             }
+
+            if (firstName.IsNotEmpty())
+                user.SetFirstName(firstName);
+
+            if (firstName.IsNotEmpty())
+                user.SetLastName(lastName);
 
             await _userRepository.AddUserAsync(user);
         }

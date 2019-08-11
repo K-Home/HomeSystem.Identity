@@ -55,7 +55,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
 
             builder.Property(otso => otso.Consumed)
                 .HasColumnName("Consumed")
-                .IsRequired();
+                .HasField("_consumed");
 
             builder.Ignore(otso => otso.DomainEvents);
         }

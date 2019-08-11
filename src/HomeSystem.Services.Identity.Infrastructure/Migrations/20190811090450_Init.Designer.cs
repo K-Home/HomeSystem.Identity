@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeSystem.Services.Identity.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20190810232502_Init")]
+    [Migration("20190811090450_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -198,11 +198,9 @@ namespace HomeSystem.Services.Identity.Infrastructure.Migrations
                             b1.Property<bool>("IsEmpty");
 
                             b1.Property<string>("Name")
-                                .IsRequired()
                                 .HasMaxLength(500);
 
                             b1.Property<string>("Url")
-                                .IsRequired()
                                 .HasMaxLength(2000);
 
                             b1.ToTable("Users");
@@ -218,22 +216,18 @@ namespace HomeSystem.Services.Identity.Infrastructure.Migrations
                             b1.Property<Guid>("UserId");
 
                             b1.Property<string>("City")
-                                .IsRequired()
                                 .HasMaxLength(100);
 
                             b1.Property<string>("Country")
-                                .IsRequired()
                                 .HasMaxLength(90);
 
                             b1.Property<string>("State")
                                 .HasMaxLength(60);
 
                             b1.Property<string>("Street")
-                                .IsRequired()
                                 .HasMaxLength(180);
 
                             b1.Property<string>("ZipCode")
-                                .IsRequired()
                                 .HasMaxLength(18);
 
                             b1.ToTable("Users");

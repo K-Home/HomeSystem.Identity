@@ -63,7 +63,10 @@ namespace HomeSystem.Services.Identity.Domain.Types
         }
         public static bool operator ==(AggregateRootBase left, AggregateRootBase right)
         {
-            return left?.Equals(right) ?? right == null;
+            if (Object.Equals(left, null))
+                return (Object.Equals(right, null)) ? true : false;
+            else
+                return left.Equals(right);
         }
 
         public static bool operator !=(AggregateRootBase left, AggregateRootBase right)

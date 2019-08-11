@@ -2,6 +2,7 @@
 using HomeSystem.Services.Identity.Application.Services;
 using HomeSystem.Services.Identity.Application.Services.Base;
 using HomeSystem.Services.Identity.Domain.Services;
+using HomeSystem.Services.Identity.Infrastructure.Handlers;
 
 namespace HomeSystem.Services.Identity.Application.Modules
 {
@@ -36,6 +37,11 @@ namespace HomeSystem.Services.Identity.Application.Modules
 
             builder.RegisterType<Encrypter>()
                 .As<IEncrypter>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<Handler>()
+                .As<IHandler>()
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
         }
