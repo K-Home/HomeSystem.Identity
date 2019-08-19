@@ -1,5 +1,5 @@
-﻿using System;
-using HomeSystem.Services.Identity.Infrastructure.Messages;
+﻿using HomeSystem.Services.Identity.Infrastructure.Messages;
+using System;
 
 namespace HomeSystem.Services.Identity.Application.Messages.DomainEvents
 {

@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using HomeSystem.Services.Identity.Application.Modules;
+using HomeSystem.Services.Identity.Extensions;
 using HomeSystem.Services.Identity.Infrastructure.Authorization.Extensions;
+using HomeSystem.Services.Identity.Infrastructure.EF.Extensions;
 using HomeSystem.Services.Identity.Infrastructure.Files.Modules;
 using HomeSystem.Services.Identity.Infrastructure.MassTransit.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -9,12 +11,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using static HomeSystem.Services.Identity.Infrastructure.EF.Extensions.EntityFrameworkModule;
+
 
 namespace HomeSystem.Services.Identity
 {
     public class Startup
     {
+        private static readonly string[] Headers = new[] { "X-Operation", "X-Resource", "X-Total-Count" };
+
         public IContainer Container { get; private set; }
         public IConfiguration Configuration { get; }
 
@@ -25,9 +29,19 @@ namespace HomeSystem.Services.Identity
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddCustomMvc();
             services.AddJwtAuth();
             services.AddEntityFramework();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", cors =>
+                    cors.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .WithExposedHeaders(Headers));
+            });
 
             var builder = new ContainerBuilder();
 
@@ -53,11 +67,13 @@ namespace HomeSystem.Services.Identity
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("CorsPolicy");
+            app.UseAllForwardedHeaders();
             app.UseMvc();
-            
-            applicationLifetime.ApplicationStopped.Register(() => 
-            { 
-                Container.Dispose(); 
+
+            applicationLifetime.ApplicationStopped.Register(() =>
+            {
+                Container.Dispose();
             });
         }
     }

@@ -1,9 +1,9 @@
 ﻿using HomeSystem.Services.Identity.Application.Messages.Commands;
+using HomeSystem.Services.Identity.Infrastructure;
 using HomeSystem.Services.Identity.Infrastructure.MediatR.Bus;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Infrastructure;
 
 namespace HomeSystem.Services.Identity.Controllers
 {

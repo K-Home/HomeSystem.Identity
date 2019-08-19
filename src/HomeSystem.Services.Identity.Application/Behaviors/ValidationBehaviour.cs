@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
+using HomeSystem.Services.Identity.Application.Exceptions;
 using HomeSystem.Services.Identity.Infrastructure.Extensions;
+using HomeSystem.Services.Identity.Infrastructure.Messages;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Application.Exceptions;
-using HomeSystem.Services.Identity.Infrastructure.Messages;
 
 namespace HomeSystem.Services.Identity.Application.Behaviors
 {

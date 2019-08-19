@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HomeSystem.Services.Identity.Infrastructure.Messages
+﻿namespace HomeSystem.Services.Identity.Infrastructure.Messages
 {
     public interface IIntegrationCommand
     {

@@ -1,4 +1,5 @@
-﻿using HomeSystem.Services.Identity.Application.Messages.Commands;
+﻿using HomeSystem.IntegrationMessages.IntegrationEvents;
+using HomeSystem.Services.Identity.Application.Messages.Commands;
 using HomeSystem.Services.Identity.Application.Messages.DomainEvents;
 using HomeSystem.Services.Identity.Application.Services.Base;
 using HomeSystem.Services.Identity.Domain;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeSystem.IntegrationMessages.IntegrationEvents;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
 {
@@ -43,7 +43,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
 
             await _handler
                 .Run(async () =>
-                {
+                { 
                     await _massTransitBusService.PublishAsync(
                         new SignUpRequestCreatedIntegrationEvent(command.Request.Id, userId, resource, string.Empty),
                         cancellationToken);
