@@ -9,23 +9,19 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
         public void Configure(EntityTypeBuilder<UserAddress> builder)
         {
             builder.Property(ua => ua.ZipCode)
-                .HasMaxLength(18)
-                .IsRequired();
+                .HasMaxLength(18);
 
             builder.Property(ua => ua.Street)
-                .HasMaxLength(180)
-                .IsRequired();
+                .HasMaxLength(180);
 
             builder.Property(ua => ua.State)
                 .HasMaxLength(60);
 
             builder.Property(ua => ua.Country)
-                .HasMaxLength(90)
-                .IsRequired();
+                .HasMaxLength(90);
 
             builder.Property(ua => ua.City)
-                .HasMaxLength(100)
-                .IsRequired();
+                .HasMaxLength(100);
         }
     }
 }

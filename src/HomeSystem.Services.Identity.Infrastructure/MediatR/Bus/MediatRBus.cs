@@ -1,7 +1,7 @@
-﻿using MediatR;
+﻿using HomeSystem.Services.Identity.Infrastructure.Messages;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Infrastructure.Messages;
 
 namespace HomeSystem.Services.Identity.Infrastructure.MediatR.Bus
 {

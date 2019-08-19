@@ -12,9 +12,6 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 {
     public class User : AggregateRootBase, IEditable, ITimestampable
     {
-        private List<UserSession> _userSessions;
-        private List<OneTimeSecuredOperation> _oneTimeSecuredOperations;
-
         public Avatar Avatar { get; private set; }
         public string Username { get; private set; }
         public string FirstName { get; private set; }
@@ -30,19 +27,21 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; private set; }
             
-        public IEnumerable<UserSession> UserSessions => _userSessions.AsReadOnly();
-        public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations => _oneTimeSecuredOperations.AsReadOnly();
+        public IEnumerable<UserSession> UserSessions 
+            => new List<UserSession>();
+
+        public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations 
+            => new List<OneTimeSecuredOperation>();
 
         protected User()
         {
-            _userSessions = new List<UserSession>();
-            _oneTimeSecuredOperations = new List<OneTimeSecuredOperation>();
         }
 
         public User(Guid id, string email, string role)
         {
             Id = id;
             Avatar = Avatar.Empty;
+            Address = UserAddress.Empty;
             Username = $"user-{Id:N}";
             SetEmail(email);
             SetRole(role);

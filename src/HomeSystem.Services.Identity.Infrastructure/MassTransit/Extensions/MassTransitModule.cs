@@ -38,7 +38,6 @@ namespace HomeSystem.Services.Identity.Infrastructure.MassTransit.Extensions
                         e.PrefetchCount = rabbitMqOptions.PrefetchCount;
                         e.UseMessageRetry(mr => mr.Interval(rabbitMqOptions.RetryIntervalMinValue,
                             rabbitMqOptions.RetryIntervalMaxValue));
-
                     });
                 });
             })

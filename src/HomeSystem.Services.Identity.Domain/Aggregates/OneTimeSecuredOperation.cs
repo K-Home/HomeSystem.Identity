@@ -8,6 +8,8 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
 {
     public class OneTimeSecuredOperation : EntityBase, ITimestampable
     {
+        private bool _consumed;
+
         public string Type { get; private set; }
         public Guid UserId { get; private set; }
         public User User { get; private set; }
@@ -20,11 +22,7 @@ namespace HomeSystem.Services.Identity.Domain.Aggregates
         public DateTime Expiry { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        public bool Consumed
-        {
-            get => IsConsumed();
-            set { } //Required by EF
-        }
+        public bool Consumed => _consumed = IsConsumed();
 
         protected OneTimeSecuredOperation()
         {

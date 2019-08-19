@@ -44,10 +44,12 @@ namespace HomeSystem.Services.Identity.Infrastructure.Migrations
                         .HasColumnName("Expiry");
 
                     b.Property<string>("RequesterIpAddress")
+                        .IsRequired()
                         .HasColumnName("RequesterIpAddress")
                         .HasMaxLength(50);
 
                     b.Property<string>("RequesterUserAgent")
+                        .IsRequired()
                         .HasColumnName("RequesterUserAgent")
                         .HasMaxLength(50);
 
@@ -193,11 +195,9 @@ namespace HomeSystem.Services.Identity.Infrastructure.Migrations
                             b1.Property<bool>("IsEmpty");
 
                             b1.Property<string>("Name")
-                                .IsRequired()
                                 .HasMaxLength(500);
 
                             b1.Property<string>("Url")
-                                .IsRequired()
                                 .HasMaxLength(2000);
 
                             b1.ToTable("Users");
@@ -213,22 +213,18 @@ namespace HomeSystem.Services.Identity.Infrastructure.Migrations
                             b1.Property<Guid>("UserId");
 
                             b1.Property<string>("City")
-                                .IsRequired()
                                 .HasMaxLength(100);
 
                             b1.Property<string>("Country")
-                                .IsRequired()
                                 .HasMaxLength(90);
 
                             b1.Property<string>("State")
                                 .HasMaxLength(60);
 
                             b1.Property<string>("Street")
-                                .IsRequired()
                                 .HasMaxLength(180);
 
                             b1.Property<string>("ZipCode")
-                                .IsRequired()
                                 .HasMaxLength(18);
 
                             b1.ToTable("Users");

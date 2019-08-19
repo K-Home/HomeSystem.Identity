@@ -9,15 +9,12 @@ namespace HomeSystem.Services.Identity.Infrastructure.EF.Configurations
         public void Configure(EntityTypeBuilder<Avatar> builder)
         {
             builder.Property(a => a.Name)
-                .HasMaxLength(500)
-                .IsRequired();
+                .HasMaxLength(500);
 
             builder.Property(a => a.Url)
-                .HasMaxLength(2000)
-                .IsRequired();
+                .HasMaxLength(2000);
 
-            builder.Property(a => a.IsEmpty)
-                .IsRequired();
+            builder.Property(a => a.IsEmpty);
         }
     }
 }

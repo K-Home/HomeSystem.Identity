@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using HomeSystem.Services.Identity.Application.Services.Base;
+﻿using HomeSystem.Services.Identity.Application.Services.Base;
 using HomeSystem.Services.Identity.Infrastructure.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace HomeSystem.Services.Identity.Application.Services
 {

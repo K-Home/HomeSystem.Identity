@@ -15,7 +15,7 @@ namespace HomeSystem.Services.Identity.Domain.ValueObjects
         {
         }
 
-        public UserAddress(string street, string city, string state, string country, string zipCode)
+        protected UserAddress(string street, string city, string state, string country, string zipCode)
         {
             if (string.IsNullOrEmpty(street))
             {
@@ -48,6 +48,8 @@ namespace HomeSystem.Services.Identity.Domain.ValueObjects
             Country = country;
             ZipCode = zipCode;
         }
+
+        public static UserAddress Empty => new UserAddress();
 
         public static UserAddress Create(string street, string city, string state, string country, string zipCode)
             => new UserAddress(street, city, state, country, zipCode);

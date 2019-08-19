@@ -5,9 +5,9 @@ using System.Runtime.Serialization;
 
 // namespace must be the same in services, required by MassTransit library
 // https://stackoverflow.com/questions/52477283/masstransit-consume-equal-objects-defined-in-different-namespaces
-namespace HomeSystem.IntegrationMessages.IntegrationCommands
+namespace HomeSystem.IntegrationMessages.IntegrationEvents
 {
-    public class RequestCreatedIntegrationCommand : IIntegrationCommand
+    public class SignUpRequestCreatedIntegrationEvent : IIntegrationEvent
     {
         [DataMember]
         public Guid RequestId { get; }
@@ -22,7 +22,7 @@ namespace HomeSystem.IntegrationMessages.IntegrationCommands
         public string Message { get; }
 
         [JsonConstructor]
-        public RequestCreatedIntegrationCommand(Guid requestId, Guid userId, Resource resource, string message)
+        public SignUpRequestCreatedIntegrationEvent(Guid requestId, Guid userId, Resource resource, string message)
         {
             RequestId = requestId;
             UserId = userId;

@@ -13,4 +13,8 @@
     <ProjectReference Include="..\HomeSystem.Services.Identity.Infrastructure\HomeSystem.Services.Identity.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IntegrationMessages\IntegrationCommands\" />
+  </ItemGroup>
+
 </Project>

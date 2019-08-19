@@ -1,4 +1,5 @@
-﻿using HomeSystem.Services.Identity.Application.Messages.Commands;
+﻿using HomeSystem.IntegrationMessages.IntegrationEvents;
+using HomeSystem.Services.Identity.Application.Messages.Commands;
 using HomeSystem.Services.Identity.Application.Messages.DomainEvents;
 using HomeSystem.Services.Identity.Application.Services.Base;
 using HomeSystem.Services.Identity.Domain;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeSystem.IntegrationMessages.IntegrationCommands;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
 {
@@ -25,8 +25,8 @@ namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
         private readonly IResourceService _resourceService;
         private readonly ILogger<SignUpCommandHandler> _logger;
 
-        public SignUpCommandHandler(IHandler handler, IMassTransitBusService massTransitBusService, IMediatRBus mediatRBus, 
-            IUserService userService, IResourceService resourceService,  ILogger<SignUpCommandHandler> logger)
+        public SignUpCommandHandler(IHandler handler, IMassTransitBusService massTransitBusService, IMediatRBus mediatRBus,
+            IUserService userService, IResourceService resourceService, ILogger<SignUpCommandHandler> logger)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(massTransitBusService));
             _massTransitBusService = massTransitBusService ?? throw new ArgumentNullException(nameof(massTransitBusService));
@@ -43,9 +43,9 @@ namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
 
             await _handler
                 .Run(async () =>
-                {
-                    await _massTransitBusService.SendAsync(
-                        new RequestCreatedIntegrationCommand(command.Request.Id, userId, resource, string.Empty),
+                { 
+                    await _massTransitBusService.PublishAsync(
+                        new SignUpRequestCreatedIntegrationEvent(command.Request.Id, userId, resource, string.Empty),
                         cancellationToken);
 
                     await _userService.SignUpAsync(userId, command.Email,

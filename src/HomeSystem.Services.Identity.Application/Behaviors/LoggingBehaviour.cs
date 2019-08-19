@@ -1,10 +1,10 @@
 ﻿using HomeSystem.Services.Identity.Infrastructure.Extensions;
+using HomeSystem.Services.Identity.Infrastructure.Messages;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeSystem.Services.Identity.Infrastructure.Messages;
-using Microsoft.Extensions.Logging;
 
 namespace HomeSystem.Services.Identity.Application.Behaviors
 {
@@ -17,7 +17,7 @@ namespace HomeSystem.Services.Identity.Application.Behaviors
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next) 
         {
             _logger.LogInformation("----- Handling command {CommandName} ({@Command})", request.GetGenericTypeName(), request);
             var response = await next();
