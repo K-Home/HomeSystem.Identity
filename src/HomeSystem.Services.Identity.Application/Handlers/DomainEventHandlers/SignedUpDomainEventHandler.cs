@@ -28,7 +28,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})", @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(new SignedUpIntegrationEvent(@event.RequestId, @event.UserId,
-                @event.Resource, @event.Role, @event.State), cancellationToken);
+                @event.Message, @event.Resource, @event.Role, @event.State), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
@@ -38,7 +38,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})", @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(new SignUpRejectedIntegrationEvent(@event.RequestId, @event.UserId,
-                @event.Code, @event.Reason), cancellationToken);
+                @event.Message, @event.Resource, @event.Code, @event.Reason), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

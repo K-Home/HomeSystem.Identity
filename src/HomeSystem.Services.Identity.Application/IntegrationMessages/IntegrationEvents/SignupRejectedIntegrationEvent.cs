@@ -1,7 +1,7 @@
-﻿using HomeSystem.Services.Identity.Infrastructure.Messages;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Runtime.Serialization;
+using HomeSystem.Services.Identity.Infrastructure.Messages;
 
 // namespace must be the same in services, required by MassTransit library
 // https://stackoverflow.com/questions/52477283/masstransit-consume-equal-objects-defined-in-different-namespaces
@@ -16,16 +16,25 @@ namespace HomeSystem.IntegrationMessages.IntegrationEvents
         public Guid UserId { get; }
 
         [DataMember]
+        public string Message { get; }
+
+        [DataMember]
+        public Resource Resource { get; }
+
+        [DataMember]
         public string Code { get; }
 
         [DataMember]
         public string Reason { get; }
 
         [JsonConstructor]
-        public SignUpRejectedIntegrationEvent(Guid requestId, Guid userId, string code, string reason)
+        public SignUpRejectedIntegrationEvent(Guid requestId, Guid userId,
+            string message, Resource resource, string code, string reason)
         {
             RequestId = requestId;
             UserId = userId;
+            Message = message;
+            Resource = resource;
             Code = code;
             Reason = reason;
         }

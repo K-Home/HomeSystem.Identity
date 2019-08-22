@@ -56,19 +56,24 @@ namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
                 })
                 .OnSuccess(async () =>
                 {
-                    await _mediatRBus.PublishAsync(new SignedUp(command.Request.Id, userId, resource, command.Role,
-                        command.State), cancellationToken);
+                    await _mediatRBus.PublishAsync(
+                        new SignedUp(command.Request.Id, userId, "Operation is created and waiting for completion.",
+                            resource, command.Role, command.State), cancellationToken);
                 })
                 .OnCustomError(async customException =>
                 {
-                    await _mediatRBus.PublishAsync(new SignedUpRejected(command.Request.Id, userId,
-                        customException.Message, customException.Code), cancellationToken);
+                    await _mediatRBus.PublishAsync(
+                        new SignedUpRejected(command.Request.Id, userId,
+                            "Operation is rejected, because custom exception thrown.", resource,
+                            customException.Message, customException.Code), cancellationToken);
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error("Error occured while signing up a user", exception);
-                    await _mediatRBus.PublishAsync(new SignedUpRejected(command.Request.Id, userId, exception.Message,
-                        Codes.Error), cancellationToken);
+                    logger.Error("Error occured while signing up a user.", exception);
+                    await _mediatRBus.PublishAsync(
+                        new SignedUpRejected(command.Request.Id, userId,
+                            "Operation is rejected, because exception thrown.", resource, exception.Message,
+                            Codes.Error), cancellationToken);
                 })
                 .ExecuteAsync();
         }

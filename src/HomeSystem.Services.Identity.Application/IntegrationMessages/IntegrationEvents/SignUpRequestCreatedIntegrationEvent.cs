@@ -1,7 +1,7 @@
-﻿using HomeSystem.Services.Identity.Infrastructure.Messages;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Runtime.Serialization;
+using HomeSystem.Services.Identity.Infrastructure.Messages;
 
 // namespace must be the same in services, required by MassTransit library
 // https://stackoverflow.com/questions/52477283/masstransit-consume-equal-objects-defined-in-different-namespaces

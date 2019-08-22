@@ -13,7 +13,7 @@ namespace HomeSystem.Services.Identity.Infrastructure.Pagination
             int page,
             int pageSize,
             string orderBy,
-            bool ascending)
+            bool ascending = false)
         {
             var skipAmount = pageSize * (page - 1);
 

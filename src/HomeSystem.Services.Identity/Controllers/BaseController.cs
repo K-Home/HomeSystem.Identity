@@ -73,10 +73,12 @@ namespace HomeSystem.Services.Identity.Controllers
             var last = GetPageLink(result.PageNumber, result.TotalNumberOfPages);
             var prev = string.Empty;
             var next = string.Empty;
+
             if (result.PageNumber > 1 && result.PageNumber <= result.TotalNumberOfPages)
             {
                 prev = GetPageLink(result.PageNumber, result.PageNumber - 1);
             }
+
             if (result.PageNumber < result.TotalNumberOfPages)
             {
                 next = GetPageLink(result.PageNumber, result.PageNumber + 1);

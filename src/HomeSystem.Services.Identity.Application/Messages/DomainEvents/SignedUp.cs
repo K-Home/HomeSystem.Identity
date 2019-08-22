@@ -7,14 +7,17 @@ namespace HomeSystem.Services.Identity.Application.Messages.DomainEvents
     {
         public Guid RequestId { get; }
         public Guid UserId { get; }
-        public Resource Resource { get; set; }
+        public string Message { get; }
+        public Resource Resource { get; }
         public string Role { get; }
         public string State { get; }
 
-        public SignedUp(Guid requestId, Guid userId, Resource resource, string role, string state)
+        public SignedUp(Guid requestId, Guid userId, string message, 
+            Resource resource, string role, string state)
         {
             RequestId = requestId;
             UserId = userId;
+            Message = message;
             Resource = resource;
             Role = role;
             State = state;
