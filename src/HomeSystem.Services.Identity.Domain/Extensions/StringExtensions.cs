@@ -37,6 +37,9 @@ namespace HomeSystem.Services.Identity.Domain.Extensions
             return value.IsEmpty() ? "" : value;
         }
 
+        public static string CutSpecificEndWord(this string value, string valueToRemove)
+            => value.Replace(valueToRemove, "");
+
         public static bool EqualsCaseInvariant(this string value, string valueToCompare)
         {
             if (value.IsEmpty())

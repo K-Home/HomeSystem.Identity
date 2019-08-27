@@ -61,6 +61,7 @@ namespace HomeSystem.Services.Identity.Domain.ValueObjects
         protected override int GetHashCodeCore()
         {
             var hash = 13;
+
             hash = hash * 7 + Street.GetHashCode();
             hash = hash * 7 + City.GetHashCode();
             hash = hash * 7 + State.GetHashCode();

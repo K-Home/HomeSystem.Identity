@@ -68,6 +68,7 @@ namespace HomeSystem.Services.Identity
             }
 
             app.UseCors("CorsPolicy");
+            app.UseErrorHandler();
             app.UseAllForwardedHeaders();
             app.UseMvc();
 

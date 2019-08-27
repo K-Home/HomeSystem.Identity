@@ -16,7 +16,7 @@ namespace HomeSystem.Services.Identity.Application.Modules
         {
             var resources = new Dictionary<Type, string>
             {
-                [typeof(SignedUp)] = "users/{0}"
+                [typeof(SignedUpDomainEvent)] = "users/accounts/{0}"
             };
 
             builder.RegisterModule(new ResourceModule(resources));

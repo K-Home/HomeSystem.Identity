@@ -3,7 +3,7 @@ using System;
 
 namespace HomeSystem.Services.Identity.Application.Messages.DomainEvents
 {
-    public class SignedUp : IDomainEvent
+    public class SignedUpDomainEvent : IDomainEvent
     {
         public Guid RequestId { get; }
         public Guid UserId { get; }
@@ -12,7 +12,7 @@ namespace HomeSystem.Services.Identity.Application.Messages.DomainEvents
         public string Role { get; }
         public string State { get; }
 
-        public SignedUp(Guid requestId, Guid userId, string message, 
+        public SignedUpDomainEvent(Guid requestId, Guid userId, string message, 
             Resource resource, string role, string state)
         {
             RequestId = requestId;

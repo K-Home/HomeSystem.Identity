@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using HomeSystem.Services.Identity.Framework;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -37,5 +38,8 @@ namespace HomeSystem.Services.Identity.Extensions
             {
                 ForwardedHeaders = ForwardedHeaders.All
             });
+
+        public static IApplicationBuilder UseErrorHandler(this IApplicationBuilder builder)
+            => builder.UseMiddleware<ErrorHandlerMiddleware>();
     }
 }

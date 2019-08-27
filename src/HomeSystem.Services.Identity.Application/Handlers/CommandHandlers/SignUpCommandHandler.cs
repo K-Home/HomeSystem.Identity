@@ -9,7 +9,6 @@ using HomeSystem.Services.Identity.Infrastructure.Handlers;
 using HomeSystem.Services.Identity.Infrastructure.MassTransit.MassTransitBus;
 using HomeSystem.Services.Identity.Infrastructure.MediatR.Bus;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,23 +22,21 @@ namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
         private readonly IMediatRBus _mediatRBus;
         private readonly IUserService _userService;
         private readonly IResourceService _resourceService;
-        private readonly ILogger<SignUpCommandHandler> _logger;
 
         public SignUpCommandHandler(IHandler handler, IMassTransitBusService massTransitBusService, IMediatRBus mediatRBus,
-            IUserService userService, IResourceService resourceService, ILogger<SignUpCommandHandler> logger)
+            IUserService userService, IResourceService resourceService)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(massTransitBusService));
             _massTransitBusService = massTransitBusService ?? throw new ArgumentNullException(nameof(massTransitBusService));
             _mediatRBus = mediatRBus ?? throw new ArgumentNullException(nameof(mediatRBus));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _resourceService = resourceService ?? throw new ArgumentNullException(nameof(resourceService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         protected override async Task Handle(SignUpCommand command, CancellationToken cancellationToken)
         {
             var userId = Guid.NewGuid();
-            var resource = _resourceService.Resolve<SignedUp>(userId);
+            var resource = _resourceService.Resolve<SignedUpDomainEvent>(userId);
 
             await _handler
                 .Run(async () =>
@@ -57,13 +54,13 @@ namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
                 .OnSuccess(async () =>
                 {
                     await _mediatRBus.PublishAsync(
-                        new SignedUp(command.Request.Id, userId, "Operation is created and waiting for completion.",
+                        new SignedUpDomainEvent(command.Request.Id, userId, "Operation is created and waiting for completion.",
                             resource, command.Role, command.State), cancellationToken);
                 })
                 .OnCustomError(async customException =>
                 {
                     await _mediatRBus.PublishAsync(
-                        new SignedUpRejected(command.Request.Id, userId,
+                        new SignedUpRejectedDomainEvent(command.Request.Id, userId,
                             "Operation is rejected, because custom exception thrown.", resource,
                             customException.Message, customException.Code), cancellationToken);
                 })
@@ -71,7 +68,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.CommandHandlers
                 {
                     logger.Error("Error occured while signing up a user.", exception);
                     await _mediatRBus.PublishAsync(
-                        new SignedUpRejected(command.Request.Id, userId,
+                        new SignedUpRejectedDomainEvent(command.Request.Id, userId,
                             "Operation is rejected, because exception thrown.", resource, exception.Message,
                             Codes.Error), cancellationToken);
                 })

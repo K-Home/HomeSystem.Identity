@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers
 {
-    public class SignedUpDomainEventHandler : INotificationHandler<SignedUp>, 
-                                              INotificationHandler<SignedUpRejected>
+    public class SignedUpDomainEventHandler : INotificationHandler<SignedUpDomainEvent>, 
+                                              INotificationHandler<SignedUpRejectedDomainEvent>
     {
         private readonly ILogger<SignedUpDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
@@ -23,7 +23,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers
                 massTransitBusService ?? throw new ArgumentNullException(nameof(massTransitBusService));
         }
 
-        public async Task Handle(SignedUp @event, CancellationToken cancellationToken)
+        public async Task Handle(SignedUpDomainEvent @event, CancellationToken cancellationToken)
         {
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})", @event.GetGenericTypeName(), @event);
 
@@ -33,7 +33,7 @@ namespace HomeSystem.Services.Identity.Application.Handlers.DomainEventHandlers
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
 
-        public async Task Handle(SignedUpRejected @event, CancellationToken cancellationToken)
+        public async Task Handle(SignedUpRejectedDomainEvent @event, CancellationToken cancellationToken)
         {
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})", @event.GetGenericTypeName(), @event);
 
