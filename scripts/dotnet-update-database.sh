@@ -1,3 +1,3 @@
 #!/bin/bash
-cd src/HomeSystem.Services.Identity
+cd src/XSecure.Services.Users
 dotnet ef database update

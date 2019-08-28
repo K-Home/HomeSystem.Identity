@@ -1,4 +1,4 @@
 #!/bin/bash
 export ASPNETCORE_ENVIRONMENT=local
-cd src/HomeSystem.Services.Identity
+cd src/XSecure.Services.Users
 dotnet run --no-restore

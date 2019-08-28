@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t homesystem.services.identity:local .
+docker build -t xsecure.services.users:local .
