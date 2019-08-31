@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t xsecure.services.users:local .
+docker build -t financecontrol.services.users:local .
