@@ -10,18 +10,21 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Behaviors
 {
-    public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICommand
+    public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : ICommand
     {
         private readonly ILogger<ValidatorBehavior<TRequest, TResponse>> _logger;
         private readonly IValidator<TRequest>[] _validators;
 
-        public ValidatorBehavior(IValidator<TRequest>[] validators, ILogger<ValidatorBehavior<TRequest, TResponse>> logger)
+        public ValidatorBehavior(IValidator<TRequest>[] validators,
+            ILogger<ValidatorBehavior<TRequest, TResponse>> logger)
         {
             _validators = validators;
             _logger = logger;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
+            RequestHandlerDelegate<TResponse> next)
         {
             var typeName = request.GetGenericTypeName();
 
@@ -35,10 +38,13 @@ namespace FinanceControl.Services.Users.Application.Behaviors
 
             if (failures.Any())
             {
-                _logger.LogWarning("Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}", typeName, request, failures);
+                _logger.LogWarning(
+                    "Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}", typeName,
+                    request, failures);
 
                 throw new ServiceException(
-                    $"Command Validation Errors for type {typeof(TRequest).Name}", new ValidationException("Validation exception", failures));
+                    $"Command Validation Errors for type {typeof(TRequest).Name}",
+                    new ValidationException("Validation exception", failures));
             }
 
             return await next();

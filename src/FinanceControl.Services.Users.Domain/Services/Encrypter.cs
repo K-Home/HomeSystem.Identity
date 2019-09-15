@@ -29,9 +29,7 @@ namespace FinanceControl.Services.Users.Domain.Services
                 var base64String = Convert.ToBase64String(bytes);
                 var stringBuilder = new StringBuilder(base64String);
                 foreach (var invalidCharacter in InvalidCharacters)
-                {
                     stringBuilder.Replace(invalidCharacter, string.Empty);
-                }
 
                 return stringBuilder.ToString();
             }
@@ -65,7 +63,7 @@ namespace FinanceControl.Services.Users.Domain.Services
 
         private static byte[] GetBytes(string value)
         {
-            var bytes = new byte[value.Length*sizeof(char)];
+            var bytes = new byte[value.Length * sizeof(char)];
             Buffer.BlockCopy(value.ToCharArray(), 0, bytes, 0, bytes.Length);
 
             return bytes;

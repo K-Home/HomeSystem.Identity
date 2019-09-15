@@ -7,14 +7,11 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class UnlockAccountCommand : IAuthenticatedCommand
     {
-        [DataMember]
-        public Request Request { get; }
-        
-        [DataMember]
-        public Guid UserId { get; }
-        
-        [DataMember]
-        public string UnlockUserId { get; }
+        [DataMember] public Request Request { get; }
+
+        [DataMember] public Guid UserId { get; }
+
+        [DataMember] public string UnlockUserId { get; }
 
         [JsonConstructor]
         public UnlockAccountCommand(Guid userId, string unlockUserId)

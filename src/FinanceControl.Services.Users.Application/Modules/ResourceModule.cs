@@ -43,14 +43,13 @@ namespace FinanceControl.Services.Users.Application.Modules
             }).SingleInstance();
 
             builder.Register((c, p) =>
-            {
-                var settings = c.Resolve<AppOptions>();
+                {
+                    var settings = c.Resolve<AppOptions>();
 
-                return new ResourceService(settings.ServiceName, _resources);
-            })
-            .As<IResourceService>()
-            .SingleInstance();
+                    return new ResourceService(settings.ServiceName, _resources);
+                })
+                .As<IResourceService>()
+                .SingleInstance();
         }
     }
 }
-    

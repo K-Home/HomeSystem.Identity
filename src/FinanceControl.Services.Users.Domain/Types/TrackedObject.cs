@@ -8,8 +8,16 @@ namespace FinanceControl.Services.Users.Domain.Types
         protected List<INotification> _domainEvents;
         public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
 
-        public virtual void AddDomainEvent(INotification eventItem) { }
-        public virtual void RemoveDomainEvent(INotification eventItem) { }
-        public virtual void ClearDomainEvents() { }
+        public virtual void AddDomainEvent(INotification eventItem)
+        {
+        }
+
+        public virtual void RemoveDomainEvent(INotification eventItem)
+        {
+        }
+
+        public virtual void ClearDomainEvents()
+        {
+        }
     }
 }

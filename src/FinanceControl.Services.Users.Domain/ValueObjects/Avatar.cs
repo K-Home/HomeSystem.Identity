@@ -21,15 +21,9 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
 
         protected Avatar(string name, string url)
         {
-            if (name.IsEmpty())
-            {
-                throw new ArgumentException("Avatar name can not be empty.", nameof(name));
-            }
+            if (name.IsEmpty()) throw new ArgumentException("Avatar name can not be empty.", nameof(name));
 
-            if (url.IsEmpty())
-            {
-                throw new ArgumentException("Avatar Url can not be empty.", nameof(url));
-            }
+            if (url.IsEmpty()) throw new ArgumentException("Avatar Url can not be empty.", nameof(url));
 
             Name = name;
             Url = url;
@@ -38,10 +32,18 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
         public static Avatar Empty => new Avatar();
 
         public static Avatar Create(string name, string url)
-            => new Avatar(name, url);
+        {
+            return new Avatar(name, url);
+        }
 
-        protected override bool EqualsCore(Avatar other) => Name.Equals(other.Name);
+        protected override bool EqualsCore(Avatar other)
+        {
+            return Name.Equals(other.Name);
+        }
 
-        protected override int GetHashCodeCore() => Name.GetHashCode();
+        protected override int GetHashCodeCore()
+        {
+            return Name.GetHashCode();
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Role { get; }
         public string State { get; }
 
-        public SignedUpDomainEvent(Guid requestId, Guid userId, string message, 
+        public SignedUpDomainEvent(Guid requestId, Guid userId, string message,
             Resource resource, string role, string state)
         {
             RequestId = requestId;

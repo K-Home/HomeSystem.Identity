@@ -20,7 +20,8 @@ namespace FinanceControl.Services.Users.Application.Services
             IEncrypter encrypter)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _oneTimeSecuredOperationService = oneTimeSecuredOperationService ?? throw new ArgumentNullException(nameof(oneTimeSecuredOperationService));
+            _oneTimeSecuredOperationService = oneTimeSecuredOperationService ??
+                                              throw new ArgumentNullException(nameof(oneTimeSecuredOperationService));
             _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
         }
 
@@ -29,16 +30,12 @@ namespace FinanceControl.Services.Users.Application.Services
             var user = await _userRepository.GetByUserIdAsync(userId);
 
             if (user == null)
-            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
-            }
 
             if (!user.ValidatePassword(currentPassword, _encrypter))
-            {
-                throw new ServiceException(Codes.InvalidCurrentPassword,
+                throw new ServiceException(Codes.CurrentPasswordIsInvalid,
                     "Current password is invalid.");
-            }
 
             user.SetPassword(newPassword, _encrypter);
             _userRepository.EditUser(user);
@@ -49,10 +46,8 @@ namespace FinanceControl.Services.Users.Application.Services
             var user = await _userRepository.GetByEmailAsync(email);
 
             if (user == null)
-            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email: '{email}' has not been found.");
-            }
 
             await _oneTimeSecuredOperationService.CreateAsync(operationId, OneTimeSecuredOperations.ResetPassword,
                 user.Id, DateTime.UtcNow.AddDays(1));
@@ -63,10 +58,8 @@ namespace FinanceControl.Services.Users.Application.Services
             var user = await _userRepository.GetByEmailAsync(email);
 
             if (user == null)
-            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email: '{email}' has not been found.");
-            }
 
             await _oneTimeSecuredOperationService.ConsumeAsync(OneTimeSecuredOperations.ResetPassword,
                 user.Id, token);

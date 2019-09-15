@@ -57,18 +57,14 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         private void CheckIfAlreadyRefreshedOrDestroyed()
         {
             if (Refreshed)
-            {
                 throw new DomainException(Codes.SessionAlreadyRefreshed,
                     $"Session for user id: '{UserId}' " +
                     $"with key: '{Key}' has been already refreshed.");
-            }
 
             if (Destroyed)
-            {
                 throw new DomainException(Codes.SessionAlreadyDestroyed,
                     $"Session for user id: '{UserId}' " +
                     $"with key: '{Key}' has been already destroyed.");
-            }
         }
     }
 }

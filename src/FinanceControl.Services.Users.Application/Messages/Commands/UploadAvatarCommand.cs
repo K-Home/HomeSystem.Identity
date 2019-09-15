@@ -8,14 +8,11 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class UploadAvatarCommand : IAuthenticatedCommand
     {
-        [DataMember]
-        public Request Request { get; }
-        
-        [DataMember]
-        public Guid UserId { get; }
-        
-        [DataMember]
-        public File Avatar { get; }
+        [DataMember] public Request Request { get; }
+
+        [DataMember] public Guid UserId { get; }
+
+        [DataMember] public File Avatar { get; }
 
         [JsonConstructor]
         public UploadAvatarCommand(Guid userId, File avatar)

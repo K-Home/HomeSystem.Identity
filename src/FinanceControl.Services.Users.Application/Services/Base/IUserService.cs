@@ -16,8 +16,8 @@ namespace FinanceControl.Services.Users.Application.Services.Base
         Task<IEnumerable<User>> BrowseAsync();
 
         Task SignUpAsync(Guid userId, string email, string role,
-            string password = null, bool activate = true, 
-            string name = null, string firstName = null, 
+            string password = null, bool activate = true,
+            string name = null, string firstName = null,
             string lastName = null);
 
         Task ChangeNameAsync(Guid userId, string name);

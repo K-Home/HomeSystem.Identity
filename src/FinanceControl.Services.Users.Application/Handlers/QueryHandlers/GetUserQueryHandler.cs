@@ -19,7 +19,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
             _mapper = mapper;
             _userService = userService;
         }
-        
+
         public async Task<UserDto> Handle(GetUserQuery query, CancellationToken cancellationToken)
         {
             var user = await _userService.GetAsync(query.Id);

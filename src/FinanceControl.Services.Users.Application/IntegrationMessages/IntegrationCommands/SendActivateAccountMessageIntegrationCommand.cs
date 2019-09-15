@@ -9,23 +9,18 @@ namespace FinanceControl.IntegrationMessages
 {
     public class SendActivateAccountMessageIntegrationCommand : IIntegrationCommand
     {
-        [DataMember]
-        public Guid RequestId { get; }
-        
-        [DataMember]
-        public string Username { get; }
-        
-        [DataMember]
-        public string Email { get; }
-        
-        [DataMember]
-        public string Token { get; }
-        
-        [DataMember]
-        public string Endpoint { get; }
+        [DataMember] public Guid RequestId { get; }
+
+        [DataMember] public string Username { get; }
+
+        [DataMember] public string Email { get; }
+
+        [DataMember] public string Token { get; }
+
+        [DataMember] public string Endpoint { get; }
 
         [JsonConstructor]
-        public SendActivateAccountMessageIntegrationCommand(Guid requestId, 
+        public SendActivateAccountMessageIntegrationCommand(Guid requestId,
             string username, string email, string token, string endpoint)
         {
             RequestId = requestId;

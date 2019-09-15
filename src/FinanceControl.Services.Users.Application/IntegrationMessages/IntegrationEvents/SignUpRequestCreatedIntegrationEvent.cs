@@ -9,17 +9,13 @@ namespace FinanceControl.IntegrationMessages
 {
     public class SignUpRequestCreatedIntegrationEvent : IIntegrationEvent
     {
-        [DataMember]
-        public Guid RequestId { get; }
+        [DataMember] public Guid RequestId { get; }
 
-        [DataMember]
-        public Guid UserId { get; }
+        [DataMember] public Guid UserId { get; }
 
-        [DataMember]
-        public Resource Resource { get; }
+        [DataMember] public Resource Resource { get; }
 
-        [DataMember]
-        public string Message { get; }
+        [DataMember] public string Message { get; }
 
         [JsonConstructor]
         public SignUpRequestCreatedIntegrationEvent(Guid requestId, Guid userId, Resource resource, string message)

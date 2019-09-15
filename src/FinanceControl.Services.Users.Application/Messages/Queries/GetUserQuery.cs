@@ -9,4 +9,3 @@ namespace FinanceControl.Services.Users.Application.Messages.Queries
         public Guid Id { get; set; }
     }
 }
-    

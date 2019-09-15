@@ -19,11 +19,15 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Repositories
         }
 
         public async Task<OneTimeSecuredOperation> GetAsync(Guid id)
-            => await _identityDbContext.OneTimeSecuredOperations.SingleOrDefaultAsync(otso => otso.Id == id);
+        {
+            return await _identityDbContext.OneTimeSecuredOperations.SingleOrDefaultAsync(otso => otso.Id == id);
+        }
 
         public async Task<OneTimeSecuredOperation> GetAsync(string type, Guid userId, string token)
-            => await _identityDbContext.OneTimeSecuredOperations.SingleOrDefaultAsync(otso =>
+        {
+            return await _identityDbContext.OneTimeSecuredOperations.SingleOrDefaultAsync(otso =>
                 otso.Type == type && otso.UserId == userId && otso.Token == token);
+        }
 
         public async Task AddAsync(OneTimeSecuredOperation operation)
         {

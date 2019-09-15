@@ -6,6 +6,9 @@ namespace FinanceControl.Services.Users.Api.Controllers
     public class HomeController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get() => Ok("Finance Control Users Service");
+        public IActionResult Get()
+        {
+            return Ok("Finance Control Users Service");
+        }
     }
 }

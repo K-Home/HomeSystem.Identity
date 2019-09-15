@@ -9,6 +9,6 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
         public string State { get; set; }
         public string Role { get; set; }
         public long Expires { get; set; }
-        public IEnumerable<Claim> Claims { get; set; }        
+        public IEnumerable<Claim> Claims { get; set; }
     }
 }

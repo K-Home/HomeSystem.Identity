@@ -11,7 +11,8 @@ using Serilog.Context;
 
 namespace FinanceControl.Services.Users.Application.Behaviors
 {
-    public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : ICommand
+    public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : ICommand
     {
         private readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;
         private readonly IdentityDbContext _dbContext;
@@ -23,17 +24,15 @@ namespace FinanceControl.Services.Users.Application.Behaviors
             _logger = logger ?? throw new ArgumentException(nameof(ILogger));
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
+            RequestHandlerDelegate<TResponse> next)
         {
             var response = default(TResponse);
             var typeName = request.GetGenericTypeName();
 
             try
             {
-                if (_dbContext.HasActiveTransaction)
-                {
-                    return await next();
-                }
+                if (_dbContext.HasActiveTransaction) return await next();
 
                 var strategy = _dbContext.Database.CreateExecutionStrategy();
 
@@ -43,11 +42,13 @@ namespace FinanceControl.Services.Users.Application.Behaviors
 
                     using (LogContext.PushProperty("TransactionContext", transaction.TransactionId))
                     {
-                        _logger.LogInformation("----- Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
+                        _logger.LogInformation("----- Begin transaction {TransactionId} for {CommandName} ({@Command})",
+                            transaction.TransactionId, typeName, request);
 
                         response = await next();
 
-                        _logger.LogInformation("----- Commit transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
+                        _logger.LogInformation("----- Commit transaction {TransactionId} for {CommandName}",
+                            transaction.TransactionId, typeName);
 
                         await _dbContext.CommitTransactionAsync(transaction);
                     }

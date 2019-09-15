@@ -27,6 +27,9 @@ namespace FinanceControl.Services.Users.Domain.Types
             return a.Equals(b);
         }
 
-        public static bool operator !=(ValueObject<T> a, ValueObject<T> b) => !(a == b);
+        public static bool operator !=(ValueObject<T> a, ValueObject<T> b)
+        {
+            return !(a == b);
+        }
     }
 }

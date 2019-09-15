@@ -64,7 +64,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
             };
             var expires = now.AddDays(_settings.ExpiryDays);
             var jwt = new JwtSecurityToken(
-                issuer: _settings.Issuer,
+                _settings.Issuer,
                 claims: claims,
                 notBefore: now,
                 expires: expires,
@@ -81,21 +81,12 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
 
         public string GetFromAuthorizationHeader(string authorizationHeader)
         {
-            if (authorizationHeader.IsEmpty())
-            {
-                return null;
-            }
+            if (authorizationHeader.IsEmpty()) return null;
 
             var data = authorizationHeader.Trim().Split(' ');
-            if (data.Length != 2 || data.Any(x => x.IsEmpty()))
-            {
-                return null;
-            }
+            if (data.Length != 2 || data.Any(x => x.IsEmpty())) return null;
 
-            if (data[0].ToLowerInvariant() != "bearer")
-            {
-                return null;
-            }
+            if (data[0].ToLowerInvariant() != "bearer") return null;
 
             return data[1];
         }
@@ -108,7 +99,6 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
                     out var validatedSecurityToken);
 
                 if (validatedSecurityToken is JwtSecurityToken validatedJwt)
-                {
                     return new JwtDetails
                     {
                         Subject = validatedJwt.Subject,
@@ -117,7 +107,6 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
                         State = validatedJwt.Claims.FirstOrDefault(x => x.Type == StateClaim)?.Value,
                         Expires = validatedJwt.ValidTo.ToTimestamp()
                     };
-                }
 
                 return null;
             }

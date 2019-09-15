@@ -42,7 +42,7 @@ namespace FinanceControl.Services.Users.Domain.Types
             if (GetType() != obj.GetType())
                 return false;
 
-            EntityBase item = (EntityBase)obj;
+            var item = (EntityBase) obj;
 
             if (item.IsTransient() || IsTransient())
                 return false;
@@ -56,11 +56,11 @@ namespace FinanceControl.Services.Users.Domain.Types
                 return base.GetHashCode();
 
             if (!_requestedHashCode.HasValue)
-                _requestedHashCode = Id.GetHashCode() ^ 31; 
+                _requestedHashCode = Id.GetHashCode() ^ 31;
 
             return _requestedHashCode.Value;
-
         }
+
         public static bool operator ==(EntityBase left, EntityBase right)
         {
             return left?.Equals(right) ?? right == null;

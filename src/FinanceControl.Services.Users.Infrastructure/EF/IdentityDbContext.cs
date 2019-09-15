@@ -26,16 +26,16 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
         public DbSet<OneTimeSecuredOperation> OneTimeSecuredOperations { get; set; }
         public DbSet<UserSession> UserSessions { get; set; }
 
-        public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
+        public IDbContextTransaction GetCurrentTransaction()
+        {
+            return _currentTransaction;
+        }
 
         public bool HasActiveTransaction => _currentTransaction != null;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (optionsBuilder.IsConfigured)
-            {
-                return;
-            }
+            if (optionsBuilder.IsConfigured) return;
 
             if (_sqlOptions.Value.InMemory)
             {
@@ -48,7 +48,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
                 sqlOptions =>
                 {
                     sqlOptions.MigrationsAssembly(typeof(IdentityDbContext).GetTypeInfo().Assembly.GetName().Name);
-                    sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    sqlOptions.EnableRetryOnFailure(10, TimeSpan.FromSeconds(30), null);
                 });
         }
 
@@ -82,7 +82,8 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
-            if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
+            if (transaction != _currentTransaction)
+                throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
 
             try
             {

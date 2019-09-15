@@ -12,15 +12,21 @@ namespace FinanceControl.Services.Users.Domain.Extensions
             RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         private static readonly Regex PhoneNumberRegex = new Regex(
-            @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$", 
+            @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$",
             RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         private static readonly Regex NameRegex = new Regex("^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._.-]+(?<![_.-])$",
             RegexOptions.Compiled);
 
-        public static bool IsEmpty(this string target) => string.IsNullOrWhiteSpace(target);
+        public static bool IsEmpty(this string target)
+        {
+            return string.IsNullOrWhiteSpace(target);
+        }
 
-        public static bool IsNotEmpty(this string target) => !target.IsEmpty();
+        public static bool IsNotEmpty(this string target)
+        {
+            return !target.IsEmpty();
+        }
 
         public static string TrimToUpper(this string value)
         {
@@ -38,7 +44,9 @@ namespace FinanceControl.Services.Users.Domain.Extensions
         }
 
         public static string CutSpecificEndWord(this string value, string valueToRemove)
-            => value.Replace(valueToRemove, "");
+        {
+            return value.Replace(valueToRemove, "");
+        }
 
         public static bool EqualsCaseInvariant(this string value, string valueToCompare)
         {
@@ -65,15 +73,28 @@ namespace FinanceControl.Services.Users.Domain.Extensions
         }
 
         public static string AggregateLines(this IEnumerable<string> values)
-            => values.Aggregate((x, y) => $"{x.Trim()}\n{y.Trim()}");
+        {
+            return values.Aggregate((x, y) => $"{x.Trim()}\n{y.Trim()}");
+        }
 
-        public static bool IsEmail(this string value) => value.IsNotEmpty() && EmailRegex.IsMatch(value);
+        public static bool IsEmail(this string value)
+        {
+            return value.IsNotEmpty() && EmailRegex.IsMatch(value);
+        }
 
-        public static bool IsPhoneNumber(this string value) => value.IsNotEmpty() && PhoneNumberRegex.IsMatch(value);
+        public static bool IsPhoneNumber(this string value)
+        {
+            return value.IsNotEmpty() && PhoneNumberRegex.IsMatch(value);
+        }
 
-        public static bool IsName(this string value) => value.IsNotEmpty() && NameRegex.IsMatch(value);
+        public static bool IsName(this string value)
+        {
+            return value.IsNotEmpty() && NameRegex.IsMatch(value);
+        }
 
         public static string Underscore(this string value)
-           => string.Concat(value.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString()));
+        {
+            return string.Concat(value.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString()));
+        }
     }
 }

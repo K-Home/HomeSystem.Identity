@@ -21,20 +21,30 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Repositories
         }
 
         public async Task<bool> ExistsAsync(Expression<Func<User, bool>> predicate)
-            => await _identityDbContext.Users.AnyAsync(predicate);
+        {
+            return await _identityDbContext.Users.AnyAsync(predicate);
+        }
 
         public async Task<User> GetByUserIdAsync(Guid userId)
-            => await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
+        {
+            return await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
+        }
 
         public async Task<User> GetByNameAsync(string name)
-            => await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Username == name);
+        {
+            return await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Username == name);
+        }
 
         public async Task<User> GetByEmailAsync(string email)
-            => await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Email == email);
+        {
+            return await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Email == email);
+        }
 
         public async Task<IEnumerable<User>> GetUsers()
-            => await _identityDbContext.Users.ToListAsync();
-        
+        {
+            return await _identityDbContext.Users.ToListAsync();
+        }
+
         public async Task<string> GetStateAsync(Guid id)
         {
             var user = await _identityDbContext.Users.SingleOrDefaultAsync(x => x.Id == id);

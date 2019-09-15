@@ -22,7 +22,8 @@ namespace FinanceControl.Services.Users.Api.Extensions
         }
 
         public static IMvcCoreBuilder AddDefaultJsonOptions(this IMvcCoreBuilder builder)
-            => builder.AddJsonOptions(o =>
+        {
+            return builder.AddJsonOptions(o =>
             {
                 o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 o.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
@@ -32,14 +33,19 @@ namespace FinanceControl.Services.Users.Api.Extensions
                 o.SerializerSettings.Formatting = Formatting.Indented;
                 o.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
+        }
 
         public static IApplicationBuilder UseAllForwardedHeaders(this IApplicationBuilder builder)
-            => builder.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            return builder.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.All
             });
+        }
 
         public static IApplicationBuilder UseErrorHandler(this IApplicationBuilder builder)
-            => builder.UseMiddleware<ErrorHandlerMiddleware>();
+        {
+            return builder.UseMiddleware<ErrorHandlerMiddleware>();
+        }
     }
 }

@@ -12,7 +12,8 @@ namespace FinanceControl.Services.Users.Domain.Types
         public int Id { get; }
 
         protected Enumeration()
-        { }
+        {
+        }
 
         protected Enumeration(int id, string name)
         {
@@ -20,7 +21,10 @@ namespace FinanceControl.Services.Users.Domain.Types
             Name = name;
         }
 
-        public override string ToString() => Name;
+        public override string ToString()
+        {
+            return Name;
+        }
 
         public static IEnumerable<T> GetAll<T>() where T : Enumeration
         {
@@ -40,7 +44,10 @@ namespace FinanceControl.Services.Users.Domain.Types
             return typeMatches && valueMatches;
         }
 
-        public override int GetHashCode() => Id.GetHashCode();
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
 
         public static int AbsoluteDifference(Enumeration firstValue, Enumeration secondValue)
         {
@@ -70,6 +77,9 @@ namespace FinanceControl.Services.Users.Domain.Types
             return matchingItem;
         }
 
-        public int CompareTo(object other) => Id.CompareTo(((Enumeration)other).Id);
+        public int CompareTo(object other)
+        {
+            return Id.CompareTo(((Enumeration) other).Id);
+        }
     }
 }

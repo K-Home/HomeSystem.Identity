@@ -23,10 +23,18 @@ namespace FinanceControl.Services.Users.Infrastructure.Files
         public static FileStreamInfo Empty => new FileStreamInfo();
 
         public static FileStreamInfo Create(string name, string contentType, Stream stream)
-            => new FileStreamInfo(name, contentType, stream);
+        {
+            return new FileStreamInfo(name, contentType, stream);
+        }
 
-        protected override bool EqualsCore(FileStreamInfo other) => Stream.Equals(other.Stream);
+        protected override bool EqualsCore(FileStreamInfo other)
+        {
+            return Stream.Equals(other.Stream);
+        }
 
-        protected override int GetHashCodeCore() => Stream.GetHashCode();
+        protected override int GetHashCodeCore()
+        {
+            return Stream.GetHashCode();
+        }
     }
 }

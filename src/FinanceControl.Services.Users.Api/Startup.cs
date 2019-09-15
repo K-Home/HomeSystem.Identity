@@ -9,22 +9,15 @@ using FinanceControl.Services.Users.Infrastructure.Files.Modules;
 using FinanceControl.Services.Users.Infrastructure.MassTransit.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FinanceControl.Services.Users.Api
 {
     public class Startup
     {
-        private static readonly string[] Headers = new[] { "X-Operation", "X-Resource", "X-Total-Count" };
+        private static readonly string[] Headers = new[] {"X-Operation", "X-Resource", "X-Total-Count"};
 
-        public IContainer Container { get; private set; }
-        public IConfiguration Configuration { get; }
-
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private IContainer Container { get; set; }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
@@ -61,21 +54,14 @@ namespace FinanceControl.Services.Users.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             IApplicationLifetime applicationLifetime)
         {
-            if (env.IsDevelopment() || env.EnvironmentName == "local")
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment() || env.EnvironmentName == "local") app.UseDeveloperExceptionPage();
 
             app.UseCors("CorsPolicy");
             app.UseErrorHandler();
             app.UseAllForwardedHeaders();
             app.UseMvc();
 
-            applicationLifetime.ApplicationStopped.Register(() =>
-            {
-                Container.Dispose();
-            });
+            applicationLifetime.ApplicationStopped.Register(() => { Container.Dispose(); });
         }
     }
 }
-

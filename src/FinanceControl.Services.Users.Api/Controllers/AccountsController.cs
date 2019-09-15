@@ -18,6 +18,8 @@ namespace FinanceControl.Services.Users.Api.Controllers
         [AllowAnonymous]
         [Route("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] SignUpCommand command)
-            => await SendAsync(command);
+        {
+            return await SendAsync(command);
+        }
     }
 }

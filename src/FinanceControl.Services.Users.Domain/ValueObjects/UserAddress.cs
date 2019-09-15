@@ -8,7 +8,7 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
         public string Street { get; private set; }
         public string City { get; private set; }
         public string State { get; private set; }
-        public string Country { get; private set; } 
+        public string Country { get; private set; }
         public string ZipCode { get; private set; }
 
         protected UserAddress()
@@ -18,29 +18,18 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
         protected UserAddress(string street, string city, string state, string country, string zipCode)
         {
             if (string.IsNullOrEmpty(street))
-            {
                 throw new ArgumentException("Street can not be null or empty.", nameof(street));
-            }
 
-            if (string.IsNullOrEmpty(city))
-            {
-                throw new ArgumentException("City can not be null or empty.", nameof(city));
-            }
+            if (string.IsNullOrEmpty(city)) throw new ArgumentException("City can not be null or empty.", nameof(city));
 
             if (string.IsNullOrEmpty(state))
-            {
                 throw new ArgumentException("State can not be null or empty.", nameof(state));
-            }
 
             if (string.IsNullOrEmpty(country))
-            {
                 throw new ArgumentException("Country can not be null or empty.", nameof(country));
-            }
 
             if (string.IsNullOrEmpty(zipCode))
-            {
                 throw new ArgumentException("Zip code can not be null or empty.", nameof(zipCode));
-            }
 
             Street = street;
             City = city;
@@ -52,11 +41,15 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
         public static UserAddress Empty => new UserAddress();
 
         public static UserAddress Create(string street, string city, string state, string country, string zipCode)
-            => new UserAddress(street, city, state, country, zipCode);
+        {
+            return new UserAddress(street, city, state, country, zipCode);
+        }
 
         protected override bool EqualsCore(UserAddress other)
-            => Street.Equals(other.Street) && City.Equals(other.City) && State.Equals(other.State) &&
-               Country.Equals(other.Country) && ZipCode.Equals(other.ZipCode);
+        {
+            return Street.Equals(other.Street) && City.Equals(other.City) && State.Equals(other.State) &&
+                   Country.Equals(other.Country) && ZipCode.Equals(other.ZipCode);
+        }
 
         protected override int GetHashCodeCore()
         {

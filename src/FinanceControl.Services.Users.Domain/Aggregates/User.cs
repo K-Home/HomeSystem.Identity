@@ -26,11 +26,11 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; private set; }
-            
-        public IEnumerable<UserSession> UserSessions 
+
+        public IEnumerable<UserSession> UserSessions
             => new List<UserSession>();
 
-        public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations 
+        public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations
             => new List<OneTimeSecuredOperation>();
 
         protected User()
@@ -45,7 +45,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             Username = $"user-{Id:N}";
             SetEmail(email);
             SetRole(role);
-            State = States.Incomplete;   
+            State = States.Incomplete;
             TwoFactorAuthentication = false;
             CreatedAt = DateTime.UtcNow;
         }
@@ -53,27 +53,18 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void SetFirstName(string firstName)
         {
             if (!firstName.IsName())
-            {
-                throw new DomainException(Codes.InvalidFirstName,
+                throw new DomainException(Codes.FirstNameIsInvalid,
                     $"Invalid first name.");
-            }
-            
+
             if (firstName.IsEmpty())
-            {
                 throw new DomainException(Codes.FirstNameNotProvided,
                     $"First name not provided.");
-            }
 
             if (firstName.Length > 150)
-            {
-                throw new DomainException(Codes.InvalidFirstName,
+                throw new DomainException(Codes.FirstNameIsInvalid,
                     $"First name is too long.");
-            }
 
-            if (FirstName == firstName.ToLowerInvariant())
-            {
-                return;
-            }
+            if (FirstName == firstName.ToLowerInvariant()) return;
 
             FirstName = firstName.ToLowerInvariant();
             UpdatedAt = DateTime.UtcNow;
@@ -82,27 +73,18 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void SetLastName(string lastName)
         {
             if (lastName.IsName())
-            {
-                throw new DomainException(Codes.InvalidLastName,
+                throw new DomainException(Codes.LastNameIsInvalid,
                     $"Invalid last name.");
-            }
-            
+
             if (lastName.IsEmpty())
-            {
                 throw new DomainException(Codes.LastNameNotProvided,
                     $"Last name not provided.");
-            }
 
             if (lastName.Length > 150)
-            {
-                throw new DomainException(Codes.InvalidLastName,
+                throw new DomainException(Codes.LastNameIsInvalid,
                     $"Last name is too long.");
-            }
 
-            if (LastName == lastName.ToLowerInvariant())
-            {
-                return;
-            }
+            if (LastName == lastName.ToLowerInvariant()) return;
 
             LastName = lastName.ToLowerInvariant();
             UpdatedAt = DateTime.UtcNow;
@@ -111,35 +93,19 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void SetUserName(string name)
         {
             if (!Equals(State, States.Incomplete))
-            {
                 throw new DomainException(Codes.UserNameAlreadySet,
                     $"User name has been already set: {Username}");
-            }
 
-            if (name.IsEmpty())
-            {
-                throw new ArgumentException("User name can not be empty.", nameof(name));
-            }
+            if (name.IsEmpty()) throw new ArgumentException("User name can not be empty.", nameof(name));
 
-            if (Username.EqualsCaseInvariant(name))
-            {
-                return;
-            }
+            if (Username.EqualsCaseInvariant(name)) return;
 
-            if (name.Length < 2)
-            {
-                throw new ArgumentException("User name is too short.", nameof(name));
-            }
+            if (name.Length < 2) throw new ArgumentException("User name is too short.", nameof(name));
 
-            if (name.Length > 50)
-            {
-                throw new ArgumentException("User name is too long.", nameof(name));
-            }
+            if (name.Length > 50) throw new ArgumentException("User name is too long.", nameof(name));
 
             if (name.IsName() == false)
-            {
                 throw new ArgumentException("User name doesn't meet the required criteria.", nameof(name));
-            }
 
             Username = name;
             UpdatedAt = DateTime.UtcNow;
@@ -148,27 +114,18 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void SetEmail(string email)
         {
             if (email.IsEmpty())
-            {
                 throw new DomainException(Codes.EmailNotProvided,
                     $"Email not provided.");
-            }
 
             if (!email.IsEmail())
-            {
-                throw new DomainException(Codes.InvalidEmail,
+                throw new DomainException(Codes.EmailIsInvalid,
                     $"Invalid email: '{email}'.");
-            }
 
             if (email.Length > 300)
-            {
-                throw new DomainException(Codes.InvalidEmail,
+                throw new DomainException(Codes.EmailIsInvalid,
                     $"Email is too long.");
-            }
 
-            if (Email == email.ToLowerInvariant())
-            {
-                return;
-            }
+            if (Email == email.ToLowerInvariant()) return;
 
             Email = email.ToLowerInvariant();
             UpdatedAt = DateTime.UtcNow;
@@ -194,10 +151,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
 
         public void SetAvatar(Avatar avatar)
         {
-            if (avatar == null)
-            {
-                return;
-            }
+            if (avatar == null) return;
 
             Avatar = avatar;
             UpdatedAt = DateTime.UtcNow;
@@ -214,7 +168,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             TwoFactorAuthentication = true;
             UpdatedAt = DateTime.UtcNow;
         }
-        
+
         public void DisableTwoFactorAuthentication()
         {
             TwoFactorAuthentication = false;
@@ -224,15 +178,10 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void SetPhoneNumber(string phoneNumber)
         {
             if (!phoneNumber.IsPhoneNumber())
-            {
-                throw new DomainException(Codes.InvalidPhoneNumber,
+                throw new DomainException(Codes.PhoneNumberIsInvalid,
                     "Invalid phone number");
-            }
 
-            if (PhoneNumber == phoneNumber)
-            {
-                return;
-            }
+            if (PhoneNumber == phoneNumber) return;
 
             PhoneNumber = phoneNumber;
             UpdatedAt = DateTime.UtcNow;
@@ -241,10 +190,8 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void Lock()
         {
             if (Equals(State, States.Locked))
-            {
-                throw new DomainException(Codes.UserAlreadyLocked, 
+                throw new DomainException(Codes.UserAlreadyLocked,
                     $"User with id: '{Id}' was already locked.");
-            }
 
             State = States.Locked;
             UpdatedAt = DateTime.UtcNow;
@@ -253,10 +200,8 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void Unlock()
         {
             if (!Equals(State, States.Locked))
-            {
-                throw new DomainException(Codes.UserNotLocked, 
+                throw new DomainException(Codes.UserNotLocked,
                     $"User with id: '{Id}' is not locked.");
-            }
 
             State = States.Active;
             UpdatedAt = DateTime.UtcNow;
@@ -265,10 +210,8 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void Activate()
         {
             if (Equals(State, States.Active))
-            {
-                throw new DomainException(Codes.UserAlreadyActive, 
+                throw new DomainException(Codes.UserAlreadyActive,
                     $"User with id: '{Id}' was already activated.");
-            }
 
             State = States.Active;
             UpdatedAt = DateTime.UtcNow;
@@ -277,10 +220,8 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void SetUnconfirmed()
         {
             if (Equals(State, States.Unconfirmed))
-            {
-                throw new DomainException(Codes.UserAlreadyUnconfirmed, 
+                throw new DomainException(Codes.UserAlreadyUnconfirmed,
                     $"User with id: '{Id}' was already set as unconfirmed.");
-            }
 
             State = States.Unconfirmed;
             UpdatedAt = DateTime.UtcNow;
@@ -289,10 +230,8 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void MarkAsDeleted()
         {
             if (Equals(State, States.Active))
-            {
-                throw new DomainException(Codes.UserAlreadyDeleted, 
+                throw new DomainException(Codes.UserAlreadyDeleted,
                     $"User with id: '{Id}' was already marked as deleted.");
-            }
 
             State = States.Deleted;
             UpdatedAt = DateTime.UtcNow;
@@ -301,21 +240,14 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void SetPassword(string password, IEncrypter encrypter)
         {
             if (password.IsEmpty())
-            {
-                throw new DomainException(Codes.InvalidPassword,
+                throw new DomainException(Codes.PasswordIsInvalid,
                     "Password can not be empty.");
-            }
             if (password.Length < 4)
-            {
-                throw new DomainException(Codes.InvalidPassword,
+                throw new DomainException(Codes.PasswordIsInvalid,
                     "Password must contain at least 4 characters.");
-
-            }
             if (password.Length > 100)
-            {
-                throw new DomainException(Codes.InvalidPassword,
+                throw new DomainException(Codes.PasswordIsInvalid,
                     "Password can not contain more than 100 characters.");
-            }
 
             var salt = encrypter.GetSalt(password);
             var hash = encrypter.GetHash(password, salt);

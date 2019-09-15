@@ -36,19 +36,19 @@ namespace FinanceControl.Services.Users.Api.Framework
         private static Task HandleErrorAsync(HttpContext context, Exception exception)
         {
             var errorCode = "error";
-            var statusCode = HttpStatusCode.BadRequest;
-            var message = "There was an error.";
+            const HttpStatusCode statusCode = HttpStatusCode.BadRequest;
+            
             switch (exception)
             {
                 case FinanceControlException e:
                     errorCode = e.Code;
-                    message = e.Message;
                     break;
             }
-            var response = new { code = errorCode, message = exception.Message };
+
+            var response = new {code = errorCode, message = exception.Message};
             var payload = JsonConvert.SerializeObject(response);
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)statusCode;
+            context.Response.StatusCode = (int) statusCode;
 
             return context.Response.WriteAsync(payload);
         }

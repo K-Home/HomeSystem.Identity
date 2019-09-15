@@ -42,7 +42,7 @@ namespace FinanceControl.Services.Users.Domain.Types
             if (GetType() != obj.GetType())
                 return false;
 
-            AggregateRootBase item = (AggregateRootBase)obj;
+            var item = (AggregateRootBase) obj;
 
             if (item.IsTransient() || IsTransient())
                 return false;
@@ -59,12 +59,12 @@ namespace FinanceControl.Services.Users.Domain.Types
                 _requestedHashCode = Id.GetHashCode() ^ 31;
 
             return _requestedHashCode.Value;
-
         }
+
         public static bool operator ==(AggregateRootBase left, AggregateRootBase right)
         {
-            if (Object.Equals(left, null))
-                return (Object.Equals(right, null)) ? true : false;
+            if (Equals(left, null))
+                return Equals(right, null) ? true : false;
             else
                 return left.Equals(right);
         }

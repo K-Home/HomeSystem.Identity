@@ -9,11 +9,11 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
         private readonly IEnumerable<Claim> _claims;
         public string Role { get; }
         public string State { get; }
-        
+
         public override IEnumerable<Claim> Claims => _claims;
 
         public FinanceControlIdentity(string name, string role, string state,
-            IEnumerable<Claim> claims) 
+            IEnumerable<Claim> claims)
             : base(new GenericIdentity(name))
         {
             Role = role;

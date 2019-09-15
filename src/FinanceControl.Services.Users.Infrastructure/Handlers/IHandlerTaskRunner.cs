@@ -6,6 +6,6 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
     public interface IHandlerTaskRunner
     {
         IHandlerTask Run(Action run);
-        IHandlerTask Run(Func<Task> runAsync);         
+        IHandlerTask Run(Func<Task> runAsync);
     }
 }
