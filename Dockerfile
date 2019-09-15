@@ -1,7 +1,7 @@
 FROM microsoft/dotnet:2.2-aspnetcore-runtime
 WORKDIR /app
-COPY ./src/XSecure.Services.Users/bin/docker .
+COPY ./src/FinanceControl.Services.Users.Api/bin/docker .
 ENV ASPNETCORE_URLS http://*:5000
 ENV ASPNETCORE_ENVIRONMENT docker
 EXPOSE 5000
-ENTRYPOINT dotnet XSecure.Services.Users.dll
+ENTRYPOINT dotnet FinanceControl.Services.Users.Api.dll
