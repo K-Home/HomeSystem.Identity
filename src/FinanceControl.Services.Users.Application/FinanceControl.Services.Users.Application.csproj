@@ -10,10 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationMessages\IntegrationCommands\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FinanceControl.Services.Users.Infrastructure\FinanceControl.Services.Users.Infrastructure.csproj" />
   </ItemGroup>
 

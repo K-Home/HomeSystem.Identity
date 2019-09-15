@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using FinanceControl.Services.Users.Application.IntegrationMessages.IntegrationEvents;
+using FinanceControl.IntegrationMessages;
 using FinanceControl.Services.Users.Application.Messages.DomainEvents;
 using FinanceControl.Services.Users.Infrastructure.Extensions;
 using FinanceControl.Services.Users.Infrastructure.MassTransit.MassTransitBus;

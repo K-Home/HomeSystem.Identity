@@ -7,27 +7,32 @@ using Newtonsoft.Json;
 // https://stackoverflow.com/questions/52477283/masstransit-consume-equal-objects-defined-in-different-namespaces
 namespace FinanceControl.IntegrationMessages
 {
-    public class SignUpRequestCreatedIntegrationEvent : IIntegrationEvent
+    public class SendActivateAccountMessageIntegrationCommand : IIntegrationCommand
     {
         [DataMember]
         public Guid RequestId { get; }
-
+        
         [DataMember]
-        public Guid UserId { get; }
-
+        public string Username { get; }
+        
         [DataMember]
-        public Resource Resource { get; }
-
+        public string Email { get; }
+        
         [DataMember]
-        public string Message { get; }
+        public string Token { get; }
+        
+        [DataMember]
+        public string Endpoint { get; }
 
         [JsonConstructor]
-        public SignUpRequestCreatedIntegrationEvent(Guid requestId, Guid userId, Resource resource, string message)
+        public SendActivateAccountMessageIntegrationCommand(Guid requestId, 
+            string username, string email, string token, string endpoint)
         {
             RequestId = requestId;
-            UserId = userId;
-            Resource = resource;
-            Message = message;
+            Username = username;
+            Email = email;
+            Token = token;
+            Endpoint = endpoint;
         }
     }
 }
