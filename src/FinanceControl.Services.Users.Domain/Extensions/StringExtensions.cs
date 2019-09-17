@@ -51,9 +51,14 @@ namespace FinanceControl.Services.Users.Domain.Extensions
         public static bool EqualsCaseInvariant(this string value, string valueToCompare)
         {
             if (value.IsEmpty())
+            {
                 return valueToCompare.IsEmpty();
+            }
+
             if (valueToCompare.IsEmpty())
+            {
                 return false;
+            }
 
             var fixedValue = value.TrimToUpper();
             var fixedValueToCompare = valueToCompare.TrimToUpper();

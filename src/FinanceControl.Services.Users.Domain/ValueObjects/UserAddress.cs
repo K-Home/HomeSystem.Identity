@@ -18,18 +18,29 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
         protected UserAddress(string street, string city, string state, string country, string zipCode)
         {
             if (string.IsNullOrEmpty(street))
+            {
                 throw new ArgumentException("Street can not be null or empty.", nameof(street));
+            }
 
-            if (string.IsNullOrEmpty(city)) throw new ArgumentException("City can not be null or empty.", nameof(city));
+            if (string.IsNullOrEmpty(city))
+            {
+                throw new ArgumentException("City can not be null or empty.", nameof(city));
+            }
 
             if (string.IsNullOrEmpty(state))
+            {
                 throw new ArgumentException("State can not be null or empty.", nameof(state));
+            }
 
             if (string.IsNullOrEmpty(country))
+            {
                 throw new ArgumentException("Country can not be null or empty.", nameof(country));
+            }
 
             if (string.IsNullOrEmpty(zipCode))
+            {
                 throw new ArgumentException("Zip code can not be null or empty.", nameof(zipCode));
+            }
 
             Street = street;
             City = city;

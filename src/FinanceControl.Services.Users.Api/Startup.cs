@@ -54,7 +54,10 @@ namespace FinanceControl.Services.Users.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             IApplicationLifetime applicationLifetime)
         {
-            if (env.IsDevelopment() || env.EnvironmentName == "local") app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment() || env.EnvironmentName == "local")
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseCors("CorsPolicy");
             app.UseErrorHandler();

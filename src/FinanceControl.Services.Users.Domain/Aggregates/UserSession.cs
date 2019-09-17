@@ -22,8 +22,8 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
         }
 
-        public UserSession(Guid id, Guid userId, string key = null,
-            string ipAddress = null, string userAgent = null,
+        public UserSession(Guid id, Guid userId, string key,
+            string ipAddress, string userAgent,
             Guid? parentId = null)
         {
             Id = id;
@@ -39,12 +39,13 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void Destroy()
         {
             CheckIfAlreadyRefreshedOrDestroyed();
+
             Destroyed = true;
             UpdatedAt = DateTime.UtcNow;
         }
 
         public UserSession Refresh(Guid newSessionId, string key, Guid parentId,
-            string ipAddress = null, string userAgent = null)
+            string ipAddress, string userAgent)
         {
             CheckIfAlreadyRefreshedOrDestroyed();
             ParentId = parentId;
@@ -57,14 +58,18 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         private void CheckIfAlreadyRefreshedOrDestroyed()
         {
             if (Refreshed)
+            {
                 throw new DomainException(Codes.SessionAlreadyRefreshed,
                     $"Session for user id: '{UserId}' " +
                     $"with key: '{Key}' has been already refreshed.");
+            }
 
             if (Destroyed)
+            {
                 throw new DomainException(Codes.SessionAlreadyDestroyed,
                     $"Session for user id: '{UserId}' " +
                     $"with key: '{Key}' has been already destroyed.");
+            }
         }
     }
 }

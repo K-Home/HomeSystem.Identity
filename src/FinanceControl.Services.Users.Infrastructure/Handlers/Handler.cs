@@ -36,13 +36,21 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
 
         public void ExecuteAll()
         {
-            foreach (var handlerTask in _handlerTasks) handlerTask.Execute();
+            foreach (var handlerTask in _handlerTasks)
+            {
+                handlerTask.Execute();
+            }
+            
             _handlerTasks.Clear();
         }
 
         public async Task ExecuteAllAsync()
         {
-            foreach (var handlerTask in _handlerTasks) await handlerTask.ExecuteAsync();
+            foreach (var handlerTask in _handlerTasks)    
+            {
+                await handlerTask.ExecuteAsync();
+            }
+            
             _handlerTasks.Clear();
         }
     }

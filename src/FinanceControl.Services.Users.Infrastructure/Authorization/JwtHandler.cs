@@ -81,12 +81,21 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
 
         public string GetFromAuthorizationHeader(string authorizationHeader)
         {
-            if (authorizationHeader.IsEmpty()) return null;
+            if (authorizationHeader.IsEmpty())
+            {
+                return null;
+            }
 
             var data = authorizationHeader.Trim().Split(' ');
-            if (data.Length != 2 || data.Any(x => x.IsEmpty())) return null;
+            if (data.Length != 2 || data.Any(x => x.IsEmpty()))
+            {
+                return null;
+            }
 
-            if (data[0].ToLowerInvariant() != "bearer") return null;
+            if (data[0].ToLowerInvariant() != "bearer")
+            {
+                return null;
+            }
 
             return data[1];
         }

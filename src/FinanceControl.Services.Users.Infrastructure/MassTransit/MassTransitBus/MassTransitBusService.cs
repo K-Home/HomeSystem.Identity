@@ -17,15 +17,27 @@ namespace FinanceControl.Services.Users.Infrastructure.MassTransit.MassTransitBu
             _bus = bus ?? throw new ArgumentNullException(nameof(bus));
         }
 
+        public async Task SendAsync<TIntegrationCommand>(TIntegrationCommand integrationCommand)
+            where TIntegrationCommand : class, IIntegrationCommand
+        {
+            await _bus.Publish(integrationCommand);
+        }
+
         public async Task SendAsync<TIntegrationCommand>(TIntegrationCommand integrationCommand,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken)
             where TIntegrationCommand : class, IIntegrationCommand
         {
             await _bus.Publish(integrationCommand, cancellationToken);
         }
 
+        public async Task PublishAsync<TIntegrationEvent>(TIntegrationEvent integrationEvent)
+            where TIntegrationEvent : class, IIntegrationEvent
+        {
+            await _bus.Publish(integrationEvent);
+        }
+
         public async Task PublishAsync<TIntegrationEvent>(TIntegrationEvent integrationEvent,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken)
             where TIntegrationEvent : class, IIntegrationEvent
         {
             await _bus.Publish(integrationEvent, cancellationToken);

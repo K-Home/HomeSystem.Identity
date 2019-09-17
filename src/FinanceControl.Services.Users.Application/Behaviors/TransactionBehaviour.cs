@@ -32,7 +32,10 @@ namespace FinanceControl.Services.Users.Application.Behaviors
 
             try
             {
-                if (_dbContext.HasActiveTransaction) return await next();
+                if (_dbContext.HasActiveTransaction)
+                {
+                    return await next();
+                }
 
                 var strategy = _dbContext.Database.CreateExecutionStrategy();
 
@@ -59,7 +62,6 @@ namespace FinanceControl.Services.Users.Application.Behaviors
             catch (Exception ex)
             {
                 _logger.LogError(ex, "ERROR Handling transaction for {CommandName} ({@Command})", typeName, request);
-
                 throw;
             }
         }

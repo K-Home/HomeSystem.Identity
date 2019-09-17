@@ -33,22 +33,28 @@ namespace FinanceControl.Services.Users.Application.Services
         }
 
         public async Task SignInAsync(Guid sessionId, string email, string password,
-            string ipAddress = null, string userAgent = null)
+            string ipAddress, string userAgent)
         {
             var user = await _userRepository.GetByEmailAsync(email);
             if (user == null)
+            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email '{email}' has not been found.");
+            }
 
             if (user.State != States.Active && user.State != States.Unconfirmed)
+            {
                 throw new ServiceException(Codes.InactiveUser,
                     $"User '{user.Id}' is not active.");
+            }
 
             if (!user.ValidatePassword(password, _encrypter))
+            {
                 throw new ServiceException(Codes.CredentialsAreInvalid,
                     "Invalid credentials.");
+            }
 
-            await CreateSessionAsync(sessionId, user);
+            await CreateSessionAsync(sessionId, user, ipAddress, userAgent).ConfigureAwait(false);
         }
 
         public async Task SignOutAsync(Guid sessionId, Guid userId)
@@ -56,34 +62,39 @@ namespace FinanceControl.Services.Users.Application.Services
             var user = await _userRepository.GetByUserIdAsync(userId);
 
             if (user == null)
+            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id '{userId}' has not been found.");
+            }
 
             var session = await _userSessionRepository.GetByIdAsync(sessionId);
 
             if (session == null)
+            {
                 throw new ServiceException(Codes.SessionNotFound,
                     $"Session with id '{sessionId}' has not been found.");
+            }
 
             session.Destroy();
             _userSessionRepository.Update(session);
         }
 
         public async Task CreateSessionAsync(Guid sessionId, Guid userId,
-            string ipAddress = null,
-            string userAgent = null)
+            string ipAddress, string userAgent)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
 
             if (user == null)
+            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id '{userId}' has not been found.");
+            }
 
-            await CreateSessionAsync(sessionId, user);
+            await CreateSessionAsync(sessionId, user, ipAddress, userAgent);
         }
 
         private async Task CreateSessionAsync(Guid sessionId, User user,
-            string ipAddress = null, string userAgent = null)
+            string ipAddress, string userAgent)
         {
             var session = new UserSession(sessionId, user.Id,
                 _encrypter.GetRandomSecureKey(), ipAddress, userAgent);
@@ -92,17 +103,21 @@ namespace FinanceControl.Services.Users.Application.Services
         }
 
         public async Task RefreshSessionAsync(Guid sessionId, Guid newSessionId,
-            string sessionKey, string ipAddress = null, string userAgent = null)
+            string sessionKey, string ipAddress, string userAgent)
         {
             var parentSession = await _userSessionRepository.GetByIdAsync(sessionId);
 
             if (parentSession == null)
+            {
                 throw new ServiceException(Codes.SessionNotFound,
                     $"Session with id '{sessionId}' has not been found.");
+            }
 
             if (parentSession.Key != sessionKey)
+            {
                 throw new ServiceException(Codes.SessionKeyIsInvalid,
                     $"Invalid session key: '{sessionKey}'");
+            }
 
             var newSession = parentSession.Refresh(newSessionId,
                 _encrypter.GetRandomSecureKey(), sessionId, ipAddress, userAgent);

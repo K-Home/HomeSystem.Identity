@@ -27,6 +27,6 @@ namespace FinanceControl.Services.Users.Application.Services.Base
         Task DeleteAsync(Guid userId, bool soft);
         Task EnabledTwoFactorAuthorization(Guid userId);
         Task DisableTwoFactorAuthorization(Guid userId);
-        Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<bool> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

@@ -10,16 +10,16 @@ namespace FinanceControl.Services.Users.Application.Services.Base
         Task<UserSession> GetSessionAsync(Guid id);
 
         Task SignInAsync(Guid sessionId, string email, string password,
-            string ipAddress = null, string userAgent = null);
+            string ipAddress, string userAgent);
 
         Task SignOutAsync(Guid sessionId, Guid userId);
 
         Task CreateSessionAsync(Guid sessionId, Guid userId,
-            string ipAddress = null, string userAgent = null);
+            string ipAddress, string userAgent);
 
         Task RefreshSessionAsync(Guid sessionId, Guid newSessionId,
-            string sessionKey, string ipAddress = null, string userAgent = null);
+            string sessionKey, string ipAddress, string userAgent);
 
-        Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<bool> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

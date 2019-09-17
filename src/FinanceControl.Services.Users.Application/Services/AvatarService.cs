@@ -32,8 +32,10 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
             if (user == null)
+            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
+            }
 
             return user.Avatar?.Url ?? string.Empty;
         }
@@ -41,10 +43,15 @@ namespace FinanceControl.Services.Users.Application.Services
         public async Task AddOrUpdateAsync(Guid userId, File avatar)
         {
             if (avatar == null)
+            {
                 throw new ServiceException(Codes.FileIsInvalid,
                     $"There is no avatar file to be uploaded.");
+            }
 
-            if (!_fileValidator.IsImage(avatar)) throw new ServiceException(Codes.FileIsInvalid);
+            if (!_fileValidator.IsImage(avatar))
+            {
+                throw new ServiceException(Codes.FileIsInvalid);
+            }
 
             var user = await _userRepository.GetByUserIdAsync(userId);
             var name = $"avatar_{userId:N}.jpg";
@@ -59,7 +66,7 @@ namespace FinanceControl.Services.Users.Application.Services
         public async Task RemoveAsync(Guid userId)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
-            await RemoveAsync(user, userId);
+            await RemoveAsync(user, userId).ConfigureAwait(false);
             _userRepository.EditUser(user);
         }
 
@@ -69,9 +76,15 @@ namespace FinanceControl.Services.Users.Application.Services
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
 
-            if (user.Avatar == null) return;
+            if (user.Avatar == null)
+            {
+                return;
+            }
 
-            if (user.Avatar.IsEmpty) return;
+            if (user.Avatar.IsEmpty)
+            {
+                return;
+            }
 
             await _fileHandler.DeleteAsync(user.Avatar.Name);
             user.RemoveAvatar();

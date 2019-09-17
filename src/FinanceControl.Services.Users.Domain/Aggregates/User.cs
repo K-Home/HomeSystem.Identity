@@ -27,10 +27,10 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        public IEnumerable<UserSession> UserSessions
+        public static IEnumerable<UserSession> UserSessions
             => new List<UserSession>();
 
-        public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations
+        public static IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations
             => new List<OneTimeSecuredOperation>();
 
         protected User()
@@ -64,7 +64,10 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
                 throw new DomainException(Codes.FirstNameIsInvalid,
                     $"First name is too long.");
 
-            if (FirstName == firstName.ToLowerInvariant()) return;
+            if (FirstName == firstName.ToLowerInvariant())
+            {
+                return;
+            }
 
             FirstName = firstName.ToLowerInvariant();
             UpdatedAt = DateTime.UtcNow;
@@ -84,7 +87,10 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
                 throw new DomainException(Codes.LastNameIsInvalid,
                     $"Last name is too long.");
 
-            if (LastName == lastName.ToLowerInvariant()) return;
+            if (LastName == lastName.ToLowerInvariant())
+            {
+                return;
+            }
 
             LastName = lastName.ToLowerInvariant();
             UpdatedAt = DateTime.UtcNow;
@@ -96,13 +102,25 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
                 throw new DomainException(Codes.UserNameAlreadySet,
                     $"User name has been already set: {Username}");
 
-            if (name.IsEmpty()) throw new ArgumentException("User name can not be empty.", nameof(name));
+            if (name.IsEmpty())
+            {
+                throw new ArgumentException("User name can not be empty.", nameof(name));
+            }
 
-            if (Username.EqualsCaseInvariant(name)) return;
+            if (Username.EqualsCaseInvariant(name))
+            {
+                return;
+            }
 
-            if (name.Length < 2) throw new ArgumentException("User name is too short.", nameof(name));
+            if (name.Length < 2)
+            {
+                throw new ArgumentException("User name is too short.", nameof(name));
+            }
 
-            if (name.Length > 50) throw new ArgumentException("User name is too long.", nameof(name));
+            if (name.Length > 50)
+            {
+                throw new ArgumentException("User name is too long.", nameof(name));
+            }
 
             if (name.IsName() == false)
                 throw new ArgumentException("User name doesn't meet the required criteria.", nameof(name));
@@ -125,7 +143,10 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
                 throw new DomainException(Codes.EmailIsInvalid,
                     $"Email is too long.");
 
-            if (Email == email.ToLowerInvariant()) return;
+            if (Email == email.ToLowerInvariant())
+            {
+                return;
+            }
 
             Email = email.ToLowerInvariant();
             UpdatedAt = DateTime.UtcNow;
@@ -151,7 +172,10 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
 
         public void SetAvatar(Avatar avatar)
         {
-            if (avatar == null) return;
+            if (avatar == null)
+            {
+                return;
+            }
 
             Avatar = avatar;
             UpdatedAt = DateTime.UtcNow;
@@ -181,7 +205,10 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
                 throw new DomainException(Codes.PhoneNumberIsInvalid,
                     "Invalid phone number");
 
-            if (PhoneNumber == phoneNumber) return;
+            if (PhoneNumber == phoneNumber)
+            {
+                return;
+            }
 
             PhoneNumber = phoneNumber;
             UpdatedAt = DateTime.UtcNow;

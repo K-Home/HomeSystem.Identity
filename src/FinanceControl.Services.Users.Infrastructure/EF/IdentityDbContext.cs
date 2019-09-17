@@ -35,12 +35,14 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (optionsBuilder.IsConfigured) return;
+            if (optionsBuilder.IsConfigured)
+            {
+                return;
+            }
 
             if (_sqlOptions.Value.InMemory)
             {
                 optionsBuilder.UseInMemoryDatabase(_sqlOptions.Value.Database);
-
                 return;
             }
 
@@ -63,16 +65,24 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
             base.OnModelCreating(modelBuilder);
         }
 
-        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<bool> SaveEntitiesAsync()
         {
-            var result = await base.SaveChangesAsync(cancellationToken);
-
+            await base.SaveChangesAsync();
+            return true;
+        }
+        
+        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken)
+        {
+            await base.SaveChangesAsync(cancellationToken);
             return true;
         }
 
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
-            if (_currentTransaction != null) return null;
+            if (_currentTransaction != null)
+            {
+                return null;
+            }
 
             _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 

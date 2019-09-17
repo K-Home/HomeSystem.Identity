@@ -21,9 +21,15 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
 
         protected Avatar(string name, string url)
         {
-            if (name.IsEmpty()) throw new ArgumentException("Avatar name can not be empty.", nameof(name));
+            if (name.IsEmpty())
+            {
+                throw new ArgumentException("Avatar name can not be empty.", nameof(name));
+            }
 
-            if (url.IsEmpty()) throw new ArgumentException("Avatar Url can not be empty.", nameof(url));
+            if (url.IsEmpty())
+            {
+                throw new ArgumentException("Avatar Url can not be empty.", nameof(url));
+            }
 
             Name = name;
             Url = url;

@@ -11,7 +11,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Logging
 {
     public static class LoggingRegistration
     {
-        public static IWebHostBuilder UseLogging(this IWebHostBuilder webHostBuilder, string applicationName = null)
+        public static IWebHostBuilder UseLogging(this IWebHostBuilder webHostBuilder, string applicationName = "")
         {
             return webHostBuilder.UseSerilog((context, loggerConfiguration) =>
             {
@@ -19,7 +19,9 @@ namespace FinanceControl.Services.Users.Infrastructure.Logging
                 context.Configuration.GetSection("logger").Bind(options);
 
                 if (!Enum.TryParse<LogEventLevel>(options.Level, true, out var level))
+                {
                     level = LogEventLevel.Information;
+                }
 
                 applicationName = string.IsNullOrWhiteSpace(applicationName)
                     ? Environment.GetEnvironmentVariable("APPLICATION_NAME")
@@ -40,19 +42,25 @@ namespace FinanceControl.Services.Users.Infrastructure.Logging
             var fileOptions = options.File ?? new FileOptions();
             var grayLogOptions = options.GrayLog ?? new GrayLogOptions();
 
-            if (consoleOptions.Enabled) loggerConfiguration.WriteTo.Console();
+            if (consoleOptions.Enabled)
+            {
+                loggerConfiguration.WriteTo.Console();
+            }
 
             if (fileOptions.Enabled)
             {
                 var path = string.IsNullOrWhiteSpace(fileOptions.Path) ? "logs/logs.txt" : fileOptions.Path;
 
                 if (!Enum.TryParse<RollingInterval>(fileOptions.Interval, true, out var interval))
+                {
                     interval = RollingInterval.Day;
+                }
 
                 loggerConfiguration.WriteTo.File(path, rollingInterval: interval);
             }
 
             if (grayLogOptions.Enabled)
+            {
                 loggerConfiguration.WriteTo.Graylog(
                     new GraylogSinkOptions
                     {
@@ -60,6 +68,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Logging
                         Port = grayLogOptions.Port,
                         TransportType = TransportType.Http
                     });
+            }
         }
     }
 }
