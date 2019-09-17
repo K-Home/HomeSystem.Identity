@@ -8,7 +8,7 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
         public string Street { get; private set; }
         public string City { get; private set; }
         public string State { get; private set; }
-        public string Country { get; private set; } 
+        public string Country { get; private set; }
         public string ZipCode { get; private set; }
 
         protected UserAddress()
@@ -52,11 +52,15 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
         public static UserAddress Empty => new UserAddress();
 
         public static UserAddress Create(string street, string city, string state, string country, string zipCode)
-            => new UserAddress(street, city, state, country, zipCode);
+        {
+            return new UserAddress(street, city, state, country, zipCode);
+        }
 
         protected override bool EqualsCore(UserAddress other)
-            => Street.Equals(other.Street) && City.Equals(other.City) && State.Equals(other.State) &&
-               Country.Equals(other.Country) && ZipCode.Equals(other.ZipCode);
+        {
+            return Street.Equals(other.Street) && City.Equals(other.City) && State.Equals(other.State) &&
+                   Country.Equals(other.Country) && ZipCode.Equals(other.ZipCode);
+        }
 
         protected override int GetHashCodeCore()
         {

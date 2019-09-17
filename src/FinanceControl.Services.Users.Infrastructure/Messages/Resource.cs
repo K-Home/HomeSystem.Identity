@@ -1,6 +1,5 @@
 ﻿namespace FinanceControl.Services.Users.Infrastructure.Messages
 {
-
     public class Resource
     {
         public string Service { get; set; }
@@ -17,8 +16,8 @@
         }
 
         public static Resource Create(string service, string endpoint)
-            => new Resource(service, endpoint);
+        {
+            return new Resource(service, endpoint);
+        }
     }
 }
-
-

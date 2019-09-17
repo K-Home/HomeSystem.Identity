@@ -64,7 +64,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
             };
             var expires = now.AddDays(_settings.ExpiryDays);
             var jwt = new JwtSecurityToken(
-                issuer: _settings.Issuer,
+                _settings.Issuer,
                 claims: claims,
                 notBefore: now,
                 expires: expires,

@@ -38,10 +38,18 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
         public static Avatar Empty => new Avatar();
 
         public static Avatar Create(string name, string url)
-            => new Avatar(name, url);
+        {
+            return new Avatar(name, url);
+        }
 
-        protected override bool EqualsCore(Avatar other) => Name.Equals(other.Name);
+        protected override bool EqualsCore(Avatar other)
+        {
+            return Name.Equals(other.Name);
+        }
 
-        protected override int GetHashCodeCore() => Name.GetHashCode();
+        protected override int GetHashCodeCore()
+        {
+            return Name.GetHashCode();
+        }
     }
 }

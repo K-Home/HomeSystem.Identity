@@ -11,12 +11,13 @@ namespace FinanceControl.Services.Users.Infrastructure.Logging
 {
     public static class LoggingRegistration
     {
-        public static IWebHostBuilder UseLogging(this IWebHostBuilder webHostBuilder, string applicationName = null)
-            => webHostBuilder.UseSerilog((context, loggerConfiguration) =>
+        public static IWebHostBuilder UseLogging(this IWebHostBuilder webHostBuilder, string applicationName = "")
+        {
+            return webHostBuilder.UseSerilog((context, loggerConfiguration) =>
             {
                 var options = new LoggerOptions();
                 context.Configuration.GetSection("logger").Bind(options);
-                
+
                 if (!Enum.TryParse<LogEventLevel>(options.Level, true, out var level))
                 {
                     level = LogEventLevel.Information;
@@ -33,6 +34,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Logging
 
                 Configure(loggerConfiguration, options);
             });
+        }
 
         private static void Configure(LoggerConfiguration loggerConfiguration, LoggerOptions options)
         {

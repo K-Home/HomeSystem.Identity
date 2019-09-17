@@ -27,7 +27,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Configurations
             builder.Property(otso => otso.Expiry)
                 .HasColumnName("Expiry")
                 .IsRequired();
-            
+
             builder.Property(otso => otso.CreatedAt)
                 .HasColumnName("CreatedAt")
                 .IsRequired();
@@ -41,15 +41,15 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Configurations
                 .HasColumnName("RequesterUserAgent")
                 .HasMaxLength(50)
                 .IsRequired();
-            
+
             builder.Property(otso => otso.ConsumerIpAddress)
                 .HasColumnName("ConsumerIpAddress")
                 .HasMaxLength(50);
-            
+
             builder.Property(otso => otso.ConsumerUserAgent)
                 .HasColumnName("ConsumerUserAgent")
                 .HasMaxLength(50);
-            
+
             builder.Property(otso => otso.ConsumedAt)
                 .HasColumnName("ConsumedAt");
 

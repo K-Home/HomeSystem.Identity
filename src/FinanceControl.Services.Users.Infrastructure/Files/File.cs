@@ -23,10 +23,18 @@ namespace FinanceControl.Services.Users.Infrastructure.Files
         public static File Empty => new File();
 
         public static File Create(string name, string contentType, byte[] bytes)
-            => new File(name, contentType, bytes);
+        {
+            return new File(name, contentType, bytes);
+        }
 
-        protected override bool EqualsCore(File other) => Bytes.Equals(other.Bytes);
+        protected override bool EqualsCore(File other)
+        {
+            return Bytes.Equals(other.Bytes);
+        }
 
-        protected override int GetHashCodeCore() => Bytes.GetHashCode();
+        protected override int GetHashCodeCore()
+        {
+            return Bytes.GetHashCode();
+        }
     }
 }

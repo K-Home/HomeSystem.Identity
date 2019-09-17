@@ -2,7 +2,7 @@ using System;
 
 namespace FinanceControl.Services.Users.Domain.Types.Base
 {
-    public interface IIdentifiable 
+    public interface IIdentifiable
     {
         Guid Id { get; }
     }

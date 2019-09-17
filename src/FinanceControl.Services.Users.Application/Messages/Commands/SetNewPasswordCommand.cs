@@ -6,17 +6,13 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class SetNewPasswordCommand : ICommand
     {
-        [DataMember]
-        public Request Request { get; }
-        
-        [DataMember]
-        public string Email { get; }
-        
-        [DataMember]
-        public string Token { get; }
-        
-        [DataMember]
-        public string Password { get; }
+        [DataMember] public Request Request { get; }
+
+        [DataMember] public string Email { get; }
+
+        [DataMember] public string Token { get; }
+
+        [DataMember] public string Password { get; }
 
         [JsonConstructor]
         public SetNewPasswordCommand(string email, string token, string password)

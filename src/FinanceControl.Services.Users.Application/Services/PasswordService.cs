@@ -20,7 +20,8 @@ namespace FinanceControl.Services.Users.Application.Services
             IEncrypter encrypter)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _oneTimeSecuredOperationService = oneTimeSecuredOperationService ?? throw new ArgumentNullException(nameof(oneTimeSecuredOperationService));
+            _oneTimeSecuredOperationService = oneTimeSecuredOperationService ??
+                                              throw new ArgumentNullException(nameof(oneTimeSecuredOperationService));
             _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
         }
 
@@ -36,7 +37,7 @@ namespace FinanceControl.Services.Users.Application.Services
 
             if (!user.ValidatePassword(currentPassword, _encrypter))
             {
-                throw new ServiceException(Codes.InvalidCurrentPassword,
+                throw new ServiceException(Codes.CurrentPasswordIsInvalid,
                     "Current password is invalid.");
             }
 

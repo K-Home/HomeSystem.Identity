@@ -26,11 +26,11 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; private set; }
-            
-        public IEnumerable<UserSession> UserSessions 
+
+        public static IEnumerable<UserSession> UserSessions
             => new List<UserSession>();
 
-        public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations 
+        public static IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations
             => new List<OneTimeSecuredOperation>();
 
         protected User()
@@ -45,7 +45,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             Username = $"user-{Id:N}";
             SetEmail(email);
             SetRole(role);
-            State = States.Incomplete;   
+            State = States.Incomplete;
             TwoFactorAuthentication = false;
             CreatedAt = DateTime.UtcNow;
         }
@@ -54,10 +54,10 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (!firstName.IsName())
             {
-                throw new DomainException(Codes.InvalidFirstName,
+                throw new DomainException(Codes.FirstNameIsInvalid,
                     $"Invalid first name.");
             }
-            
+
             if (firstName.IsEmpty())
             {
                 throw new DomainException(Codes.FirstNameNotProvided,
@@ -66,7 +66,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
 
             if (firstName.Length > 150)
             {
-                throw new DomainException(Codes.InvalidFirstName,
+                throw new DomainException(Codes.FirstNameIsInvalid,
                     $"First name is too long.");
             }
 
@@ -83,10 +83,10 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (lastName.IsName())
             {
-                throw new DomainException(Codes.InvalidLastName,
+                throw new DomainException(Codes.LastNameIsInvalid,
                     $"Invalid last name.");
             }
-            
+
             if (lastName.IsEmpty())
             {
                 throw new DomainException(Codes.LastNameNotProvided,
@@ -95,7 +95,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
 
             if (lastName.Length > 150)
             {
-                throw new DomainException(Codes.InvalidLastName,
+                throw new DomainException(Codes.LastNameIsInvalid,
                     $"Last name is too long.");
             }
 
@@ -155,13 +155,13 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
 
             if (!email.IsEmail())
             {
-                throw new DomainException(Codes.InvalidEmail,
+                throw new DomainException(Codes.EmailIsInvalid,
                     $"Invalid email: '{email}'.");
             }
 
             if (email.Length > 300)
             {
-                throw new DomainException(Codes.InvalidEmail,
+                throw new DomainException(Codes.EmailIsInvalid,
                     $"Email is too long.");
             }
 
@@ -177,7 +177,9 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void SetAddress(UserAddress address)
         {
             if (Address.Equals(address))
+            {
                 return;
+            }
 
             Address = address;
             UpdatedAt = DateTime.UtcNow;
@@ -186,7 +188,9 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public void SetRole(string role)
         {
             if (Role == role)
+            {
                 return;
+            }
 
             Role = role;
             UpdatedAt = DateTime.UtcNow;
@@ -214,7 +218,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             TwoFactorAuthentication = true;
             UpdatedAt = DateTime.UtcNow;
         }
-        
+
         public void DisableTwoFactorAuthentication()
         {
             TwoFactorAuthentication = false;
@@ -225,7 +229,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (!phoneNumber.IsPhoneNumber())
             {
-                throw new DomainException(Codes.InvalidPhoneNumber,
+                throw new DomainException(Codes.PhoneNumberIsInvalid,
                     "Invalid phone number");
             }
 
@@ -242,7 +246,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (Equals(State, States.Locked))
             {
-                throw new DomainException(Codes.UserAlreadyLocked, 
+                throw new DomainException(Codes.UserAlreadyLocked,
                     $"User with id: '{Id}' was already locked.");
             }
 
@@ -254,7 +258,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (!Equals(State, States.Locked))
             {
-                throw new DomainException(Codes.UserNotLocked, 
+                throw new DomainException(Codes.UserNotLocked,
                     $"User with id: '{Id}' is not locked.");
             }
 
@@ -266,7 +270,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (Equals(State, States.Active))
             {
-                throw new DomainException(Codes.UserAlreadyActive, 
+                throw new DomainException(Codes.UserAlreadyActive,
                     $"User with id: '{Id}' was already activated.");
             }
 
@@ -278,7 +282,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (Equals(State, States.Unconfirmed))
             {
-                throw new DomainException(Codes.UserAlreadyUnconfirmed, 
+                throw new DomainException(Codes.UserAlreadyUnconfirmed,
                     $"User with id: '{Id}' was already set as unconfirmed.");
             }
 
@@ -290,7 +294,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (Equals(State, States.Active))
             {
-                throw new DomainException(Codes.UserAlreadyDeleted, 
+                throw new DomainException(Codes.UserAlreadyDeleted,
                     $"User with id: '{Id}' was already marked as deleted.");
             }
 
@@ -302,18 +306,19 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (password.IsEmpty())
             {
-                throw new DomainException(Codes.InvalidPassword,
+                throw new DomainException(Codes.PasswordIsInvalid,
                     "Password can not be empty.");
             }
+
             if (password.Length < 4)
             {
-                throw new DomainException(Codes.InvalidPassword,
+                throw new DomainException(Codes.PasswordIsInvalid,
                     "Password must contain at least 4 characters.");
-
             }
+
             if (password.Length > 100)
             {
-                throw new DomainException(Codes.InvalidPassword,
+                throw new DomainException(Codes.PasswordIsInvalid,
                     "Password can not contain more than 100 characters.");
             }
 

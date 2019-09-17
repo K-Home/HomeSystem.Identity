@@ -34,19 +34,19 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (type.IsEmpty())
             {
-                throw new DomainException(Codes.InvalidSecuredOperation,
+                throw new DomainException(Codes.SecuredOperationIsInvalid,
                     "Type can not be empty.");
             }
 
             if (userId == Guid.Empty)
             {
-                throw new DomainException(Codes.InvalidSecuredOperation,
+                throw new DomainException(Codes.SecuredOperationIsInvalid,
                     "User can not be empty.");
             }
 
             if (token.IsEmpty())
             {
-                throw new DomainException(Codes.InvalidSecuredOperation,
+                throw new DomainException(Codes.SecuredOperationIsInvalid,
                     "Token can not be empty.");
             }
 
@@ -64,7 +64,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (!CanBeConsumed())
             {
-                throw new DomainException(Codes.InvalidSecuredOperation,
+                throw new DomainException(Codes.SecuredOperationIsInvalid,
                     "Operation can not be consumed.");
             }
 
@@ -76,12 +76,16 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public bool CanBeConsumed()
         {
             if (Consumed)
+            {
                 return false;
+            }
 
             return Expiry > DateTime.UtcNow;
         }
 
         private bool IsConsumed()
-            => ConsumedAt.HasValue;
+        {
+            return ConsumedAt.HasValue;
+        }
     }
 }

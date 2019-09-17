@@ -23,11 +23,13 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
         private readonly IUserService _userService;
         private readonly IResourceService _resourceService;
 
-        public SignUpCommandHandler(IHandler handler, IMassTransitBusService massTransitBusService, IMediatRBus mediatRBus,
+        public SignUpCommandHandler(IHandler handler, IMassTransitBusService massTransitBusService,
+            IMediatRBus mediatRBus,
             IUserService userService, IResourceService resourceService)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(massTransitBusService));
-            _massTransitBusService = massTransitBusService ?? throw new ArgumentNullException(nameof(massTransitBusService));
+            _massTransitBusService =
+                massTransitBusService ?? throw new ArgumentNullException(nameof(massTransitBusService));
             _mediatRBus = mediatRBus ?? throw new ArgumentNullException(nameof(mediatRBus));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _resourceService = resourceService ?? throw new ArgumentNullException(nameof(resourceService));
@@ -40,7 +42,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 
             await _handler
                 .Run(async () =>
-                { 
+                {
                     await _massTransitBusService.PublishAsync(
                         new SignUpRequestCreatedIntegrationEvent(command.Request.Id, userId, resource, string.Empty),
                         cancellationToken);
@@ -54,7 +56,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 .OnSuccess(async () =>
                 {
                     await _mediatRBus.PublishAsync(
-                        new SignedUpDomainEvent(command.Request.Id, userId, "Operation is created and waiting for completion.",
+                        new SignedUpDomainEvent(command.Request.Id, userId,
+                            "Operation is created and waiting for completion.",
                             resource, command.Role, command.State), cancellationToken);
                 })
                 .OnCustomError(async customException =>

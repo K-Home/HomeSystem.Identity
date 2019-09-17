@@ -25,7 +25,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
-        protected async Task<IActionResult> SendAsync<TCommand>(TCommand command, string endpoint = "") 
+        protected async Task<IActionResult> SendAsync<TCommand>(TCommand command, string endpoint)
             where TCommand : class, ICommand
         {
             await _mediatRBus.SendAsync(command);
@@ -33,17 +33,21 @@ namespace FinanceControl.Services.Users.Api.Controllers
             return Accepted(command.Request.Id, $"{_settings.ServiceName}/{endpoint}");
         }
 
-        protected async Task<IActionResult> QueryAsync<TQuery, TResult>(TQuery query) 
-            where TQuery : IQuery<TResult> 
+        protected async Task<IActionResult> QueryAsync<TQuery, TResult>(TQuery query)
+            where TQuery : IQuery<TResult>
             where TResult : class
         {
             var result = await _mediatRBus.QueryAsync<IQuery<TResult>, TResult>(query);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             if (!(result is PagedResult<TResult> pagedResult))
+            {
                 return Ok(result);
+            }
 
             Response.Headers.Add("Link", GetLinkHeader(pagedResult));
             Response.Headers.Add("X-Total-Count", pagedResult.TotalNumberOfPages.ToString());
@@ -54,18 +58,20 @@ namespace FinanceControl.Services.Users.Api.Controllers
         private IActionResult Accepted(Guid? requestId = null, string resource = "")
         {
             if (requestId != null)
+            {
                 Response.Headers.Add(OperationHeader, $"operations/{requestId}");
+            }
 
             if (resource.IsNotEmpty())
+            {
                 Response.Headers.Add(ResourceHeader, resource);
+            }
 
             return base.Accepted();
         }
 
         protected Guid UserId
-            => string.IsNullOrWhiteSpace(User?.Identity?.Name) ?
-                Guid.Empty :
-                Guid.Parse(User.Identity.Name);
+            => string.IsNullOrWhiteSpace(User?.Identity?.Name) ? Guid.Empty : Guid.Parse(User.Identity.Name);
 
         private string GetLinkHeader<T>(PagedResult<T> result) where T : class
         {
@@ -97,12 +103,14 @@ namespace FinanceControl.Services.Users.Api.Controllers
             var pageArg = $"{PageLink}={page}";
             var link = fullPath.Contains($"{PageLink}=")
                 ? fullPath.Replace($"{PageLink}={currentPage}", pageArg)
-                : fullPath += $"{conjunction}{pageArg}";
+                : fullPath + $"{conjunction}{pageArg}";
 
             return link;
         }
 
         private static string FormatLink(string path, string rel)
-            => string.IsNullOrWhiteSpace(path) ? string.Empty : $"<{path}>; rel=\"{rel}\",";
+        {
+            return string.IsNullOrWhiteSpace(path) ? string.Empty : $"<{path}>; rel=\"{rel}\",";
+        }
     }
 }

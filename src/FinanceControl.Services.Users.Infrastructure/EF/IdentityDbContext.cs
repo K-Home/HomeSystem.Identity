@@ -26,7 +26,10 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
         public DbSet<OneTimeSecuredOperation> OneTimeSecuredOperations { get; set; }
         public DbSet<UserSession> UserSessions { get; set; }
 
-        public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
+        public IDbContextTransaction GetCurrentTransaction()
+        {
+            return _currentTransaction;
+        }
 
         public bool HasActiveTransaction => _currentTransaction != null;
 
@@ -40,7 +43,6 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
             if (_sqlOptions.Value.InMemory)
             {
                 optionsBuilder.UseInMemoryDatabase(_sqlOptions.Value.Database);
-
                 return;
             }
 
@@ -48,7 +50,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
                 sqlOptions =>
                 {
                     sqlOptions.MigrationsAssembly(typeof(IdentityDbContext).GetTypeInfo().Assembly.GetName().Name);
-                    sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    sqlOptions.EnableRetryOnFailure(10, TimeSpan.FromSeconds(30), null);
                 });
         }
 
@@ -63,16 +65,24 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
             base.OnModelCreating(modelBuilder);
         }
 
-        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<bool> SaveEntitiesAsync()
         {
-            var result = await base.SaveChangesAsync(cancellationToken);
+            await base.SaveChangesAsync();
+            return true;
+        }
 
+        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken)
+        {
+            await base.SaveChangesAsync(cancellationToken);
             return true;
         }
 
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
-            if (_currentTransaction != null) return null;
+            if (_currentTransaction != null)
+            {
+                return null;
+            }
 
             _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 
@@ -81,8 +91,15 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
 
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
-            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
-            if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
+            if (transaction == null)
+            {
+                throw new ArgumentNullException(nameof(transaction));
+            }
+
+            if (transaction != _currentTransaction)
+            {
+                throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
+            }
 
             try
             {

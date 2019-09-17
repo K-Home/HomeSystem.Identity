@@ -34,18 +34,26 @@ namespace FinanceControl.Services.Users.Domain.Types
         public override bool Equals(object obj)
         {
             if (!(obj is AggregateRootBase))
+            {
                 return false;
+            }
 
             if (ReferenceEquals(this, obj))
+            {
                 return true;
+            }
 
             if (GetType() != obj.GetType())
+            {
                 return false;
+            }
 
-            AggregateRootBase item = (AggregateRootBase)obj;
+            var item = (AggregateRootBase) obj;
 
             if (item.IsTransient() || IsTransient())
+            {
                 return false;
+            }
 
             return item.Id == Id;
         }
@@ -53,20 +61,21 @@ namespace FinanceControl.Services.Users.Domain.Types
         public override int GetHashCode()
         {
             if (IsTransient())
+            {
                 return base.GetHashCode();
+            }
 
             if (!_requestedHashCode.HasValue)
+            {
                 _requestedHashCode = Id.GetHashCode() ^ 31;
+            }
 
             return _requestedHashCode.Value;
-
         }
+
         public static bool operator ==(AggregateRootBase left, AggregateRootBase right)
         {
-            if (Object.Equals(left, null))
-                return (Object.Equals(right, null)) ? true : false;
-            else
-                return left.Equals(right);
+            return Equals(left, null) ? Equals(right, null) : left.Equals(right);
         }
 
         public static bool operator !=(AggregateRootBase left, AggregateRootBase right)

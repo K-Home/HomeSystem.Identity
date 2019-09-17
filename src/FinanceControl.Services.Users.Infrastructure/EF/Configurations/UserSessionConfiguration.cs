@@ -13,22 +13,22 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Configurations
             builder.Property(us => us.UserId)
                 .HasColumnName("UserId")
                 .IsRequired();
-            
+
             builder.Property(us => us.Key)
                 .HasColumnName("Key")
                 .HasMaxLength(1000);
-            
+
             builder.Property(us => us.UserAgent)
                 .HasColumnName("UserAgent")
                 .HasMaxLength(50);
-            
+
             builder.Property(us => us.IpAddress)
                 .HasColumnName("IpAddress")
                 .HasMaxLength(50);
 
             builder.Property(us => us.ParentId)
                 .HasColumnName("ParentId");
-            
+
             builder.Property(us => us.Refreshed)
                 .HasColumnName("Refreshed")
                 .HasColumnType("bit");
@@ -36,7 +36,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Configurations
             builder.Property(us => us.Destroyed)
                 .HasColumnName("Destroyed")
                 .HasColumnType("bit");
-            
+
             builder.Property(us => us.UpdatedAt)
                 .HasColumnName("UpdatedAt");
 
