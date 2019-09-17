@@ -13,7 +13,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Pagination
             int page,
             int pageSize,
             string orderBy,
-            bool ascending = false)
+            bool ascending)
         {
             var skipAmount = pageSize * (page - 1);
 

@@ -75,8 +75,10 @@ namespace FinanceControl.Services.Users.Application.Services
             user = await _userRepository.GetByEmailAsync(email);
 
             if (user != null)
+            {
                 throw new ServiceException(Codes.EmailInUse,
                     $"User with email: {email} already exists!");
+            }
 
             user = await _userRepository.GetByNameAsync(name);
 
@@ -149,8 +151,10 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await _userRepository.GetByEmailAsync(email);
             if (user == null)
+            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email: '{email}' has not been found.");
+            }
 
             await _securedOperationService.ConsumeAsync(
                 OneTimeSecuredOperations.ActivateAccount, user.Id, token);

@@ -60,7 +60,18 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             CreatedAt = DateTime.UtcNow;
         }
 
-        public void Consume(string ipAddress = null, string userAgent = null)
+        public void Consume()
+        {
+            if (!CanBeConsumed())
+            {
+                throw new DomainException(Codes.SecuredOperationIsInvalid,
+                    "Operation can not be consumed.");
+            }
+
+            ConsumedAt = DateTime.UtcNow;
+        }
+
+        public void Consume(string ipAddress, string userAgent)
         {
             if (!CanBeConsumed())
             {
