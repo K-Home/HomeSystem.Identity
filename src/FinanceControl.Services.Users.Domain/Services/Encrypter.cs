@@ -40,7 +40,6 @@ namespace FinanceControl.Services.Users.Domain.Services
             if (value.IsEmpty())
                 throw new ArgumentException("Can not generate salt from empty value.", nameof(value));
 
-            var random = new Random();
             var saltBytes = new byte[SaltSize];
 
             var rng = RandomNumberGenerator.Create();
@@ -52,9 +51,14 @@ namespace FinanceControl.Services.Users.Domain.Services
         public string GetHash(string value, string salt)
         {
             if (value.IsEmpty())
+            {
                 throw new ArgumentException("Can not generate hash an empty value.", nameof(value));
+            }
+
             if (salt.IsEmpty())
+            {
                 throw new ArgumentException("Can not use an empty salt from hashing value.", nameof(value));
+            }
 
             var pbkdf2 = new Rfc2898DeriveBytes(value, GetBytes(salt), DeriveBytesIterationsCount);
 

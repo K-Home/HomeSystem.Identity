@@ -29,13 +29,13 @@ namespace FinanceControl.Services.Users.Api.Framework
             catch (Exception exception)
             {
                 _logger.LogError(exception, exception.Message);
-                await HandleErrorAsync(context, exception);
+                await HandleErrorAsync(context, exception).ConfigureAwait(false);
             }
         }
 
         private static Task HandleErrorAsync(HttpContext context, Exception exception)
         {
-            var errorCode = "error";
+            string errorCode;
             const HttpStatusCode statusCode = HttpStatusCode.BadRequest;
             
             switch (exception)
@@ -43,6 +43,8 @@ namespace FinanceControl.Services.Users.Api.Framework
                 case FinanceControlException e:
                     errorCode = e.Code;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(exception));
             }
 
             var response = new {code = errorCode, message = exception.Message};

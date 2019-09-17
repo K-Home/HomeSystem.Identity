@@ -43,7 +43,23 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
         }
 
         public HandlerTask(IHandler handler, Action run,
-            Action validate = null, Func<Task> validateAsync = null)
+            Action validate)
+        {
+            _handler = handler;
+            _run = run;
+            _validate = validate;
+        }
+        
+        public HandlerTask(IHandler handler, Action run,
+            Func<Task> validateAsync)
+        {
+            _handler = handler;
+            _run = run;
+            _validateAsync = validateAsync;
+        }
+        
+        public HandlerTask(IHandler handler, Action run,
+            Action validate, Func<Task> validateAsync)
         {
             _handler = handler;
             _run = run;
@@ -52,7 +68,23 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
         }
 
         public HandlerTask(IHandler handler, Func<Task> runAsync,
-            Action validate = null, Func<Task> validateAsync = null)
+            Action validate)
+        {
+            _handler = handler;
+            _runAsync = runAsync;
+            _validate = validate;
+        }
+        
+        public HandlerTask(IHandler handler, Func<Task> runAsync,
+            Func<Task> validateAsync)
+        {
+            _handler = handler;
+            _runAsync = runAsync;
+            _validateAsync = validateAsync;
+        }
+        
+        public HandlerTask(IHandler handler, Func<Task> runAsync,
+            Action validate, Func<Task> validateAsync)
         {
             _handler = handler;
             _runAsync = runAsync;
@@ -114,7 +146,14 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             return this;
         }
 
-        public IHandlerTask OnError(Action<Exception> onError, bool propagateException = false)
+        public IHandlerTask OnError(Action<Exception> onError)
+        {
+            _onError = onError;
+
+            return this;
+        }
+
+        public IHandlerTask OnError(Action<Exception> onError, bool propagateException)
         {
             _onError = onError;
             _propagateException = propagateException;
@@ -122,7 +161,14 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             return this;
         }
 
-        public IHandlerTask OnError(Action<Exception, ILogger> onError, bool propagateException = false)
+        public IHandlerTask OnError(Action<Exception, ILogger> onError)
+        {
+            _onErrorWithLogger = onError;
+            
+            return this;
+        }
+
+        public IHandlerTask OnError(Action<Exception, ILogger> onError, bool propagateException)
         {
             _onErrorWithLogger = onError;
             _propagateException = propagateException;
@@ -130,7 +176,14 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             return this;
         }
 
-        public IHandlerTask OnError(Func<Exception, Task> onError, bool propagateException = false)
+        public IHandlerTask OnError(Func<Exception, Task> onError)
+        {
+            _onErrorAsync = onError;
+
+            return this;
+        }
+
+        public IHandlerTask OnError(Func<Exception, Task> onError, bool propagateException)
         {
             _onErrorAsync = onError;
             _propagateException = propagateException;
@@ -138,7 +191,14 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             return this;
         }
 
-        public IHandlerTask OnError(Func<Exception, ILogger, Task> onError, bool propagateException = false)
+        public IHandlerTask OnError(Func<Exception, ILogger, Task> onError)
+        {
+            _onErrorWithLoggerAsync = onError;
+            
+            return this;
+        }
+
+        public IHandlerTask OnError(Func<Exception, ILogger, Task> onError, bool propagateException)
         {
             _onErrorWithLoggerAsync = onError;
             _propagateException = propagateException;
@@ -216,9 +276,9 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             try
             {
                 _validate?.Invoke();
-                if (_validateAsync != null) await _validateAsync();
+                if (_validateAsync != null) await _validateAsync().ConfigureAwait(false);
                 await _runAsync();
-                if (_onSuccessAsync != null) await _onSuccessAsync();
+                if (_onSuccessAsync != null) await _onSuccessAsync().ConfigureAwait(false);
             }
             catch (Exception exception)
             {
@@ -227,18 +287,19 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
                 {
                     _onCustomErrorWithLogger?.Invoke(customException, Logger);
                     if (_onCustomErrorWithLoggerAsync != null)
-                        await _onCustomErrorWithLoggerAsync(customException, Logger);
+                        await _onCustomErrorWithLoggerAsync(customException, Logger).ConfigureAwait(false);
                     _onCustomError?.Invoke(customException);
-                    if (_onCustomErrorAsync != null) await _onCustomErrorAsync(customException);
+                    if (_onCustomErrorAsync != null) 
+                        await _onCustomErrorAsync(customException).ConfigureAwait(false);
                 }
 
                 var executeOnError = _executeOnError || customException == null;
                 if (executeOnError)
                 {
                     _onErrorWithLogger?.Invoke(customException, Logger);
-                    if (_onErrorWithLoggerAsync != null) await _onErrorWithLoggerAsync(exception, Logger);
+                    if (_onErrorWithLoggerAsync != null) await _onErrorWithLoggerAsync(exception, Logger).ConfigureAwait(false);
                     _onError?.Invoke(exception);
-                    if (_onErrorAsync != null) await _onErrorAsync(exception);
+                    if (_onErrorAsync != null) await _onErrorAsync(exception).ConfigureAwait(false);
                 }
 
                 if (_propagateException) throw;

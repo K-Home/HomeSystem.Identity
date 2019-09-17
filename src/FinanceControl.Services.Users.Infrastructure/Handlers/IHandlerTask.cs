@@ -22,10 +22,14 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
         IHandlerTask OnCustomError(Func<FinanceControlException, ILogger, Task> onCustomError,
             bool propagateException = false, bool executeOnError = false);
 
-        IHandlerTask OnError(Action<Exception> onError, bool propagateException = false);
-        IHandlerTask OnError(Action<Exception, ILogger> onError, bool propagateException = false);
-        IHandlerTask OnError(Func<Exception, Task> onError, bool propagateException = false);
-        IHandlerTask OnError(Func<Exception, ILogger, Task> onError, bool propagateException = false);
+        IHandlerTask OnError(Action<Exception> onError);
+        IHandlerTask OnError(Action<Exception> onError, bool propagateException);
+        IHandlerTask OnError(Action<Exception, ILogger> onError);
+        IHandlerTask OnError(Action<Exception, ILogger> onError, bool propagateException);
+        IHandlerTask OnError(Func<Exception, Task> onError);
+        IHandlerTask OnError(Func<Exception, Task> onError, bool propagateException);
+        IHandlerTask OnError(Func<Exception, ILogger, Task> onError);
+        IHandlerTask OnError(Func<Exception, ILogger, Task> onError, bool propagateException);
         IHandlerTask OnSuccess(Action onSuccess);
         IHandlerTask OnSuccess(Func<Task> onSuccess);
         IHandlerTask PropagateException();

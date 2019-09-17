@@ -19,7 +19,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
         [Route("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] SignUpCommand command)
         {
-            return await SendAsync(command);
+            return await SendAsync(command, "users/sign-up");
         }
     }
 }

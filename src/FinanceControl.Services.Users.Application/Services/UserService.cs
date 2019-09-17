@@ -89,36 +89,49 @@ namespace FinanceControl.Services.Users.Application.Services
             user = new User(userId, email, role);
 
             if (!password.IsEmpty())
+            {
                 user.SetPassword(password, _encrypter);
+            }
 
             if (name.IsNotEmpty())
             {
                 user.SetUserName(name);
 
                 if (activate)
+                {
                     user.Activate();
+                }
                 else
+                {
                     user.SetUnconfirmed();
+                }
             }
 
             if (firstName.IsNotEmpty())
+            {
                 user.SetFirstName(firstName);
+            }
 
-            if (firstName.IsNotEmpty())
+            if (lastName.IsNotEmpty())
+            {
                 user.SetLastName(lastName);
+            }
 
             await _userRepository.AddUserAsync(user);
         }
 
         public async Task ChangeNameAsync(Guid userId, string name)
         {
-            var user = await GetAsync(userId);
+            var user = await GetAsync(userId).ConfigureAwait(false);
+
             if (user == null)
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
-            if (await IsNameAvailableAsync(name) == false)
+
+            if (await IsNameAvailableAsync(name).ConfigureAwait(false) == false)
                 throw new ServiceException(Codes.UserNameInUse,
                     $"User with name: '{name}' already exists.");
+
             user.SetUserName(name);
             user.Activate();
             _userRepository.EditUser(user);

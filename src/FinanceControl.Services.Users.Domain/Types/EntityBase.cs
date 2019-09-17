@@ -34,18 +34,26 @@ namespace FinanceControl.Services.Users.Domain.Types
         public override bool Equals(object obj)
         {
             if (!(obj is EntityBase))
+            {
                 return false;
+            }
 
             if (ReferenceEquals(this, obj))
+            {
                 return true;
+            }
 
             if (GetType() != obj.GetType())
+            {
                 return false;
+            }
 
             var item = (EntityBase) obj;
 
             if (item.IsTransient() || IsTransient())
+            {
                 return false;
+            }
 
             return item.Id == Id;
         }
@@ -53,22 +61,16 @@ namespace FinanceControl.Services.Users.Domain.Types
         public override int GetHashCode()
         {
             if (IsTransient())
+            {
                 return base.GetHashCode();
+            }
 
             if (!_requestedHashCode.HasValue)
+            {
                 _requestedHashCode = Id.GetHashCode() ^ 31;
+            }
 
             return _requestedHashCode.Value;
-        }
-
-        public static bool operator ==(EntityBase left, EntityBase right)
-        {
-            return left?.Equals(right) ?? right == null;
-        }
-
-        public static bool operator !=(EntityBase left, EntityBase right)
-        {
-            return !(left == right);
         }
     }
 }

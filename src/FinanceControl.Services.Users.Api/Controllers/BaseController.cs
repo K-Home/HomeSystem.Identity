@@ -25,7 +25,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
-        protected async Task<IActionResult> SendAsync<TCommand>(TCommand command, string endpoint = "")
+        protected async Task<IActionResult> SendAsync<TCommand>(TCommand command, string endpoint)
             where TCommand : class, ICommand
         {
             await _mediatRBus.SendAsync(command);
@@ -103,7 +103,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
             var pageArg = $"{PageLink}={page}";
             var link = fullPath.Contains($"{PageLink}=")
                 ? fullPath.Replace($"{PageLink}={currentPage}", pageArg)
-                : fullPath += $"{conjunction}{pageArg}";
+                : fullPath + $"{conjunction}{pageArg}";
 
             return link;
         }
