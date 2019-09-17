@@ -73,8 +73,10 @@ namespace FinanceControl.Services.Users.Application.Services
         private async Task RemoveAsync(User user, Guid userId)
         {
             if (user == null)
+            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
+            }
 
             if (user.Avatar == null)
             {

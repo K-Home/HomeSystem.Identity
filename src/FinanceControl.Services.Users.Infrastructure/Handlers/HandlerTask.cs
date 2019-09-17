@@ -92,16 +92,16 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             _validateAsync = validateAsync;
         }
 
-        public IHandlerTask Always(Action always)
+        public IHandlerTask Always(Action actAlways)
         {
-            _always = always;
+            _always = actAlways;
 
             return this;
         }
 
-        public IHandlerTask Always(Func<Task> always)
+        public IHandlerTask Always(Func<Task> funcAlways)
         {
-            _alwaysAsync = always;
+            _alwaysAsync = funcAlways;
 
             return this;
         }
@@ -206,16 +206,16 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             return this;
         }
 
-        public IHandlerTask OnSuccess(Action onSuccess)
+        public IHandlerTask OnSuccess(Action actOnSuccess)
         {
-            _onSuccess = onSuccess;
+            _onSuccess = actOnSuccess;
 
             return this;
         }
 
-        public IHandlerTask OnSuccess(Func<Task> onSuccess)
+        public IHandlerTask OnSuccess(Func<Task> funcOnSuccess)
         {
-            _onSuccessAsync = onSuccess;
+            _onSuccessAsync = funcOnSuccess;
 
             return this;
         }

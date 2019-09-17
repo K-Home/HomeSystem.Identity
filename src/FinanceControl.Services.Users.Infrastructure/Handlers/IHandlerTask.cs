@@ -7,8 +7,8 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
 {
     public interface IHandlerTask
     {
-        IHandlerTask Always(Action always);
-        IHandlerTask Always(Func<Task> always);
+        IHandlerTask Always(Action actAlways);
+        IHandlerTask Always(Func<Task> funcAlways);
 
         IHandlerTask OnCustomError(Action<FinanceControlException> actOnCustomError,
             bool propagateException = false, bool executeOnError = false);
@@ -30,8 +30,8 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
         IHandlerTask OnError(Func<Exception, Task> funcOnError, bool propagateException);
         IHandlerTask OnError(Func<Exception, ILogger, Task> funcOnErrorWithLogger);
         IHandlerTask OnError(Func<Exception, ILogger, Task> funcOnErrorWithLogger, bool propagateException);
-        IHandlerTask OnSuccess(Action onSuccess);
-        IHandlerTask OnSuccess(Func<Task> onSuccess);
+        IHandlerTask OnSuccess(Action actOnSuccess);
+        IHandlerTask OnSuccess(Func<Task> funcOnSuccess);
         IHandlerTask PropagateException();
         IHandlerTask DoNotPropagateException();
         IHandler Next();

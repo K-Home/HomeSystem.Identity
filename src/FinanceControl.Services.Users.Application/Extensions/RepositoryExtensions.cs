@@ -14,8 +14,10 @@ namespace FinanceControl.Services.Users.Application.Extensions
             var user = await repository.GetByUserIdAsync(id);
 
             if (user == null)
+            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{id}' does not exist!");
+            }
 
             return user;
         }
