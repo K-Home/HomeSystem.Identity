@@ -10,18 +10,28 @@ namespace FinanceControl.Services.Users.Infrastructure.Messages
 
 
         public static Request From<T>(Request request)
-            => Create<T>(request.Id, request.Name);
+        {
+            return Create<T>(request.Id, request.Name);
+        }
 
-        public static Request New<T>() => New<T>(Guid.NewGuid());
+        public static Request New<T>()
+        {
+            return New<T>(Guid.NewGuid());
+        }
 
-        public static Request New<T>(Guid id) => Create<T>(id, string.Empty);
+        public static Request New<T>(Guid id)
+        {
+            return Create<T>(id, string.Empty);
+        }
 
         public static Request Create<T>(Guid id, string name)
-            => new Request
+        {
+            return new Request
             {
                 Id = id,
                 Name = typeof(T).Name,
                 When = DateTime.UtcNow
             };
+        }
     }
 }

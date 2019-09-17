@@ -6,7 +6,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Messages
     {
     }
 
-    public interface IQuery<out T> : IRequest<T> 
+    public interface IQuery<out T> : IRequest<T>
     {
     }
 }

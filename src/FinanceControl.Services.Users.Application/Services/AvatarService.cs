@@ -44,23 +44,21 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             if (avatar == null)
             {
-                throw new ServiceException(Codes.InvalidFile,
+                throw new ServiceException(Codes.FileIsInvalid,
                     $"There is no avatar file to be uploaded.");
             }
 
             if (!_fileValidator.IsImage(avatar))
             {
-                throw new ServiceException(Codes.InvalidFile);
+                throw new ServiceException(Codes.FileIsInvalid);
             }
 
             var user = await _userRepository.GetByUserIdAsync(userId);
             var name = $"avatar_{userId:N}.jpg";
             var resizedAvatar = _imageService.ProcessImage(avatar, 200);
             await RemoveAsync(user, userId);
-            await _fileHandler.UploadAsync(resizedAvatar, name, (baseUrl, fullUrl) =>
-            {
-                user.SetAvatar(Avatar.Create(name, fullUrl));
-            });
+            await _fileHandler.UploadAsync(resizedAvatar, name,
+                (baseUrl, fullUrl) => { user.SetAvatar(Avatar.Create(name, fullUrl)); });
 
             _userRepository.EditUser(user);
         }
@@ -68,7 +66,7 @@ namespace FinanceControl.Services.Users.Application.Services
         public async Task RemoveAsync(Guid userId)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
-            await RemoveAsync(user, userId);
+            await RemoveAsync(user, userId).ConfigureAwait(false);
             _userRepository.EditUser(user);
         }
 
@@ -95,5 +93,3 @@ namespace FinanceControl.Services.Users.Application.Services
         }
     }
 }
-
-

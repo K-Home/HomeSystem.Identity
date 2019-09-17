@@ -25,10 +25,14 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
         }
 
         public IHandlerTaskRunner Validate(Action validate)
-            => new HandlerTaskRunner(this, validate, null, _handlerTasks);
+        {
+            return new HandlerTaskRunner(this, validate, null, _handlerTasks);
+        }
 
         public IHandlerTaskRunner Validate(Func<Task> validateAsync)
-            => new HandlerTaskRunner(this, null, validateAsync, _handlerTasks);
+        {
+            return new HandlerTaskRunner(this, null, validateAsync, _handlerTasks);
+        }
 
         public void ExecuteAll()
         {
@@ -36,15 +40,17 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             {
                 handlerTask.Execute();
             }
+            
             _handlerTasks.Clear();
         }
 
         public async Task ExecuteAllAsync()
         {
-            foreach (var handlerTask in _handlerTasks)
+            foreach (var handlerTask in _handlerTasks)    
             {
                 await handlerTask.ExecuteAsync();
             }
+            
             _handlerTasks.Clear();
         }
     }

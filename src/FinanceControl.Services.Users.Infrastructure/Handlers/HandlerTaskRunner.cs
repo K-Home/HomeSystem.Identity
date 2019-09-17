@@ -11,7 +11,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
         private readonly Func<Task> _validateAsync;
         private readonly ISet<IHandlerTask> _handlerTasks;
 
-        public HandlerTaskRunner(IHandler handler, Action validate, 
+        public HandlerTaskRunner(IHandler handler, Action validate,
             Func<Task> validateAsync, ISet<IHandlerTask> handlerTasks)
         {
             _handler = handler;

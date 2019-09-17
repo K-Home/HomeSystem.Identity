@@ -8,6 +8,8 @@ namespace FinanceControl.Services.Users.Domain.Enumerations
         public static string Owner => "owner";
 
         public static bool IsValid(string role)
-            => role == User || role == Moderator || role == Administrator || role == Owner;
+        {
+            return role == User || role == Moderator || role == Administrator || role == Owner;
+        }
     }
 }

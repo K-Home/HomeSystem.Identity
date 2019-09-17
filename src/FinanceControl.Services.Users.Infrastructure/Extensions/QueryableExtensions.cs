@@ -5,7 +5,8 @@ namespace FinanceControl.Services.Users.Infrastructure.Extensions
 {
     public static class QueryableExtensions
     {
-        public static IQueryable<T> OrderByPropertyOrField<T>(this IQueryable<T> queryable, string propertyOrFieldName, bool ascending = true)
+        public static IQueryable<T> OrderByPropertyOrField<T>(this IQueryable<T> queryable, string propertyOrFieldName,
+            bool ascending)
         {
             var elementType = typeof(T);
             var orderByMethodName = ascending ? "OrderBy" : "OrderByDescending";
@@ -15,7 +16,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Extensions
             var selector = Expression.Lambda(propertyOrFieldExpression, parameterExpression);
 
             var orderByExpression = Expression.Call(typeof(Queryable), orderByMethodName,
-                new[] { elementType, propertyOrFieldExpression.Type }, queryable.Expression, selector);
+                new[] {elementType, propertyOrFieldExpression.Type}, queryable.Expression, selector);
 
             return queryable.Provider.CreateQuery<T>(orderByExpression);
         }

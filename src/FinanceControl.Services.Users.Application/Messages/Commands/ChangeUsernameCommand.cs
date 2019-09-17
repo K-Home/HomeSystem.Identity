@@ -7,14 +7,11 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class ChangeUsernameCommand : IAuthenticatedCommand
     {
-        [DataMember]
-        public Request Request { get; }
-        
-        [DataMember]
-        public Guid UserId { get; }
-        
-        [DataMember]
-        public string Name { get; }
+        [DataMember] public Request Request { get; }
+
+        [DataMember] public Guid UserId { get; }
+
+        [DataMember] public string Name { get; }
 
         [JsonConstructor]
         public ChangeUsernameCommand(Guid userId, string name)

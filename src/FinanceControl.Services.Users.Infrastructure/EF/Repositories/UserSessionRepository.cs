@@ -19,7 +19,9 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Repositories
         }
 
         public async Task<UserSession> GetByIdAsync(Guid id)
-            => await _identityDbContext.UserSessions.SingleOrDefaultAsync(us => us.Id == id);
+        {
+            return await _identityDbContext.UserSessions.SingleOrDefaultAsync(us => us.Id == id);
+        }
 
         public async Task AddAsync(UserSession session)
         {

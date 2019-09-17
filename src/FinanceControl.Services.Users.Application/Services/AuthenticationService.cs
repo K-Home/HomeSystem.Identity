@@ -22,19 +22,21 @@ namespace FinanceControl.Services.Users.Application.Services
             IEncrypter encrypter)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _userSessionRepository = userSessionRepository ?? throw new ArgumentNullException(nameof(userSessionRepository));
+            _userSessionRepository =
+                userSessionRepository ?? throw new ArgumentNullException(nameof(userSessionRepository));
             _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
         }
 
         public async Task<UserSession> GetSessionAsync(Guid id)
-            => await _userSessionRepository.GetByIdAsync(id);
+        {
+            return await _userSessionRepository.GetByIdAsync(id);
+        }
 
         public async Task SignInAsync(Guid sessionId, string email, string password,
-            string ipAddress = null, string userAgent = null)
+            string ipAddress, string userAgent)
         {
             var user = await _userRepository.GetByEmailAsync(email);
             if (user == null)
-
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email '{email}' has not been found.");
@@ -48,13 +50,13 @@ namespace FinanceControl.Services.Users.Application.Services
 
             if (!user.ValidatePassword(password, _encrypter))
             {
-                throw new ServiceException(Codes.InvalidCredentials,
+                throw new ServiceException(Codes.CredentialsAreInvalid,
                     "Invalid credentials.");
             }
-            
-            await CreateSessionAsync(sessionId, user);
+
+            await CreateSessionAsync(sessionId, user, ipAddress, userAgent).ConfigureAwait(false);
         }
-     
+
         public async Task SignOutAsync(Guid sessionId, Guid userId)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
@@ -66,7 +68,7 @@ namespace FinanceControl.Services.Users.Application.Services
             }
 
             var session = await _userSessionRepository.GetByIdAsync(sessionId);
-            
+
             if (session == null)
             {
                 throw new ServiceException(Codes.SessionNotFound,
@@ -78,8 +80,7 @@ namespace FinanceControl.Services.Users.Application.Services
         }
 
         public async Task CreateSessionAsync(Guid sessionId, Guid userId,
-            string ipAddress = null,
-            string userAgent = null)
+            string ipAddress, string userAgent)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
 
@@ -89,11 +90,11 @@ namespace FinanceControl.Services.Users.Application.Services
                     $"User with id '{userId}' has not been found.");
             }
 
-            await CreateSessionAsync(sessionId, user);
+            await CreateSessionAsync(sessionId, user, ipAddress, userAgent).ConfigureAwait(false);
         }
 
         private async Task CreateSessionAsync(Guid sessionId, User user,
-            string ipAddress = null, string userAgent = null)
+            string ipAddress, string userAgent)
         {
             var session = new UserSession(sessionId, user.Id,
                 _encrypter.GetRandomSecureKey(), ipAddress, userAgent);
@@ -102,7 +103,7 @@ namespace FinanceControl.Services.Users.Application.Services
         }
 
         public async Task RefreshSessionAsync(Guid sessionId, Guid newSessionId,
-            string sessionKey, string ipAddress = null, string userAgent = null)
+            string sessionKey, string ipAddress, string userAgent)
         {
             var parentSession = await _userSessionRepository.GetByIdAsync(sessionId);
 
@@ -114,7 +115,7 @@ namespace FinanceControl.Services.Users.Application.Services
 
             if (parentSession.Key != sessionKey)
             {
-                throw new ServiceException(Codes.InvalidSessionKey,
+                throw new ServiceException(Codes.SessionKeyIsInvalid,
                     $"Invalid session key: '{sessionKey}'");
             }
 
@@ -126,7 +127,8 @@ namespace FinanceControl.Services.Users.Application.Services
         }
 
         public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
-            => await _userSessionRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-        
+        {
+            return await _userSessionRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+        }
     }
 }

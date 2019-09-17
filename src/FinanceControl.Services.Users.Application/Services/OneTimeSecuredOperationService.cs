@@ -18,12 +18,16 @@ namespace FinanceControl.Services.Users.Application.Services
         public OneTimeSecuredOperationService(IOneTimeSecuredOperationRepository oneTimeSecuredOperationRepository,
             IEncrypter encrypter)
         {
-            _oneTimeSecuredOperationRepository = oneTimeSecuredOperationRepository ?? throw new ArgumentNullException(nameof(oneTimeSecuredOperationRepository));
+            _oneTimeSecuredOperationRepository = oneTimeSecuredOperationRepository ??
+                                                 throw new ArgumentNullException(
+                                                     nameof(oneTimeSecuredOperationRepository));
             _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
         }
 
         public async Task<OneTimeSecuredOperation> GetAsync(Guid id)
-            => await _oneTimeSecuredOperationRepository.GetAsync(id);
+        {
+            return await _oneTimeSecuredOperationRepository.GetAsync(id);
+        }
 
         public async Task CreateAsync(Guid id, string type, Guid userId, DateTime expiry)
         {
@@ -56,6 +60,8 @@ namespace FinanceControl.Services.Users.Application.Services
         }
 
         public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
-            => await _oneTimeSecuredOperationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+        {
+            return await _oneTimeSecuredOperationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+        }
     }
 }

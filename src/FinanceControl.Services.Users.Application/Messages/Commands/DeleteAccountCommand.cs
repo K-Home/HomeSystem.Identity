@@ -7,14 +7,11 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class DeleteAccountCommand : IAuthenticatedCommand
     {
-        [DataMember]
-        public Request Request { get; }
-        
-        [DataMember]
-        public Guid UserId { get; }
-        
-        [DataMember]
-        public bool Soft { get; }
+        [DataMember] public Request Request { get; }
+
+        [DataMember] public Guid UserId { get; }
+
+        [DataMember] public bool Soft { get; }
 
         [JsonConstructor]
         public DeleteAccountCommand(Guid userId, bool soft)

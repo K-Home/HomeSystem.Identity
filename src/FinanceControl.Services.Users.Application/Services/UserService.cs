@@ -26,29 +26,42 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
-            _securedOperationService = securedOperationService ?? throw new ArgumentNullException(nameof(securedOperationService));
+            _securedOperationService = securedOperationService ??
+                                       throw new ArgumentNullException(nameof(securedOperationService));
         }
 
         public async Task<bool> IsNameAvailableAsync(string name)
-            => await _userRepository.ExistsAsync(x => x.Username == name) == false;
+        {
+            return await _userRepository.ExistsAsync(x => x.Username == name) == false;
+        }
 
         public async Task<User> GetAsync(Guid userId)
-            => await _userRepository.GetByUserIdAsync(userId);
+        {
+            return await _userRepository.GetByUserIdAsync(userId);
+        }
 
         public async Task<User> GetByNameAsync(string name)
-            => await _userRepository.GetByNameAsync(name);
+        {
+            return await _userRepository.GetByNameAsync(name);
+        }
 
         public async Task<User> GetByEmailAsync(string email)
-            => await _userRepository.GetByEmailAsync(email);
+        {
+            return await _userRepository.GetByEmailAsync(email);
+        }
 
         public async Task<string> GetStateAsync(Guid userId)
-            => await _userRepository.GetStateAsync(userId);
+        {
+            return await _userRepository.GetStateAsync(userId);
+        }
 
         public async Task<IEnumerable<User>> BrowseAsync()
-            => await _userRepository.GetUsers();
+        {
+            return await _userRepository.GetUsers();
+        }
 
         public async Task SignUpAsync(Guid userId, string email, string role,
-            string password = null, bool activate = true, string name = null, 
+            string password = null, bool activate = true, string name = null,
             string firstName = null, string lastName = null)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
@@ -77,47 +90,58 @@ namespace FinanceControl.Services.Users.Application.Services
 
             if (!Roles.IsValid(role))
             {
-                throw new ServiceException(Codes.InvalidRole,
+                throw new ServiceException(Codes.RoleIsInvalid,
                     $"Can not create a new account for user id: '{userId}', invalid role: '{role}'.");
             }
 
             user = new User(userId, email, role);
 
             if (!password.IsEmpty())
+            {
                 user.SetPassword(password, _encrypter);
+            }
 
             if (name.IsNotEmpty())
             {
                 user.SetUserName(name);
 
                 if (activate)
+                {
                     user.Activate();
+                }
                 else
+                {
                     user.SetUnconfirmed();
+                }
             }
 
             if (firstName.IsNotEmpty())
+            {
                 user.SetFirstName(firstName);
+            }
 
-            if (firstName.IsNotEmpty())
+            if (lastName.IsNotEmpty())
+            {
                 user.SetLastName(lastName);
+            }
 
             await _userRepository.AddUserAsync(user);
         }
 
         public async Task ChangeNameAsync(Guid userId, string name)
         {
-            var user = await GetAsync(userId);
+            var user = await GetAsync(userId).ConfigureAwait(false);
+
             if (user == null)
-            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
-            }
-            if (await IsNameAvailableAsync(name) == false)
+
+            if (await IsNameAvailableAsync(name).ConfigureAwait(false) == false)
             {
                 throw new ServiceException(Codes.UserNameInUse,
                     $"User with name: '{name}' already exists.");
             }
+
             user.SetUserName(name);
             user.Activate();
             _userRepository.EditUser(user);
@@ -190,6 +214,8 @@ namespace FinanceControl.Services.Users.Application.Services
         }
 
         public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
-            => await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+        {
+            return await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+        }
     }
 }

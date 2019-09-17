@@ -34,7 +34,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Files
         public IDictionary<string, File> ProcessImage(File file)
         {
             _logger.Information($"Processing image: '{file.Name}', content type: '{file.ContentType}', " +
-                         $"size: {file.SizeBytes} bytes.");
+                                $"size: {file.SizeBytes} bytes.");
 
             using (var originalImage = Image.Load(file.Bytes))
             {
@@ -57,8 +57,8 @@ namespace FinanceControl.Services.Users.Infrastructure.Files
             var ratioX = maxSize / image.Width;
             var ratioY = maxSize / image.Height;
             var ratio = Math.Min(ratioX, ratioY);
-            var newWidth = (int)(image.Width * ratio);
-            var newHeight = (int)(image.Height * ratio);
+            var newWidth = (int) (image.Width * ratio);
+            var newHeight = (int) (image.Height * ratio);
 
             using (var stream = new MemoryStream())
             {

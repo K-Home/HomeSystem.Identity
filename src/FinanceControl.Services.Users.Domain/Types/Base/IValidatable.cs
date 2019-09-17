@@ -4,4 +4,4 @@ namespace FinanceControl.Services.Users.Domain.Types.Base
     {
         bool IsValid { get; }
     }
-} 
+}

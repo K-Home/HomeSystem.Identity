@@ -17,6 +17,8 @@ namespace FinanceControl.Services.Users.Application.Services
         }
 
         public Resource Resolve<T>(params object[] args) where T : class
-            => Resource.Create(_service, string.Format(_resources[typeof(T)], args));
+        {
+            return Resource.Create(_service, string.Format(_resources[typeof(T)], args));
+        }
     }
 }
