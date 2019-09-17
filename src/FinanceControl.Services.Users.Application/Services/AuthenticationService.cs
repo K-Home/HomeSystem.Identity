@@ -90,7 +90,7 @@ namespace FinanceControl.Services.Users.Application.Services
                     $"User with id '{userId}' has not been found.");
             }
 
-            await CreateSessionAsync(sessionId, user, ipAddress, userAgent);
+            await CreateSessionAsync(sessionId, user, ipAddress, userAgent).ConfigureAwait(false);
         }
 
         private async Task CreateSessionAsync(Guid sessionId, User user,

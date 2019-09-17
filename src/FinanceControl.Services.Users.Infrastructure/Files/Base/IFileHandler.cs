@@ -5,7 +5,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Files.Base
 {
     public interface IFileHandler
     {
-        Task UploadAsync(File file, string newName, Action<string, string> onUploaded = null);
+        Task UploadAsync(File file, string newName, Action<string, string> onUploaded);
         Task DeleteAsync(string name);
     }
 }

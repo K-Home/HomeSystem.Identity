@@ -263,7 +263,10 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
                     _onError?.Invoke(exception);
                 }
 
-                if (_propagateException) throw;
+                if (_propagateException)
+                {
+                    throw;
+                }
             }
             finally
             {
@@ -281,7 +284,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
                     await _validateAsync().ConfigureAwait(false);
                 }
 
-                await _runAsync();
+                await _runAsync().ConfigureAwait(false);
                 if (_onSuccessAsync != null)
                 {
                     await _onSuccessAsync().ConfigureAwait(false);
@@ -330,7 +333,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             {
                 if (_alwaysAsync != null)
                 {
-                    await _alwaysAsync();
+                    await _alwaysAsync().ConfigureAwait(false);
                 }
             }
         }

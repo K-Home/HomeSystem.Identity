@@ -50,8 +50,10 @@ namespace FinanceControl.Services.Users.Application.Services
                 .GetAsync(type, userId, token);
 
             if (operation == null)
+            {
                 throw new ServiceException(Codes.OperationNotFound,
                     "Operation has not been found.");
+            }
 
             operation.Consume();
             _oneTimeSecuredOperationRepository.Update(operation);

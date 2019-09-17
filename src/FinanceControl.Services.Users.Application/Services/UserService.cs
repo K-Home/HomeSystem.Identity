@@ -67,8 +67,10 @@ namespace FinanceControl.Services.Users.Application.Services
             var user = await _userRepository.GetByUserIdAsync(userId);
 
             if (user != null)
+            {
                 throw new ServiceException(Codes.UserIdInUse,
                     $"User with id: '{userId}' already exists.");
+            }
 
             user = await _userRepository.GetByEmailAsync(email);
 
@@ -79,12 +81,16 @@ namespace FinanceControl.Services.Users.Application.Services
             user = await _userRepository.GetByNameAsync(name);
 
             if (user != null)
+            {
                 throw new ServiceException(Codes.UserNameInUse,
                     $"User with name: {name} already exists!");
+            }
 
             if (!Roles.IsValid(role))
+            {
                 throw new ServiceException(Codes.RoleIsInvalid,
                     $"Can not create a new account for user id: '{userId}', invalid role: '{role}'.");
+            }
 
             user = new User(userId, email, role);
 
@@ -129,8 +135,10 @@ namespace FinanceControl.Services.Users.Application.Services
                     $"User with id: '{userId}' has not been found.");
 
             if (await IsNameAvailableAsync(name).ConfigureAwait(false) == false)
+            {
                 throw new ServiceException(Codes.UserNameInUse,
                     $"User with name: '{name}' already exists.");
+            }
 
             user.SetUserName(name);
             user.Activate();
@@ -156,8 +164,10 @@ namespace FinanceControl.Services.Users.Application.Services
             var user = await _userRepository.GetOrThrowAsync(userId);
 
             if (user.Role == Roles.Owner)
+            {
                 throw new ServiceException(Codes.OwnerCannotBeLocked,
                     $"Owner account: '{userId}' can not be locked.");
+            }
 
             user.Lock();
             _userRepository.EditUser(user);

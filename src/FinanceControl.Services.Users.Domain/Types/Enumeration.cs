@@ -36,7 +36,9 @@ namespace FinanceControl.Services.Users.Domain.Types
         public override bool Equals(object obj)
         {
             if (!(obj is Enumeration otherValue))
+            {
                 return false;
+            }
 
             var typeMatches = GetType() == obj.GetType();
             var valueMatches = Id.Equals(otherValue.Id);
@@ -70,9 +72,10 @@ namespace FinanceControl.Services.Users.Domain.Types
         private static T Parse<T, TK>(TK value, string description, Func<T, bool> predicate) where T : Enumeration
         {
             var matchingItem = GetAll<T>().FirstOrDefault(predicate);
-
             if (matchingItem == null)
+            {
                 throw new InvalidOperationException($"'{value}' is not a valid {description} in {typeof(T)}");
+            }
 
             return matchingItem;
         }

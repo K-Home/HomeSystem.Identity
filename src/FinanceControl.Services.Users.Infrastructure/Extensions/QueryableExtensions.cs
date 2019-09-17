@@ -6,7 +6,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Extensions
     public static class QueryableExtensions
     {
         public static IQueryable<T> OrderByPropertyOrField<T>(this IQueryable<T> queryable, string propertyOrFieldName,
-            bool ascending = true)
+            bool ascending)
         {
             var elementType = typeof(T);
             var orderByMethodName = ascending ? "OrderBy" : "OrderByDescending";

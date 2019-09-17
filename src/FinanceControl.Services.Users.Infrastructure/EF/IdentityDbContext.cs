@@ -70,7 +70,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
             await base.SaveChangesAsync();
             return true;
         }
-        
+
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken)
         {
             await base.SaveChangesAsync(cancellationToken);
@@ -91,9 +91,15 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
 
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
-            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            if (transaction == null)
+            {
+                throw new ArgumentNullException(nameof(transaction));
+            }
+
             if (transaction != _currentTransaction)
+            {
                 throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
+            }
 
             try
             {

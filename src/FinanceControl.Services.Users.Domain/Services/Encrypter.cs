@@ -29,7 +29,9 @@ namespace FinanceControl.Services.Users.Domain.Services
                 var base64String = Convert.ToBase64String(bytes);
                 var stringBuilder = new StringBuilder(base64String);
                 foreach (var invalidCharacter in InvalidCharacters)
+                {
                     stringBuilder.Replace(invalidCharacter, string.Empty);
+                }
 
                 return stringBuilder.ToString();
             }
@@ -38,10 +40,11 @@ namespace FinanceControl.Services.Users.Domain.Services
         public string GetSalt(string value)
         {
             if (value.IsEmpty())
+            {
                 throw new ArgumentException("Can not generate salt from empty value.", nameof(value));
+            }
 
             var saltBytes = new byte[SaltSize];
-
             var rng = RandomNumberGenerator.Create();
             rng.GetBytes(saltBytes);
 

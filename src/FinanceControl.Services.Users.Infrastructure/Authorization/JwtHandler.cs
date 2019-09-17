@@ -108,6 +108,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
                     out var validatedSecurityToken);
 
                 if (validatedSecurityToken is JwtSecurityToken validatedJwt)
+                {
                     return new JwtDetails
                     {
                         Subject = validatedJwt.Subject,
@@ -116,6 +117,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
                         State = validatedJwt.Claims.FirstOrDefault(x => x.Type == StateClaim)?.Value,
                         Expires = validatedJwt.ValidTo.ToTimestamp()
                     };
+                }
 
                 return null;
             }

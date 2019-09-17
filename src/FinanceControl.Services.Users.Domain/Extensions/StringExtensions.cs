@@ -69,7 +69,9 @@ namespace FinanceControl.Services.Users.Domain.Extensions
         public static bool Like(this string value, string valueToCompare)
         {
             if (value.IsEmpty())
+            {
                 return valueToCompare.IsEmpty();
+            }
 
             var fixedValue = value.TrimToUpper();
             var fixedValueToCompare = valueToCompare.TrimToUpper();

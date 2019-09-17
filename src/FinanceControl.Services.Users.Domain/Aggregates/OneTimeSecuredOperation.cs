@@ -33,16 +33,22 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             string ipAddress = null, string userAgent = null)
         {
             if (type.IsEmpty())
+            {
                 throw new DomainException(Codes.SecuredOperationIsInvalid,
                     "Type can not be empty.");
+            }
 
             if (userId == Guid.Empty)
+            {
                 throw new DomainException(Codes.SecuredOperationIsInvalid,
                     "User can not be empty.");
+            }
 
             if (token.IsEmpty())
+            {
                 throw new DomainException(Codes.SecuredOperationIsInvalid,
                     "Token can not be empty.");
+            }
 
             Id = id;
             Type = type;
