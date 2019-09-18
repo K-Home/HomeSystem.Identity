@@ -133,8 +133,10 @@ namespace FinanceControl.Services.Users.Application.Services
             var user = await GetAsync(userId).ConfigureAwait(false);
 
             if (user == null)
+            {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
+            }
 
             if (await IsNameAvailableAsync(name).ConfigureAwait(false) == false)
             {

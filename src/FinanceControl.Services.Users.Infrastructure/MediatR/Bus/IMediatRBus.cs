@@ -7,9 +7,9 @@ namespace FinanceControl.Services.Users.Infrastructure.MediatR.Bus
 {
     public interface IMediatRBus
     {
-        Task SendAsync<TCommand>(TCommand command) 
+        Task SendAsync<TCommand>(TCommand command)
             where TCommand : IRequest;
-        
+
         Task SendAsync<TCommand>(TCommand command, CancellationToken cancellationToken)
             where TCommand : IRequest;
 
@@ -20,7 +20,7 @@ namespace FinanceControl.Services.Users.Infrastructure.MediatR.Bus
 
         Task PublishAsync<TEvent>(TEvent @event)
             where TEvent : INotification;
-        
+
         Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken)
             where TEvent : INotification;
     }

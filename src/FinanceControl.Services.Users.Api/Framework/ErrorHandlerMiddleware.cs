@@ -37,7 +37,7 @@ namespace FinanceControl.Services.Users.Api.Framework
         {
             string errorCode;
             const HttpStatusCode statusCode = HttpStatusCode.BadRequest;
-            
+
             switch (exception)
             {
                 case FinanceControlException e:

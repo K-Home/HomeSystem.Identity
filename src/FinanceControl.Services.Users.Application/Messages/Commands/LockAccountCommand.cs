@@ -7,16 +7,19 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class LockAccountCommand : IAuthenticatedCommand
     {
-        [DataMember] public Request Request { get; }
+        [DataMember]
+        public Request Request { get; }
 
-        [DataMember] public Guid UserId { get; }
+        [DataMember]
+        public Guid UserId { get; }
 
-        [DataMember] public string LockUserId { get; }
+        [DataMember]
+        public string LockUserId { get; }
 
         [JsonConstructor]
         public LockAccountCommand(Guid userId, string lockUserId)
         {
-            Request = Request.New<SignUpCommand>();
+            Request = Request.New<LockAccountCommand>();
             UserId = userId;
             LockUserId = lockUserId;
         }

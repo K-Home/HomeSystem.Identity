@@ -3,7 +3,7 @@ namespace FinanceControl.Services.Users.Domain
     public static class Codes
     {
         public static readonly string Error = "error";
-        
+
         public static readonly string FirstNameIsInvalid = "first_name_is_invalid";
         public static readonly string LastNameIsInvalid = "last_name_is_invalid";
         public static readonly string EmailIsInvalid = "email_is_invalid";

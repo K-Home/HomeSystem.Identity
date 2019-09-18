@@ -29,9 +29,7 @@ namespace FinanceControl.Services.Users.Domain.Services
                 var base64String = Convert.ToBase64String(bytes);
                 var stringBuilder = new StringBuilder(base64String);
                 foreach (var invalidCharacter in InvalidCharacters)
-                {
                     stringBuilder.Replace(invalidCharacter, string.Empty);
-                }
 
                 return stringBuilder.ToString();
             }
