@@ -27,10 +27,10 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        public static IEnumerable<UserSession> UserSessions
+        public IEnumerable<UserSession> UserSessions
             => new List<UserSession>();
 
-        public static IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations
+        public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations
             => new List<OneTimeSecuredOperation>();
 
         protected User()
