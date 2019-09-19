@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using MediatR;
 
@@ -11,7 +12,7 @@ namespace FinanceControl.Services.Users.Infrastructure.MediatR.Bus
 
         public MediatRBus(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator.CheckIfNotEmpty();
         }
 
         public async Task SendAsync<TCommand>(TCommand command)

@@ -180,6 +180,11 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
 
         public void SetAddress(UserAddress address)
         {
+            if (address.HasNoValue())
+            {
+                return;
+            }
+
             if (Address.Equals(address))
             {
                 return;
@@ -215,7 +220,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
 
         public void SetAvatar(Avatar avatar)
         {
-            if (avatar == null)
+            if (avatar.HasNoValue())
             {
                 return;
             }

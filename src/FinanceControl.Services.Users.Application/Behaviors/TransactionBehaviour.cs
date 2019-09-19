@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.EF;
 using FinanceControl.Services.Users.Infrastructure.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Messages;
@@ -20,8 +21,8 @@ namespace FinanceControl.Services.Users.Application.Behaviors
         public TransactionBehaviour(IdentityDbContext dbContext,
             ILogger<TransactionBehaviour<TRequest, TResponse>> logger)
         {
-            _dbContext = dbContext ?? throw new ArgumentException(nameof(IdentityDbContext));
-            _logger = logger ?? throw new ArgumentException(nameof(ILogger));
+            _dbContext = dbContext.CheckIfNotEmpty();
+            _logger = logger.CheckIfNotEmpty();
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,

@@ -4,6 +4,7 @@ using Autofac;
 using FinanceControl.Services.Users.Application.Messages.DomainEvents;
 using FinanceControl.Services.Users.Application.Services;
 using FinanceControl.Services.Users.Application.Services.Base;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure;
 using FinanceControl.Services.Users.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ namespace FinanceControl.Services.Users.Application.Modules
 
         public ResourceModule(IDictionary<Type, string> resources)
         {
-            _resources = resources;
+            _resources = resources.CheckIfNotEmpty();
         }
 
         protected override void Load(ContainerBuilder builder)

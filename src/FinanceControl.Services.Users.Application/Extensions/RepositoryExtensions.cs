@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FinanceControl.Services.Users.Application.Exceptions;
 using FinanceControl.Services.Users.Domain;
 using FinanceControl.Services.Users.Domain.Aggregates;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.Repositories;
 
 namespace FinanceControl.Services.Users.Application.Extensions
@@ -13,7 +14,7 @@ namespace FinanceControl.Services.Users.Application.Extensions
         {
             var user = await repository.GetByUserIdAsync(id);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{id}' does not exist!");

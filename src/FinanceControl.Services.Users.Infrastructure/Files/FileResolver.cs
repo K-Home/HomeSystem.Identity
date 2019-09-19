@@ -14,7 +14,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Files
 
         public FileResolver(ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _logger = logger.CheckIfNotEmpty();
         }
 
         public File FromBase64(string base64, string name, string contentType)

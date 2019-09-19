@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Domain.Aggregates;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.Repositories;
 using FinanceControl.Services.Users.Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Repositories
 
         public UserRepository(IdentityDbContext identityDbContext)
         {
-            _identityDbContext = identityDbContext;
+            _identityDbContext = identityDbContext.CheckIfNotEmpty();
         }
 
         public async Task<bool> ExistsAsync(Expression<Func<User, bool>> predicate)

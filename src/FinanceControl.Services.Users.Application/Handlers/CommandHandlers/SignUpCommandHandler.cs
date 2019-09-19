@@ -27,12 +27,11 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
             IMediatRBus mediatRBus,
             IUserService userService, IResourceService resourceService)
         {
-            _handler = handler ?? throw new ArgumentNullException(nameof(massTransitBusService));
-            _massTransitBusService =
-                massTransitBusService ?? throw new ArgumentNullException(nameof(massTransitBusService));
-            _mediatRBus = mediatRBus ?? throw new ArgumentNullException(nameof(mediatRBus));
-            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-            _resourceService = resourceService ?? throw new ArgumentNullException(nameof(resourceService));
+            _handler = handler.CheckIfNotEmpty();
+            _massTransitBusService = massTransitBusService.CheckIfNotEmpty();
+            _mediatRBus = mediatRBus.CheckIfNotEmpty();
+            _userService = userService.CheckIfNotEmpty();
+            _resourceService = resourceService.CheckIfNotEmpty();
         }
 
         protected override async Task Handle(SignUpCommand command, CancellationToken cancellationToken)

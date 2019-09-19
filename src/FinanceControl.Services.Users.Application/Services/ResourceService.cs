@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FinanceControl.Services.Users.Application.Services.Base;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 
 namespace FinanceControl.Services.Users.Application.Services
@@ -12,8 +13,8 @@ namespace FinanceControl.Services.Users.Application.Services
 
         public ResourceService(string service, IDictionary<Type, string> resources)
         {
-            _service = service;
-            _resources = resources;
+            _service = service.CheckIfNotEmpty();
+            _resources = resources.CheckIfNotEmpty();
         }
 
         public Resource Resolve<T>(params object[] args) where T : class

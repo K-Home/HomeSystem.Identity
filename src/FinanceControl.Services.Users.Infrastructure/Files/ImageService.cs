@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Files.Base;
 using Serilog;
 using SixLabors.ImageSharp;
@@ -19,7 +20,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Files
 
         public ImageService(ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _logger = logger.CheckIfNotEmpty();
         }
 
         public File ProcessImage(File file, double size)

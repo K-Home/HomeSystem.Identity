@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FinanceControl.IntegrationMessages;
 using FinanceControl.Services.Users.Application.Messages.DomainEvents;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Extensions;
 using FinanceControl.Services.Users.Infrastructure.MassTransit.MassTransitBus;
 using MediatR;
@@ -19,9 +20,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
         public SignedUpDomainEventHandler(ILogger<SignedUpDomainEventHandler> logger,
             IMassTransitBusService massTransitBusService)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _massTransitBusService =
-                massTransitBusService ?? throw new ArgumentNullException(nameof(massTransitBusService));
+            _logger = logger.CheckIfNotEmpty();
+            _massTransitBusService = massTransitBusService.CheckIfNotEmpty();
         }
 
         public async Task Handle(SignedUpDomainEvent @event, CancellationToken cancellationToken)

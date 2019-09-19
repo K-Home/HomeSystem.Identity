@@ -6,6 +6,7 @@ using FinanceControl.Services.Users.Application.Services.Base;
 using FinanceControl.Services.Users.Domain;
 using FinanceControl.Services.Users.Domain.Aggregates;
 using FinanceControl.Services.Users.Domain.Enumerations;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.Repositories;
 using FinanceControl.Services.Users.Domain.Services;
 
@@ -21,10 +22,9 @@ namespace FinanceControl.Services.Users.Application.Services
             IUserSessionRepository userSessionRepository,
             IEncrypter encrypter)
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _userSessionRepository =
-                userSessionRepository ?? throw new ArgumentNullException(nameof(userSessionRepository));
-            _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
+            _userRepository = userRepository.CheckIfNotEmpty();
+            _userSessionRepository = userSessionRepository.CheckIfNotEmpty();
+            _encrypter = encrypter.CheckIfNotEmpty();
         }
 
         public async Task<UserSession> GetSessionAsync(Guid id)
@@ -36,7 +36,7 @@ namespace FinanceControl.Services.Users.Application.Services
             string ipAddress, string userAgent)
         {
             var user = await _userRepository.GetByEmailAsync(email);
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email '{email}' has not been found.");
@@ -61,7 +61,7 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id '{userId}' has not been found.");
@@ -69,7 +69,7 @@ namespace FinanceControl.Services.Users.Application.Services
 
             var session = await _userSessionRepository.GetByIdAsync(sessionId);
 
-            if (session == null)
+            if (session.HasNoValue())
             {
                 throw new ServiceException(Codes.SessionNotFound,
                     $"Session with id '{sessionId}' has not been found.");
@@ -84,7 +84,7 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id '{userId}' has not been found.");
@@ -107,7 +107,7 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var parentSession = await _userSessionRepository.GetByIdAsync(sessionId);
 
-            if (parentSession == null)
+            if (parentSession.HasNoValue())
             {
                 throw new ServiceException(Codes.SessionNotFound,
                     $"Session with id '{sessionId}' has not been found.");

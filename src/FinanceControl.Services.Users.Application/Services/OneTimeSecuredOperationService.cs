@@ -5,6 +5,7 @@ using FinanceControl.Services.Users.Application.Exceptions;
 using FinanceControl.Services.Users.Application.Services.Base;
 using FinanceControl.Services.Users.Domain;
 using FinanceControl.Services.Users.Domain.Aggregates;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.Repositories;
 using FinanceControl.Services.Users.Domain.Services;
 
@@ -18,10 +19,8 @@ namespace FinanceControl.Services.Users.Application.Services
         public OneTimeSecuredOperationService(IOneTimeSecuredOperationRepository oneTimeSecuredOperationRepository,
             IEncrypter encrypter)
         {
-            _oneTimeSecuredOperationRepository = oneTimeSecuredOperationRepository ??
-                                                 throw new ArgumentNullException(
-                                                     nameof(oneTimeSecuredOperationRepository));
-            _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
+            _oneTimeSecuredOperationRepository = oneTimeSecuredOperationRepository.CheckIfNotEmpty();
+            _encrypter = encrypter.CheckIfNotEmpty();
         }
 
         public async Task<OneTimeSecuredOperation> GetAsync(Guid id)
@@ -41,7 +40,7 @@ namespace FinanceControl.Services.Users.Application.Services
             var operation = await _oneTimeSecuredOperationRepository
                 .GetAsync(type, userId, token);
 
-            return operation != null && operation.CanBeConsumed();
+            return operation.HasValue() && operation.CanBeConsumed();
         }
 
         public async Task ConsumeAsync(string type, Guid userId, string token)
@@ -49,7 +48,7 @@ namespace FinanceControl.Services.Users.Application.Services
             var operation = await _oneTimeSecuredOperationRepository
                 .GetAsync(type, userId, token);
 
-            if (operation == null)
+            if (operation.HasNoValue())
             {
                 throw new ServiceException(Codes.OperationNotFound,
                     "Operation has not been found.");

@@ -25,10 +25,9 @@ namespace FinanceControl.Services.Users.Application.Services
             IEncrypter encrypter,
             IOneTimeSecuredOperationService securedOperationService)
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
-            _securedOperationService = securedOperationService ??
-                                       throw new ArgumentNullException(nameof(securedOperationService));
+            _userRepository = userRepository.CheckIfNotEmpty();
+            _encrypter = encrypter.CheckIfNotEmpty();
+            _securedOperationService = securedOperationService.CheckIfNotEmpty();
         }
 
         public async Task<bool> IsNameAvailableAsync(string name)
@@ -65,7 +64,7 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
 
-            if (user != null)
+            if (user.HasValue())
             {
                 throw new ServiceException(Codes.UserIdInUse,
                     $"User with id: '{userId}' already exists.");
@@ -73,7 +72,7 @@ namespace FinanceControl.Services.Users.Application.Services
 
             user = await _userRepository.GetByEmailAsync(email);
 
-            if (user != null)
+            if (user.HasValue())
             {
                 throw new ServiceException(Codes.EmailInUse,
                     $"User with email: {email} already exists!");
@@ -81,7 +80,7 @@ namespace FinanceControl.Services.Users.Application.Services
 
             user = await _userRepository.GetByNameAsync(name);
 
-            if (user != null)
+            if (user.HasValue())
             {
                 throw new ServiceException(Codes.UserNameInUse,
                     $"User with name: {name} already exists!");
@@ -115,7 +114,7 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await _userRepository.GetOrThrowAsync(userId);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
@@ -127,7 +126,7 @@ namespace FinanceControl.Services.Users.Application.Services
 
             var userAddress = UserAddress.Create(street, city, state, country, zipCode);
 
-            if (userAddress != null)
+            if (userAddress.HasValue())
             {
                 user.SetAddress(userAddress);
             }
@@ -139,7 +138,7 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await _userRepository.GetOrThrowAsync(userId);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
@@ -153,7 +152,7 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await GetAsync(userId);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
@@ -173,7 +172,7 @@ namespace FinanceControl.Services.Users.Application.Services
         public async Task ActivateAsync(string email, string token)
         {
             var user = await _userRepository.GetByEmailAsync(email);
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email: '{email}' has not been found.");
