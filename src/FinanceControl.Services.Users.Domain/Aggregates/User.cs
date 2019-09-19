@@ -25,7 +25,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public string Salt { get; private set; }
         public string Role { get; private set; }
         public string State { get; private set; }
-        public string Culture { get; protected set; }
+        public string Culture { get; private set; }
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -204,7 +204,9 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
             if (culture.IsEmpty())
             {
-                culture = DefaultCulture;
+                Culture = DefaultCulture;
+                UpdatedAt = DateTime.UtcNow;
+                return;
             }
             
             Culture = culture;

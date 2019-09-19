@@ -11,26 +11,26 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
         private readonly Func<Task> _validateAsync;
         private readonly ISet<IHandlerTask> _handlerTasks;
 
-        public HandlerTaskRunner(IHandler handler, Action validate,
-            Func<Task> validateAsync, ISet<IHandlerTask> handlerTasks)
+        public HandlerTaskRunner(IHandler handler, Action validateAction,
+            Func<Task> validateAsyncAction, ISet<IHandlerTask> handlerTasks)
         {
             _handler = handler;
-            _validate = validate;
-            _validateAsync = validateAsync;
+            _validate = validateAction;
+            _validateAsync = validateAsyncAction;
             _handlerTasks = handlerTasks;
         }
 
-        public IHandlerTask Run(Action run)
+        public IHandlerTask Run(Action runAction)
         {
-            var handlerTask = new HandlerTask(_handler, run, _validate, _validateAsync);
+            var handlerTask = new HandlerTask(_handler, runAction, _validate, _validateAsync);
             _handlerTasks.Add(handlerTask);
 
             return handlerTask;
         }
 
-        public IHandlerTask Run(Func<Task> runAsync)
+        public IHandlerTask Run(Func<Task> runAsyncAction)
         {
-            var handlerTask = new HandlerTask(_handler, runAsync, _validate, _validateAsync);
+            var handlerTask = new HandlerTask(_handler, runAsyncAction, _validate, _validateAsync);
             _handlerTasks.Add(handlerTask);
 
             return handlerTask;

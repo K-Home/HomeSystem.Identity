@@ -5,10 +5,10 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
 {
     public interface IHandler
     {
-        IHandlerTask Run(Action run);
-        IHandlerTask Run(Func<Task> runAsync);
-        IHandlerTaskRunner Validate(Action validate);
-        IHandlerTaskRunner Validate(Func<Task> validateAsync);
+        IHandlerTask Run(Action runAction);
+        IHandlerTask Run(Func<Task> runAsyncAction);
+        IHandlerTaskRunner Validate(Action validateAction);
+        IHandlerTaskRunner Validate(Func<Task> validateAsyncAction);
         void ExecuteAll();
         Task ExecuteAllAsync();
     }

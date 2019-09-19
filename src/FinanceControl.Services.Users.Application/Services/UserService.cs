@@ -88,7 +88,9 @@ namespace FinanceControl.Services.Users.Application.Services
             }
 
             if (email.IsNotEmpty())
+            {
                 return;
+            }
             
             if (name.IsEmpty())
             {
