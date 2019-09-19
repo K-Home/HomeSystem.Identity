@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Domain.Exceptions;
+using FinanceControl.Services.Users.Domain.Extensions;
 using Serilog;
 
 namespace FinanceControl.Services.Users.Infrastructure.Handlers
@@ -32,64 +33,64 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
 
         public HandlerTask(IHandler handler, Action runAction)
         {
-            _handler = handler;
-            _run = runAction;
+            _handler = handler.CheckIfNotEmpty();
+            _run = runAction.CheckIfNotEmpty();
         }
 
         public HandlerTask(IHandler handler, Func<Task> runAsyncAction)
         {
-            _handler = handler;
-            _runAsync = runAsyncAction;
+            _handler = handler.CheckIfNotEmpty();
+            _runAsync = runAsyncAction.CheckIfNotEmpty();
         }
 
         public HandlerTask(IHandler handler, Action runAction,
             Action validate)
         {
-            _handler = handler;
-            _run = runAction;
-            _validate = validate;
+            _handler = handler.CheckIfNotEmpty();
+            _run = runAction.CheckIfNotEmpty();
+            _validate = validate.CheckIfNotEmpty();
         }
 
         public HandlerTask(IHandler handler, Action runAction,
             Func<Task> validateActionAsync)
         {
-            _handler = handler;
-            _run = runAction;
-            _validateAsync = validateActionAsync;
+            _handler = handler.CheckIfNotEmpty();
+            _run = runAction.CheckIfNotEmpty();
+            _validateAsync = validateActionAsync.CheckIfNotEmpty();
         }
 
         public HandlerTask(IHandler handler, Action runAction,
             Action validateAction, Func<Task> validateAsyncAction)
         {
-            _handler = handler;
-            _run = runAction;
-            _validate = validateAction;
-            _validateAsync = validateAsyncAction;
+            _handler = handler.CheckIfNotEmpty();
+            _run = runAction.CheckIfNotEmpty();
+            _validate = validateAction.CheckIfNotEmpty();
+            _validateAsync = validateAsyncAction.CheckIfNotEmpty();
         }
 
         public HandlerTask(IHandler handler, Func<Task> runAsyncAsync,
             Action validateAction)
         {
-            _handler = handler;
-            _runAsync = runAsyncAsync;
-            _validate = validateAction;
+            _handler = handler.CheckIfNotEmpty();
+            _runAsync = runAsyncAsync.CheckIfNotEmpty();
+            _validate = validateAction.CheckIfNotEmpty();
         }
 
         public HandlerTask(IHandler handler, Func<Task> runAsyncAsync,
             Func<Task> validateAsyncAction)
         {
-            _handler = handler;
-            _runAsync = runAsyncAsync;
-            _validateAsync = validateAsyncAction;
+            _handler = handler.CheckIfNotEmpty();
+            _runAsync = runAsyncAsync.CheckIfNotEmpty();
+            _validateAsync = validateAsyncAction.CheckIfNotEmpty();
         }
 
         public HandlerTask(IHandler handler, Func<Task> runAsyncAsync,
             Action validateAction, Func<Task> validateAsyncAction)
         {
-            _handler = handler;
-            _runAsync = runAsyncAsync;
-            _validate = validateAction;
-            _validateAsync = validateAsyncAction;
+            _handler = handler.CheckIfNotEmpty();
+            _runAsync = runAsyncAsync.CheckIfNotEmpty();
+            _validate = validateAction.CheckIfNotEmpty();
+            _validateAsync = validateAsyncAction.CheckIfNotEmpty();
         }
 
         public IHandlerTask Always(Action alwaysAction)
@@ -252,13 +253,13 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             catch (Exception exception)
             {
                 var customException = exception as FinanceControlException;
-                if (customException != null)
+                if (customException.HasValue())
                 {
                     _onCustomErrorWithLogger?.Invoke(customException, Logger);
                     _onCustomError?.Invoke(customException);
                 }
 
-                var executeOnError = _executeOnError || customException == null;
+                var executeOnError = _executeOnError || customException.HasNoValue();
                 if (executeOnError)
                 {
                     _onErrorWithLogger?.Invoke(customException, Logger);
@@ -281,13 +282,13 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             try
             {
                 _validate?.Invoke();
-                if (_validateAsync != null)
+                if (_validateAsync.HasValue())
                 {
                     await _validateAsync();
                 }
 
                 await _runAsync();
-                if (_onSuccessAsync != null)
+                if (_onSuccessAsync.HasValue())
                 {
                     await _onSuccessAsync();
                 }
@@ -295,32 +296,32 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             catch (Exception exception)
             {
                 var customException = exception as FinanceControlException;
-                if (customException != null)
+                if (customException.HasValue())
                 {
                     _onCustomErrorWithLogger?.Invoke(customException, Logger);
-                    if (_onCustomErrorWithLoggerAsync != null)
+                    if (_onCustomErrorWithLoggerAsync.HasValue())
                     {
                         await _onCustomErrorWithLoggerAsync(customException, Logger);
                     }
 
                     _onCustomError?.Invoke(customException);
-                    if (_onCustomErrorAsync != null)
+                    if (_onCustomErrorAsync.HasValue())
                     {
                         await _onCustomErrorAsync(customException);
                     }
                 }
 
-                var executeOnError = _executeOnError || customException == null;
+                var executeOnError = _executeOnError || customException.HasNoValue();
                 if (executeOnError)
                 {
                     _onErrorWithLogger?.Invoke(customException, Logger);
-                    if (_onErrorWithLoggerAsync != null)
+                    if (_onErrorWithLoggerAsync.HasValue())
                     {
                         await _onErrorWithLoggerAsync(exception, Logger);
                     }
 
                     _onError?.Invoke(exception);
-                    if (_onErrorAsync != null)
+                    if (_onErrorAsync.HasValue())
                     {
                         await _onErrorAsync(exception);
                     }
@@ -333,7 +334,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             }
             finally
             {
-                if (_alwaysAsync != null)
+                if (_alwaysAsync.HasValue())
                 {
                     await _alwaysAsync();
                 }

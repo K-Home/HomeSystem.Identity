@@ -21,8 +21,8 @@ namespace FinanceControl.Services.Users.Api.Controllers
 
         public BaseController(IMediatRBus mediatRBus, AppOptions settings)
         {
-            _mediatRBus = mediatRBus ?? throw new ArgumentNullException(nameof(mediatRBus));
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _mediatRBus = mediatRBus.CheckIfNotEmpty();
+            _settings = settings.CheckIfNotEmpty();
         }
 
         protected async Task<IActionResult> SendAsync<TCommand>(TCommand command, string endpoint)
@@ -39,7 +39,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
         {
             var result = await _mediatRBus.QueryAsync<IQuery<TResult>, TResult>(query);
 
-            if (result == null)
+            if (result.HasNoValue())
             {
                 return NotFound();
             }
@@ -57,7 +57,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
 
         private IActionResult Accepted(Guid? requestId = null, string resource = "")
         {
-            if (requestId != null)
+            if (requestId.HasValue)
             {
                 Response.Headers.Add(OperationHeader, $"operations/{requestId}");
             }

@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Application.Exceptions;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using FluentValidation;
@@ -33,7 +34,7 @@ namespace FinanceControl.Services.Users.Application.Behaviors
             var failures = _validators
                 .Select(v => v.Validate(request))
                 .SelectMany(result => result.Errors)
-                .Where(error => error != null)
+                .Where(error => error.HasValue())
                 .ToList();
 
             if (failures.Any())

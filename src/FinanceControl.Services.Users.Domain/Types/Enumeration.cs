@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FinanceControl.Services.Users.Domain.Extensions;
 
 namespace FinanceControl.Services.Users.Domain.Types
 {
@@ -72,7 +73,7 @@ namespace FinanceControl.Services.Users.Domain.Types
         private static T Parse<T, TK>(TK value, string description, Func<T, bool> predicate) where T : Enumeration
         {
             var matchingItem = GetAll<T>().FirstOrDefault(predicate);
-            if (matchingItem == null)
+            if (matchingItem.HasNoValue())
             {
                 throw new InvalidOperationException($"'{value}' is not a valid {description} in {typeof(T)}");
             }

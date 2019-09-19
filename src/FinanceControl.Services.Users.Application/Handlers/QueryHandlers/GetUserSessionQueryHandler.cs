@@ -5,6 +5,7 @@ using FinanceControl.Services.Users.Application.Dtos;
 using FinanceControl.Services.Users.Application.Messages.Queries;
 using FinanceControl.Services.Users.Application.Services.Base;
 using FinanceControl.Services.Users.Domain.Aggregates;
+using FinanceControl.Services.Users.Domain.Extensions;
 using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
@@ -16,8 +17,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 
         public GetUserSessionQueryHandler(IMapper mapper, IAuthenticationService authenticationService)
         {
-            _mapper = mapper;
-            _authenticationService = authenticationService;
+            _mapper = mapper.CheckIfNotEmpty();
+            _authenticationService = authenticationService.CheckIfNotEmpty();
         }
 
         public async Task<UserSessionDto> Handle(GetUserSessionQuery query, CancellationToken cancellationToken)

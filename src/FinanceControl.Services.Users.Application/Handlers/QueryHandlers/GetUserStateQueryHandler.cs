@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Application.Messages.Queries;
 using FinanceControl.Services.Users.Application.Services.Base;
+using FinanceControl.Services.Users.Domain.Extensions;
 using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
@@ -12,7 +13,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 
         public GetUserStateQueryHandler(IUserService userService)
         {
-            _userService = userService;
+            _userService = userService.CheckIfNotEmpty();
         }
 
         public async Task<string> Handle(GetUserStateQuery query, CancellationToken cancellationToken)

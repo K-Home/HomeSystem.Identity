@@ -25,8 +25,8 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
 
         public JwtTokenHandler(ILogger logger, JwtTokenSettings settings)
         {
-            _logger = logger;
-            _settings = settings;
+            _logger = logger.CheckIfNotEmpty();
+            _settings = settings.CheckIfNotEmpty();
 
             InitializeHmac();
             InitializeJwtParameters();

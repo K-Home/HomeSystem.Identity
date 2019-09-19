@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Domain.Aggregates;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.Repositories;
 using FinanceControl.Services.Users.Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Repositories
 
         public OneTimeSecuredOperationRepository(IdentityDbContext identityDbContext)
         {
-            _identityDbContext = identityDbContext ?? throw new ArgumentNullException(nameof(identityDbContext));
+            _identityDbContext = identityDbContext.CheckIfNotEmpty();
         }
 
         public async Task<OneTimeSecuredOperation> GetAsync(Guid id)

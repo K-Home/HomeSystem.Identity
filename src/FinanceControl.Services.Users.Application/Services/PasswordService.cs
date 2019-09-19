@@ -4,6 +4,7 @@ using FinanceControl.Services.Users.Application.Exceptions;
 using FinanceControl.Services.Users.Application.Services.Base;
 using FinanceControl.Services.Users.Domain;
 using FinanceControl.Services.Users.Domain.Enumerations;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.Repositories;
 using FinanceControl.Services.Users.Domain.Services;
 
@@ -19,17 +20,16 @@ namespace FinanceControl.Services.Users.Application.Services
             IOneTimeSecuredOperationService oneTimeSecuredOperationService,
             IEncrypter encrypter)
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _oneTimeSecuredOperationService = oneTimeSecuredOperationService ??
-                                              throw new ArgumentNullException(nameof(oneTimeSecuredOperationService));
-            _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
+            _userRepository = userRepository.CheckIfNotEmpty();
+            _oneTimeSecuredOperationService = oneTimeSecuredOperationService.CheckIfNotEmpty();
+            _encrypter = encrypter.CheckIfNotEmpty();
         }
 
         public async Task ChangeAsync(Guid userId, string currentPassword, string newPassword)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
@@ -49,7 +49,7 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await _userRepository.GetByEmailAsync(email);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email: '{email}' has not been found.");
@@ -63,7 +63,7 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await _userRepository.GetByEmailAsync(email);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email: '{email}' has not been found.");

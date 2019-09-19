@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.Types;
 using FinanceControl.Services.Users.Infrastructure.EF;
 using MediatR;
@@ -32,7 +33,7 @@ namespace FinanceControl.Services.Users.Infrastructure.MediatR
         {
             var domainTrackedObjects = ctx.ChangeTracker
                 .Entries<T>()
-                .Where(x => x.Entity.DomainEvents != null
+                .Where(x => x.Entity.DomainEvents.HasValue()
                             && x.Entity.DomainEvents.Any()).ToList();
 
             return domainTrackedObjects;
