@@ -12,6 +12,8 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
 {
     public class User : AggregateRootBase, IEditable, ITimestampable
     {
+        private static readonly string DefaultCulture = "en-gb";
+        
         public Avatar Avatar { get; private set; }
         public string Username { get; private set; }
         public string FirstName { get; private set; }
@@ -23,6 +25,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public string Salt { get; private set; }
         public string Role { get; private set; }
         public string State { get; private set; }
+        public string Culture { get; protected set; }
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -37,19 +40,20 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         {
         }
 
-        public User(Guid id, string email, string role)
+        public User(Guid id, string email, string name)
         {
             Id = id;
             Avatar = Avatar.Empty;
             Address = UserAddress.Empty;
-            Username = $"user-{Id:N}";
+            SetUserName(name);
             SetEmail(email);
-            SetRole(role);
+            Role = Roles.User;
             State = States.Incomplete;
             TwoFactorAuthentication = false;
+            SetCulture(DefaultCulture);
             CreatedAt = DateTime.UtcNow;
         }
-
+        
         public void SetFirstName(string firstName)
         {
             if (!firstName.IsName())
@@ -136,7 +140,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
                 throw new ArgumentException("User name is too long.", nameof(name));
             }
 
-            if (name.IsName() == false)
+            if (!name.IsName())
             {
                 throw new ArgumentException("User name doesn't meet the required criteria.", nameof(name));
             }
@@ -193,6 +197,17 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             }
 
             Role = role;
+            UpdatedAt = DateTime.UtcNow;
+        }
+        
+        public void SetCulture(string culture)
+        {
+            if (culture.IsEmpty())
+            {
+                culture = DefaultCulture;
+            }
+            
+            Culture = culture;
             UpdatedAt = DateTime.UtcNow;
         }
 

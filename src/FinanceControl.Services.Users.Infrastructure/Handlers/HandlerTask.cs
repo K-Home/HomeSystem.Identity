@@ -281,13 +281,13 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
                 _validate?.Invoke();
                 if (_validateAsync != null)
                 {
-                    await _validateAsync().ConfigureAwait(false);
+                    await _validateAsync();
                 }
 
-                await _runAsync().ConfigureAwait(false);
+                await _runAsync();
                 if (_onSuccessAsync != null)
                 {
-                    await _onSuccessAsync().ConfigureAwait(false);
+                    await _onSuccessAsync();
                 }
             }
             catch (Exception exception)
@@ -298,13 +298,13 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
                     _onCustomErrorWithLogger?.Invoke(customException, Logger);
                     if (_onCustomErrorWithLoggerAsync != null)
                     {
-                        await _onCustomErrorWithLoggerAsync(customException, Logger).ConfigureAwait(false);
+                        await _onCustomErrorWithLoggerAsync(customException, Logger);
                     }
 
                     _onCustomError?.Invoke(customException);
                     if (_onCustomErrorAsync != null)
                     {
-                        await _onCustomErrorAsync(customException).ConfigureAwait(false);
+                        await _onCustomErrorAsync(customException);
                     }
                 }
 
@@ -314,13 +314,13 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
                     _onErrorWithLogger?.Invoke(customException, Logger);
                     if (_onErrorWithLoggerAsync != null)
                     {
-                        await _onErrorWithLoggerAsync(exception, Logger).ConfigureAwait(false);
+                        await _onErrorWithLoggerAsync(exception, Logger);
                     }
 
                     _onError?.Invoke(exception);
                     if (_onErrorAsync != null)
                     {
-                        await _onErrorAsync(exception).ConfigureAwait(false);
+                        await _onErrorAsync(exception);
                     }
                 }
 
@@ -333,7 +333,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             {
                 if (_alwaysAsync != null)
                 {
-                    await _alwaysAsync().ConfigureAwait(false);
+                    await _alwaysAsync();
                 }
             }
         }

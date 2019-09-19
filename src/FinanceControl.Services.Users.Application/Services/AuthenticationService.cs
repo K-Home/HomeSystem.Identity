@@ -54,7 +54,7 @@ namespace FinanceControl.Services.Users.Application.Services
                     "Invalid credentials.");
             }
 
-            await CreateSessionAsync(sessionId, user, ipAddress, userAgent).ConfigureAwait(false);
+            await CreateSessionAsync(sessionId, user, ipAddress, userAgent);
         }
 
         public async Task SignOutAsync(Guid sessionId, Guid userId)
@@ -90,7 +90,7 @@ namespace FinanceControl.Services.Users.Application.Services
                     $"User with id '{userId}' has not been found.");
             }
 
-            await CreateSessionAsync(sessionId, user, ipAddress, userAgent).ConfigureAwait(false);
+            await CreateSessionAsync(sessionId, user, ipAddress, userAgent);
         }
 
         private async Task CreateSessionAsync(Guid sessionId, User user,

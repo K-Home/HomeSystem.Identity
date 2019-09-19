@@ -66,7 +66,7 @@ namespace FinanceControl.Services.Users.Application.Services
         public async Task RemoveAsync(Guid userId)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
-            await RemoveAsync(user, userId).ConfigureAwait(false);
+            await RemoveAsync(user, userId);
             _userRepository.EditUser(user);
         }
 
