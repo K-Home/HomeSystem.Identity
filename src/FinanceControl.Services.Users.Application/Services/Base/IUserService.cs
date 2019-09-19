@@ -14,13 +14,13 @@ namespace FinanceControl.Services.Users.Application.Services.Base
         Task<User> GetByEmailAsync(string email);
         Task<string> GetStateAsync(Guid userId);
         Task<IEnumerable<User>> BrowseAsync();
-        
-        Task SignUpAsync(Guid userId, string email, string name, 
+
+        Task SignUpAsync(Guid userId, string email, string name,
             string password, string culture);
 
-        Task UpdateAsync(Guid userId, string userName, string firstName, string lastName, 
+        Task UpdateAsync(Guid userId, string userName, string firstName, string lastName,
             string street, string city, string state, string country, string zipCode);
-        
+
         Task SetPhoneNumber(Guid userId, string phoneNumber);
         Task ChangeNameAsync(Guid userId, string name);
         Task ActivateAsync(string email, string token);

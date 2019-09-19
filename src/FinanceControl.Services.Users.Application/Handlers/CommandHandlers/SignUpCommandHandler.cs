@@ -49,13 +49,13 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 
                     await _userService.SignUpAsync(userId, command.Email, command.UserName, command.Password,
                         command.Request.Culture);
-                    
+
                     await _userService.SaveChangesAsync(cancellationToken);
                 })
                 .OnSuccess(async () =>
                 {
                     var user = await _userService.GetAsync(userId);
-                    
+
                     await _mediatRBus.PublishAsync(
                         new SignedUpDomainEvent(command.Request.Id, userId,
                             "Operation is created and waiting for completion.",

@@ -91,7 +91,7 @@ namespace FinanceControl.Services.Users.Application.Services
             {
                 return;
             }
-            
+
             if (name.IsEmpty())
             {
                 name = $"user-{userId:N}";
@@ -104,23 +104,23 @@ namespace FinanceControl.Services.Users.Application.Services
             {
                 user.SetPassword(password, _encrypter);
             }
-            
+
             user.SetCulture(culture);
 
             await _userRepository.AddUserAsync(user);
         }
 
-        public async Task UpdateAsync(Guid userId, string userName, string firstName, string lastName, 
+        public async Task UpdateAsync(Guid userId, string userName, string firstName, string lastName,
             string street, string city, string state, string country, string zipCode)
         {
             var user = await _userRepository.GetOrThrowAsync(userId);
-            
+
             if (user == null)
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
             }
-            
+
             user.SetUserName(userName);
             user.SetFirstName(firstName);
             user.SetLastName(lastName);
@@ -144,7 +144,7 @@ namespace FinanceControl.Services.Users.Application.Services
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
             }
-            
+
             user.SetPhoneNumber(phoneNumber);
             _userRepository.EditUser(user);
         }

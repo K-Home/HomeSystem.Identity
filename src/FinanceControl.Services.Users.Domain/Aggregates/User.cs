@@ -13,7 +13,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
     public class User : AggregateRootBase, IEditable, ITimestampable
     {
         private static readonly string DefaultCulture = "en-gb";
-        
+
         public Avatar Avatar { get; private set; }
         public string Username { get; private set; }
         public string FirstName { get; private set; }
@@ -53,7 +53,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             SetCulture(DefaultCulture);
             CreatedAt = DateTime.UtcNow;
         }
-        
+
         public void SetFirstName(string firstName)
         {
             if (!firstName.IsName())
@@ -199,7 +199,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             Role = role;
             UpdatedAt = DateTime.UtcNow;
         }
-        
+
         public void SetCulture(string culture)
         {
             if (culture.IsEmpty())
@@ -208,7 +208,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
                 UpdatedAt = DateTime.UtcNow;
                 return;
             }
-            
+
             Culture = culture;
             UpdatedAt = DateTime.UtcNow;
         }

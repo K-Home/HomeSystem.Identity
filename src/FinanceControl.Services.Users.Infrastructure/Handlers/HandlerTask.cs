@@ -136,7 +136,8 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             return this;
         }
 
-        public IHandlerTask OnCustomError(Func<FinanceControlException, ILogger, Task> onCustomErrorAsyncWithLoggerAction,
+        public IHandlerTask OnCustomError(
+            Func<FinanceControlException, ILogger, Task> onCustomErrorAsyncWithLoggerAction,
             bool propagateException = false, bool executeOnError = false)
         {
             _onCustomErrorWithLoggerAsync = onCustomErrorAsyncWithLoggerAction;
@@ -198,7 +199,8 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             return this;
         }
 
-        public IHandlerTask OnError(Func<Exception, ILogger, Task> onErrorAsyncWithLoggerAction, bool propagateException)
+        public IHandlerTask OnError(Func<Exception, ILogger, Task> onErrorAsyncWithLoggerAction,
+            bool propagateException)
         {
             _onErrorWithLoggerAsync = onErrorAsyncWithLoggerAction;
             _propagateException = propagateException;
