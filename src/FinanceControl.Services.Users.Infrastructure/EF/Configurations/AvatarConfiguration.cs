@@ -14,7 +14,8 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Configurations
             builder.Property(a => a.Url)
                 .HasMaxLength(2000);
 
-            builder.Property(a => a.IsEmpty);
+            builder.Property(a => a.IsEmpty)
+                .HasField("_isEmpty");
         }
     }
 }

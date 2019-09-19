@@ -67,11 +67,11 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Configurations
 
             builder.OwnsOne(u => u.Avatar);
 
-            builder.HasMany(u => User.UserSessions)
+            builder.HasMany(u => u.UserSessions)
                 .WithOne(us => us.User)
                 .HasForeignKey(us => us.UserId);
 
-            builder.HasMany(u => User.OneTimeSecuredOperations)
+            builder.HasMany(u => u.OneTimeSecuredOperations)
                 .WithOne(us => us.User)
                 .HasForeignKey(us => us.UserId);
 
