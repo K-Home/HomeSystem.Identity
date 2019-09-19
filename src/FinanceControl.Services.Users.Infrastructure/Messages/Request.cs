@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace FinanceControl.Services.Users.Infrastructure.Messages
 {
@@ -6,12 +7,14 @@ namespace FinanceControl.Services.Users.Infrastructure.Messages
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
-        public DateTime When { get; set; }
-
+        public string Origin { get; set; }
+        public string Resource { get; set; }
+        public string Culture { get; set; }
+        private DateTime CreatedAt { get; set; }
 
         public static Request From<T>(Request request)
         {
-            return Create<T>(request.Id, request.Name);
+            return Create<T>(request.Id, request.Origin, request.Culture, request.Resource);
         }
 
         public static Request New<T>()
@@ -21,17 +24,30 @@ namespace FinanceControl.Services.Users.Infrastructure.Messages
 
         public static Request New<T>(Guid id)
         {
-            return Create<T>(id, string.Empty);
+            return Create<T>(id, string.Empty, string.Empty, string.Empty);
         }
 
-        public static Request Create<T>(Guid id, string name)
+        public static Request Create<T>(Guid id, string origin, string culture, string resource)
         {
             return new Request
             {
                 Id = id,
-                Name = typeof(T).Name,
-                When = DateTime.UtcNow
+                Name = GetName(typeof(T).Name),
+                Origin = origin.StartsWith("/") ? origin.Remove(0, 1) : origin,
+                Culture = culture,
+                Resource = resource,
+                CreatedAt = DateTime.UtcNow
             };
+        }
+
+        private static string GetName(string name)
+        {
+            return Underscore(name).ToLowerInvariant();
+        }
+
+        private static string Underscore(string value)
+        {
+            return string.Concat(value.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x : x.ToString()));
         }
     }
 }

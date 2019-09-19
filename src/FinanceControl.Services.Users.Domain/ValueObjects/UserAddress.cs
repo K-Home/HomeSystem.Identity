@@ -11,11 +11,11 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
         public string Country { get; private set; }
         public string ZipCode { get; private set; }
 
-        protected UserAddress()
+        private UserAddress()
         {
         }
 
-        protected UserAddress(string street, string city, string state, string country, string zipCode)
+        private UserAddress(string street, string city, string state, string country, string zipCode)
         {
             if (string.IsNullOrEmpty(street))
             {

@@ -7,31 +7,31 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
 {
     public interface IHandlerTask
     {
-        IHandlerTask Always(Action actAlways);
-        IHandlerTask Always(Func<Task> funcAlways);
+        IHandlerTask Always(Action alwaysAction);
+        IHandlerTask Always(Func<Task> alwaysAsyncAction);
 
-        IHandlerTask OnCustomError(Action<FinanceControlException> actOnCustomError,
+        IHandlerTask OnCustomError(Action<FinanceControlException> onCustomErrorAction,
             bool propagateException = false, bool executeOnError = false);
 
-        IHandlerTask OnCustomError(Action<FinanceControlException, ILogger> actOnCustomErrorWithLogger,
+        IHandlerTask OnCustomError(Action<FinanceControlException, ILogger> onCustomErrorAsyncWithLoggerAction,
             bool propagateException = false, bool executeOnError = false);
 
-        IHandlerTask OnCustomError(Func<FinanceControlException, Task> funcOnCustomError,
+        IHandlerTask OnCustomError(Func<FinanceControlException, Task> onCustomErrorAsyncAction,
             bool propagateException = false, bool executeOnError = false);
 
-        IHandlerTask OnCustomError(Func<FinanceControlException, ILogger, Task> funcOnCustomErrorWithLogger,
+        IHandlerTask OnCustomError(Func<FinanceControlException, ILogger, Task> onCustomErrorAsyncWithLoggerAction,
             bool propagateException = false, bool executeOnError = false);
 
-        IHandlerTask OnError(Action<Exception> actOnError);
-        IHandlerTask OnError(Action<Exception> actOnError, bool propagateException);
-        IHandlerTask OnError(Action<Exception, ILogger> actOnErrorWithLogger);
-        IHandlerTask OnError(Action<Exception, ILogger> actOnErrorWithLogger, bool propagateException);
-        IHandlerTask OnError(Func<Exception, Task> funcOnError);
-        IHandlerTask OnError(Func<Exception, Task> funcOnError, bool propagateException);
-        IHandlerTask OnError(Func<Exception, ILogger, Task> funcOnErrorWithLogger);
-        IHandlerTask OnError(Func<Exception, ILogger, Task> funcOnErrorWithLogger, bool propagateException);
-        IHandlerTask OnSuccess(Action actOnSuccess);
-        IHandlerTask OnSuccess(Func<Task> funcOnSuccess);
+        IHandlerTask OnError(Action<Exception> onErrorAction);
+        IHandlerTask OnError(Action<Exception> onErrorAction, bool propagateException);
+        IHandlerTask OnError(Action<Exception, ILogger> onErrorWithLoggerAction);
+        IHandlerTask OnError(Action<Exception, ILogger> onErrorWithLoggerAction, bool propagateException);
+        IHandlerTask OnError(Func<Exception, Task> onErrorAsyncAction);
+        IHandlerTask OnError(Func<Exception, Task> onErrorAsyncAction, bool propagateException);
+        IHandlerTask OnError(Func<Exception, ILogger, Task> onErrorAsyncWithLoggerAction);
+        IHandlerTask OnError(Func<Exception, ILogger, Task> onErrorAsyncWithLoggerAction, bool propagateException);
+        IHandlerTask OnSuccess(Action onSuccessAction);
+        IHandlerTask OnSuccess(Func<Task> onSuccessAsyncAction);
         IHandlerTask PropagateException();
         IHandlerTask DoNotPropagateException();
         IHandler Next();

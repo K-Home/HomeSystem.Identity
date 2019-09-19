@@ -47,18 +47,19 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                         new SignUpRequestCreatedIntegrationEvent(command.Request.Id, userId, resource, string.Empty),
                         cancellationToken);
 
-                    await _userService.SignUpAsync(userId, command.Email,
-                        command.Role.IsEmpty() ? Roles.User : command.Role, command.Password, command.State == "active",
-                        command.UserName);
+                    await _userService.SignUpAsync(userId, command.Email, command.UserName, command.Password,
+                        command.Request.Culture);
 
                     await _userService.SaveChangesAsync(cancellationToken);
                 })
                 .OnSuccess(async () =>
                 {
+                    var user = await _userService.GetAsync(userId);
+
                     await _mediatRBus.PublishAsync(
                         new SignedUpDomainEvent(command.Request.Id, userId,
                             "Operation is created and waiting for completion.",
-                            resource, command.Role, command.State), cancellationToken);
+                            resource, user.Role, user.State), cancellationToken);
                 })
                 .OnCustomError(async customException =>
                 {

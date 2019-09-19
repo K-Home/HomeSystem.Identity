@@ -9,6 +9,8 @@ namespace FinanceControl.Services.Users.Application.Dtos
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string State { get; set; }
+        public string AvatarUrl { get; set; }
+        public string Culture { get; set; }
         public AddressDto Address { get; set; }
         public DateTime CreatedAt { get; set; }
     }

@@ -29,7 +29,7 @@ namespace FinanceControl.Services.Users.Api.Framework
             catch (Exception exception)
             {
                 _logger.LogError(exception, exception.Message);
-                await HandleErrorAsync(context, exception).ConfigureAwait(false);
+                await HandleErrorAsync(context, exception);
             }
         }
 
@@ -37,7 +37,7 @@ namespace FinanceControl.Services.Users.Api.Framework
         {
             string errorCode;
             const HttpStatusCode statusCode = HttpStatusCode.BadRequest;
-            
+
             switch (exception)
             {
                 case FinanceControlException e:
