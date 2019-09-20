@@ -8,27 +8,23 @@ using Newtonsoft.Json;
 // ReSharper disable once CheckNamespace
 namespace FinanceControl.IntegrationMessages
 {
-    public class SignUpRequestCreatedIntegrationEvent : IIntegrationEvent
+    public class AccountActivatedIntegrationEvent : IIntegrationEvent
     {
         [DataMember]
         public Guid RequestId { get; }
 
         [DataMember]
-        public Guid UserId { get; }
+        public string Email { get; }
 
         [DataMember]
-        public Resource Resource { get; }
-
-        [DataMember]
-        public string Message { get; }
+        public string UserId { get; }
 
         [JsonConstructor]
-        public SignUpRequestCreatedIntegrationEvent(Guid requestId, Guid userId, Resource resource, string message)
+        public AccountActivatedIntegrationEvent(Guid requestId, string email, string userId)
         {
             RequestId = requestId;
+            Email = email;
             UserId = userId;
-            Resource = resource;
-            Message = message;
         }
     }
 }

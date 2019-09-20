@@ -42,8 +42,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
             await _handler
                 .Run(async () =>
                 {
-                    await _massTransitBusService.PublishAsync(
-                        new SignUpRequestCreatedIntegrationEvent(command.Request.Id, userId, resource, string.Empty),
+                    await _massTransitBusService.SendAsync(
+                        new SignUpIntegrationCommand(command.Request, userId, resource, string.Empty),
                         cancellationToken);
 
                     await _userService.SignUpAsync(userId, command.Email, command.UserName, command.Password,

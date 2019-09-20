@@ -5,36 +5,32 @@ using Newtonsoft.Json;
 
 namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 {
-    public class SignedUpRejectedDomainEvent : IDomainRejectedEvent
+    public class ActivateAccountRejectedDomainEvent : IDomainRejectedEvent
     {
         [DataMember]
         public Guid RequestId { get; }
         
         [DataMember]
-        public Guid UserId { get; }
-        
-        [DataMember]
-        public string Message { get; }
-        
-        [DataMember]
-        public Resource Resource { get; }
+        public string UserId { get; }
         
         [DataMember]
         public string Reason { get; }
         
         [DataMember]
         public string Code { get; }
-
+        
+        [DataMember]
+        public string Email { get; }
+        
         [JsonConstructor]
-        public SignedUpRejectedDomainEvent(Guid requestId, Guid userId, string message,
-            Resource resource, string reason, string code)
+        public ActivateAccountRejectedDomainEvent(Guid requestId,
+            string email, string code, string reason, string userId)
         {
             RequestId = requestId;
+            Email = email;
             UserId = userId;
-            Message = message;
-            Resource = resource;
-            Reason = reason;
             Code = code;
+            Reason = reason;
         }
     }
 }
