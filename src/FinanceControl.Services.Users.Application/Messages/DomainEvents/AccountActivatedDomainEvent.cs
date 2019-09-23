@@ -14,14 +14,18 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Email { get; }
 
         [DataMember]
-        public string UserId { get; }
+        public Guid UserId { get; }
+
+        [DataMember]
+        public string Message { get; }
 
         [JsonConstructor]
-        public AccountActivatedDomainEvent(Guid requestId, string email, string userId)
+        public AccountActivatedDomainEvent(Guid requestId, string email, Guid userId, string message)
         {
             RequestId = requestId;
             Email = email;
             UserId = userId;
+            Message = message;
         }
     }
 }

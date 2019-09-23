@@ -13,10 +13,10 @@ namespace FinanceControl.IntegrationMessages
         public Request Request { get; }
 
         [DataMember]
-        public string Username { get; }
+        public string Email { get; }
 
         [DataMember]
-        public string Email { get; }
+        public string Username { get; }
 
         [DataMember]
         public string Token { get; }
@@ -25,12 +25,12 @@ namespace FinanceControl.IntegrationMessages
         public string Endpoint { get; }
 
         [JsonConstructor]
-        public SendActivateAccountMessageIntegrationCommand(Request request,
-            string username, string email, string token, string endpoint)
+        public SendActivateAccountMessageIntegrationCommand(Request request, string email, string username,
+            string token, string endpoint)
         {
             Request = request;
-            Username = username;
             Email = email;
+            Username = username;
             Token = token;
             Endpoint = endpoint;
         }

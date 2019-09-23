@@ -20,9 +20,6 @@ namespace FinanceControl.IntegrationMessages
         public string Message { get; }
 
         [DataMember]
-        public Resource Resource { get; }
-
-        [DataMember]
         public string Role { get; }
 
         [DataMember]
@@ -30,12 +27,11 @@ namespace FinanceControl.IntegrationMessages
 
         [JsonConstructor]
         public SignedUpIntegrationEvent(Guid requestId, Guid userId,
-            string message, Resource resource, string role, string state)
+            string message, string role, string state)
         {
             RequestId = requestId;
             UserId = userId;
             Message = message;
-            Resource = resource;
             Role = role;
             State = state;
         }

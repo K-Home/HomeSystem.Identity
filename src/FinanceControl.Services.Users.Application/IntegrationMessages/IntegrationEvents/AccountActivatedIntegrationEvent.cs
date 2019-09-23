@@ -17,10 +17,10 @@ namespace FinanceControl.IntegrationMessages
         public string Email { get; }
 
         [DataMember]
-        public string UserId { get; }
+        public Guid UserId { get; }
 
         [JsonConstructor]
-        public AccountActivatedIntegrationEvent(Guid requestId, string email, string userId)
+        public AccountActivatedIntegrationEvent(Guid requestId, string email, Guid userId)
         {
             RequestId = requestId;
             Email = email;

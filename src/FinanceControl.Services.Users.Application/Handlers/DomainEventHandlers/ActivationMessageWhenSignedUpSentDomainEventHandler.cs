@@ -10,38 +10,46 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    public class AccountActivatedDomainEventHandler : INotificationHandler<AccountActivatedDomainEvent>,
-        INotificationHandler<ActivateAccountRejectedDomainEvent>
+    public class ActivationMessageWhenSignedUpSentDomainEventHandler :
+        INotificationHandler<ActivateAccountSecuredOperationCreatedDomainEvent>,
+        INotificationHandler<CreateActivateAccountSecuredOperationRejectedDomainEvent>
     {
-        private readonly ILogger<SignedUpDomainEventHandler> _logger;
+        private readonly ILogger<ActivationMessageWhenSignedUpSentDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
 
-        public AccountActivatedDomainEventHandler(ILogger<SignedUpDomainEventHandler> logger,
+        public ActivationMessageWhenSignedUpSentDomainEventHandler(
+            ILogger<ActivationMessageWhenSignedUpSentDomainEventHandler> logger,
             IMassTransitBusService massTransitBusService)
         {
             _logger = logger.CheckIfNotEmpty();
             _massTransitBusService = massTransitBusService.CheckIfNotEmpty();
         }
 
-        public async Task Handle(AccountActivatedDomainEvent @event, CancellationToken cancellationToken)
+        public async Task Handle(ActivateAccountSecuredOperationCreatedDomainEvent @event,
+            CancellationToken cancellationToken)
         {
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
                 @event.GetGenericTypeName(), @event);
 
+            await _massTransitBusService.SendAsync(new SendActivateAccountMessageIntegrationCommand(@event.Request,
+                @event.Email, @event.Username, @event.Token, @event.Endpoint), cancellationToken);
+
             await _massTransitBusService.PublishAsync(
-                new AccountActivatedIntegrationEvent(@event.RequestId, @event.Email, @event.UserId), cancellationToken);
+                new ActivateAccountSecuredOperationCreatedIntegrationEvent(@event.Request.Id, @event.UserId,
+                    @event.OperationId, @event.Message), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
 
-        public async Task Handle(ActivateAccountRejectedDomainEvent @event, CancellationToken cancellationToken)
+        public async Task Handle(CreateActivateAccountSecuredOperationRejectedDomainEvent @event,
+            CancellationToken cancellationToken)
         {
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(
-                new ActivateAccountRejectedIntegrationEvent(@event.RequestId, @event.Email, @event.Code, @event.Reason),
-                cancellationToken);
+                new CreateActivateAccountSecuredOperationRejectedIntegrationEvent(@event.RequestId, @event.UserId,
+                    @event.OperationId, @event.Message, @event.Reason, @event.Code), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
