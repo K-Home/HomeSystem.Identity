@@ -50,7 +50,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 .OnCustomError(async customException =>
                 {
                     await _mediatRBus.PublishAsync(
-                        new SignedUpRejectedDomainEvent(command.Request.Id, userId,
+                        new SignUpRejectedDomainEvent(command.Request.Id, userId,
                             "Sign up rejected, because custom exception was thrown.",
                             customException.Message, customException.Code), cancellationToken);
                 })
@@ -58,7 +58,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 {
                     logger.Error("Error occured while signing up a user.", exception);
                     await _mediatRBus.PublishAsync(
-                        new SignedUpRejectedDomainEvent(command.Request.Id, userId,
+                        new SignUpRejectedDomainEvent(command.Request.Id, userId,
                             "Sign up rejected, because exception was thrown.", exception.Message,
                             Codes.Error), cancellationToken);
                 })

@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
     public class SignedUpDomainEventHandler : INotificationHandler<SignedUpDomainEvent>,
-        INotificationHandler<SignedUpRejectedDomainEvent>
+        INotificationHandler<SignUpRejectedDomainEvent>
     {
         private readonly ILogger<SignedUpDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
@@ -42,7 +42,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
 
-        public async Task Handle(SignedUpRejectedDomainEvent @event, CancellationToken cancellationToken)
+        public async Task Handle(SignUpRejectedDomainEvent @event, CancellationToken cancellationToken)
         {
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
                 @event.GetGenericTypeName(), @event);
