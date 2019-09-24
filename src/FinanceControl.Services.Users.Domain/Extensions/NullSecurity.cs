@@ -6,7 +6,7 @@ namespace FinanceControl.Services.Users.Domain.Extensions
     {
         public static void ThrowIfNull<T>(this T value) where T : class
         {
-            if (value == null)
+            if (value.HasNoValue())
             {
                 throw new ArgumentNullException(typeof(T).Name);
             }
@@ -14,7 +14,7 @@ namespace FinanceControl.Services.Users.Domain.Extensions
 
         public static T CheckIfNotEmpty<T>(this T value) where T : class
         {
-            if (value == null)
+            if (value.HasNoValue())
             {
                 throw new ArgumentNullException(typeof(T).Name);
             }
@@ -24,7 +24,7 @@ namespace FinanceControl.Services.Users.Domain.Extensions
 
         public static void ThrowIfNull<T>(this T value, string message) where T : class
         {
-            if (value == null)
+            if (value.HasNoValue())
             {
                 throw new ArgumentNullException(typeof(T).Name, message);
             }

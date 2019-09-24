@@ -8,8 +8,8 @@ namespace FinanceControl.Services.Users.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
+                "Users",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Avatar_Name = table.Column<string>(maxLength: 500, nullable: true),
@@ -29,18 +29,15 @@ namespace FinanceControl.Services.Users.Infrastructure.Migrations
                     Salt = table.Column<string>(maxLength: 500, nullable: false),
                     Role = table.Column<string>(nullable: false),
                     State = table.Column<string>(maxLength: 30, nullable: false),
-                    TwoFactorAuthentication = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorAuthentication = table.Column<bool>("bit", nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Users", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "OneTimeSecuredOperations",
-                columns: table => new
+                "OneTimeSecuredOperations",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Type = table.Column<string>(maxLength: 100, nullable: false),
@@ -59,16 +56,16 @@ namespace FinanceControl.Services.Users.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_OneTimeSecuredOperations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OneTimeSecuredOperations_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        "FK_OneTimeSecuredOperations_Users_UserId",
+                        x => x.UserId,
+                        "Users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserSessions",
-                columns: table => new
+                "UserSessions",
+                table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
@@ -76,8 +73,8 @@ namespace FinanceControl.Services.Users.Infrastructure.Migrations
                     UserAgent = table.Column<string>(maxLength: 50, nullable: true),
                     IpAddress = table.Column<string>(maxLength: 50, nullable: true),
                     ParentId = table.Column<Guid>(nullable: true),
-                    Refreshed = table.Column<bool>(type: "bit", nullable: false),
-                    Destroyed = table.Column<bool>(type: "bit", nullable: false),
+                    Refreshed = table.Column<bool>("bit", nullable: false),
+                    Destroyed = table.Column<bool>("bit", nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false)
                 },
@@ -85,34 +82,34 @@ namespace FinanceControl.Services.Users.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_UserSessions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserSessions_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        "FK_UserSessions_Users_UserId",
+                        x => x.UserId,
+                        "Users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OneTimeSecuredOperations_UserId",
-                table: "OneTimeSecuredOperations",
-                column: "UserId");
+                "IX_OneTimeSecuredOperations_UserId",
+                "OneTimeSecuredOperations",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSessions_UserId",
-                table: "UserSessions",
-                column: "UserId");
+                "IX_UserSessions_UserId",
+                "UserSessions",
+                "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OneTimeSecuredOperations");
+                "OneTimeSecuredOperations");
 
             migrationBuilder.DropTable(
-                name: "UserSessions");
+                "UserSessions");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                "Users");
         }
     }
 }

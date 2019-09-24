@@ -17,7 +17,8 @@ namespace FinanceControl.Services.Users.Application.Modules
         {
             var resources = new Dictionary<Type, string>
             {
-                [typeof(SignedUpDomainEvent)] = "users/accounts/{0}"
+                [typeof(SignedUpDomainEvent)] = "users/accounts/{0}",
+                [typeof(AccountActivatedDomainEvent)] = "users/accounts/{0}"
             };
 
             builder.RegisterModule(new ResourceModule(resources));

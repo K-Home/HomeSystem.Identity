@@ -3,9 +3,9 @@ using FinanceControl.Services.Users.Domain.Aggregates;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
-namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
+namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
-    public class SignedUpDomainEvent : IDomainEvent
+    public class SendActivateAccountMessageWhenSignedUpCommand : ICommand
     {
         [DataMember]
         public Request Request { get; }
@@ -13,15 +13,11 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         [DataMember]
         public User User { get; }
 
-        [DataMember]
-        public string Message { get; }
-
         [JsonConstructor]
-        public SignedUpDomainEvent(Request request, User user, string message)
+        public SendActivateAccountMessageWhenSignedUpCommand(Request request, User user)
         {
             Request = request;
             User = user;
-            Message = message;
         }
     }
 }

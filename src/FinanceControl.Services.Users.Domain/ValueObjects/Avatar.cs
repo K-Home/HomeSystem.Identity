@@ -7,7 +7,7 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
     public class Avatar : ValueObject<Avatar>
     {
         private bool _isEmpty;
-        
+
         public string Name { get; protected set; }
         public string Url { get; protected set; }
 

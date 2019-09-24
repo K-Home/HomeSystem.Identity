@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 // ReSharper disable once CheckNamespace
 namespace FinanceControl.IntegrationMessages
 {
-    public class SignUpRejectedIntegrationEvent : IIntegrationRejectedEvent
+    public class CreateActivateAccountSecuredOperationRejectedIntegrationEvent : IIntegrationRejectedEvent
     {
         [DataMember]
         public Guid RequestId { get; }
@@ -17,23 +17,27 @@ namespace FinanceControl.IntegrationMessages
         public Guid UserId { get; }
 
         [DataMember]
-        public string Message { get; }
+        public Guid OperationId { get; }
 
         [DataMember]
-        public string Code { get; }
+        public string Message { get; }
 
         [DataMember]
         public string Reason { get; }
 
+        [DataMember]
+        public string Code { get; }
+
         [JsonConstructor]
-        public SignUpRejectedIntegrationEvent(Guid requestId, Guid userId,
-            string message, string code, string reason)
+        public CreateActivateAccountSecuredOperationRejectedIntegrationEvent(Guid requestId, Guid userId,
+            Guid operationId, string message, string reason, string code)
         {
             RequestId = requestId;
             UserId = userId;
+            OperationId = operationId;
             Message = message;
-            Code = code;
             Reason = reason;
+            Code = code;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Application.Messages.Commands;
 using FinanceControl.Services.Users.Application.Messages.DomainEvents;
@@ -12,13 +11,13 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    public class SignUpCommandHandler : AsyncRequestHandler<SignUpCommand>
+    public class ActivateAccountCommandHandler : AsyncRequestHandler<ActivateAccountCommand>
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;
         private readonly IUserService _userService;
 
-        public SignUpCommandHandler(IHandler handler, IMediatRBus mediatRBus,
+        public ActivateAccountCommandHandler(IHandler handler, IMediatRBus mediatRBus,
             IUserService userService)
         {
             _handler = handler.CheckIfNotEmpty();
@@ -26,41 +25,32 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
             _userService = userService.CheckIfNotEmpty();
         }
 
-        protected override async Task Handle(SignUpCommand command, CancellationToken cancellationToken)
+        protected override async Task Handle(ActivateAccountCommand command, CancellationToken cancellationToken)
         {
-            var userId = Guid.NewGuid();
-
             await _handler
-                .Run(async () =>
-                {
-                    await _userService.SignUpAsync(userId, command.Email, command.UserName, command.Password,
-                        command.Request.Culture);
-
-                    await _userService.SaveChangesAsync(cancellationToken);
-                })
+                .Run(async () => { await _userService.ActivateAsync(command.Email, command.Token); })
                 .OnSuccess(async () =>
                 {
-                    var user = await _userService.GetAsync(userId);
-
+                    var user = await _userService.GetByEmailAsync(command.Email);
                     await _mediatRBus.PublishAsync(
-                        new SignedUpDomainEvent(command.Request, user,
-                            $"Successfully signed up user with id: {userId}."),
+                        new AccountActivatedDomainEvent(command.Request.Id, command.Email, user.Id,
+                            $"Successfully activated account for user with id: {user.Id}"),
                         cancellationToken);
                 })
                 .OnCustomError(async customException =>
                 {
                     await _mediatRBus.PublishAsync(
-                        new SignedUpRejectedDomainEvent(command.Request.Id, userId,
-                            "Sign up rejected, because custom exception was thrown.",
-                            customException.Message, customException.Code), cancellationToken);
+                        new ActivateAccountRejectedDomainEvent(command.Request.Id, command.Email,
+                            customException.Code, customException.Message,
+                            "Activated account rejected, because custom exception was thrown."), cancellationToken);
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error("Error occured while signing up a user.", exception);
+                    logger.Error(exception, "Error when activating account.");
                     await _mediatRBus.PublishAsync(
-                        new SignedUpRejectedDomainEvent(command.Request.Id, userId,
-                            "Sign up rejected, because exception was thrown.", exception.Message,
-                            Codes.Error), cancellationToken);
+                        new ActivateAccountRejectedDomainEvent(command.Request.Id, command.Email, Codes.Error,
+                            "Error when activating account",
+                            "Activated account rejected, because custom exception was thrown."), cancellationToken);
                 })
                 .ExecuteAsync();
         }
