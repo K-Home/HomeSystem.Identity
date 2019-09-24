@@ -10,15 +10,15 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    public class ActivationMessageWhenSignedUpSentDomainEventHandler :
+    public class ActivationMessageSentDomainEventHandler :
         INotificationHandler<ActivateAccountSecuredOperationCreatedDomainEvent>,
         INotificationHandler<CreateActivateAccountSecuredOperationRejectedDomainEvent>
     {
-        private readonly ILogger<ActivationMessageWhenSignedUpSentDomainEventHandler> _logger;
+        private readonly ILogger<ActivationMessageSentDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
 
-        public ActivationMessageWhenSignedUpSentDomainEventHandler(
-            ILogger<ActivationMessageWhenSignedUpSentDomainEventHandler> logger,
+        public ActivationMessageSentDomainEventHandler(
+            ILogger<ActivationMessageSentDomainEventHandler> logger,
             IMassTransitBusService massTransitBusService)
         {
             _logger = logger.CheckIfNotEmpty();

@@ -32,8 +32,9 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
                 @event.GetGenericTypeName(), @event);
 
-            await _mediatRBus.SendAsync(new SendActivateAccountMessageWhenSignedUpCommand(@event.Request, @event.User),
-                cancellationToken);
+            await _mediatRBus.SendAsync(
+                new SendActivateAccountMessageCommand(@event.Request, @event.User.Email, @event.User.Username,
+                    @event.User.Id), cancellationToken);
 
             await _massTransitBusService.PublishAsync(new SignedUpIntegrationEvent(@event.Request.Id, @event.User.Id,
                 @event.Message, @event.User.Role, @event.User.State), cancellationToken);
