@@ -20,5 +20,12 @@ namespace FinanceControl.Services.Users.Api.Controllers
         {
             return await SendAsync(command, "authentication/sign-in");
         }
+        
+        [HttpPost]
+        [Route("sign-out")]
+        public async Task<IActionResult> Post([FromBody] SignOutCommand command)
+        {
+            return await SendAsync(command, "authentication/sign-out");
+        }
     }
 }

@@ -1,16 +1,9 @@
-﻿using System.Runtime.Serialization;
-
-namespace FinanceControl.Services.Users.Infrastructure.Messages
+﻿namespace FinanceControl.Services.Users.Infrastructure.Messages
 {
     public interface IFileUploadIntegrationCommand : IAuthenticatedIntegrationCommand
     {
-        [DataMember]
-        string Name { get; set; }
-
-        [DataMember]
-        string ContentType { get; set; }
-
-        [DataMember]
-        string FileBase64 { get; set; }
+        string Name { get; }
+        string ContentType { get; }
+        string FileBase64 { get; }
     }
 }

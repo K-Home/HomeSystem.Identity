@@ -3,8 +3,8 @@ using System.Runtime.Serialization;
 
 namespace FinanceControl.Services.Users.Infrastructure.Messages
 {
-    public interface IAuthenticatedCommand : ICommand
+    public interface IAuthenticationRejectedIntegrationEvent : IIntegrationRejectedEvent
     {
-        Guid UserId { get; }
+        Guid UserId { get; set; }
     }
 }

@@ -5,7 +5,6 @@ namespace FinanceControl.Services.Users.Infrastructure.Messages
 {
     public interface IAuthenticatedIntegrationEvent : IIntegrationEvent
     {
-        [DataMember]
         Guid UserId { get; }
     }
 }

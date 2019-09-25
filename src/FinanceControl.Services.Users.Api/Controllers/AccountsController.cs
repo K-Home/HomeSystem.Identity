@@ -15,6 +15,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("activate")]
         public async Task<IActionResult> Post([FromBody] ActivateAccountCommand command)
         {
@@ -30,6 +31,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("resend-activate-email")]
         public async Task<IActionResult> Post([FromBody] SendActivateAccountMessageCommand command)
         {
