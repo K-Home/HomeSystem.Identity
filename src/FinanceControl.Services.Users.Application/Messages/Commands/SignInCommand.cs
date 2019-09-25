@@ -21,20 +21,20 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 
         [DataMember]
         public string IpAddress { get; }
-
+        
         [DataMember]
-        public string AccessToken { get; }
+        public string UserAgent { get; }
 
         [JsonConstructor]
         public SignInCommand(Guid sessionId, string email,
-            string password, string ipAddress, string accessToken)
+            string password, string ipAddress, string userAgent)
         {
             Request = Request.New<SignInCommand>();
             SessionId = sessionId;
             Email = email;
             Password = password;
             IpAddress = ipAddress;
-            AccessToken = accessToken;
+            UserAgent = userAgent;
         }
     }
 }

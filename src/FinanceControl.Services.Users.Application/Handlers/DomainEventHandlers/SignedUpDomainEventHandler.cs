@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    public class SignedUpDomainEventHandler : INotificationHandler<SignedUpDomainEvent>,
+    internal class SignedUpDomainEventHandler : INotificationHandler<SignedUpDomainEvent>,
         INotificationHandler<SignUpRejectedDomainEvent>
     {
         private readonly ILogger<SignedUpDomainEventHandler> _logger;

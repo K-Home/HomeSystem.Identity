@@ -14,7 +14,10 @@ namespace FinanceControl.IntegrationMessages
         public Guid RequestId { get; }
 
         [DataMember]
-        public string UserId { get; }
+        public Guid UserId { get; }
+
+        [DataMember]
+        public string Message { get; }
 
         [DataMember]
         public string Code { get; }
@@ -23,11 +26,12 @@ namespace FinanceControl.IntegrationMessages
         public string Reason { get; }
 
         [JsonConstructor]
-        public SignInRejectedIntegrationEvent(Guid requestId, string userId,
-            string code, string reason)
+        public SignInRejectedIntegrationEvent(Guid requestId, Guid userId,
+            string message, string code, string reason)
         {
             RequestId = requestId;
             UserId = userId;
+            Message = message;
             Code = code;
             Reason = reason;
         }

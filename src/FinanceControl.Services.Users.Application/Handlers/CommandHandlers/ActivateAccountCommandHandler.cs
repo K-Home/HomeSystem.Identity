@@ -11,7 +11,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    public class ActivateAccountCommandHandler : AsyncRequestHandler<ActivateAccountCommand>
+    internal class ActivateAccountCommandHandler : AsyncRequestHandler<ActivateAccountCommand>
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;
@@ -49,8 +49,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                     logger.Error(exception, "Error when activating account.");
                     await _mediatRBus.PublishAsync(
                         new ActivateAccountRejectedDomainEvent(command.Request.Id, command.Email, Codes.Error,
-                            "Error when activating account",
-                            "Activated account rejected, because custom exception was thrown."), cancellationToken);
+                            exception.Message, "Activated account rejected, because custom exception was thrown."),
+                        cancellationToken);
                 })
                 .ExecuteAsync();
         }
