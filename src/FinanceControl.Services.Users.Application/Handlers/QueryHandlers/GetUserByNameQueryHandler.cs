@@ -9,7 +9,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 {
-    public class GetUserByNameQueryHandler : IRequestHandler<GetUserByNameQuery, UserDto>
+    internal class GetUserByNameQueryHandler : IRequestHandler<GetUserByNameQuery, UserDto>
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;

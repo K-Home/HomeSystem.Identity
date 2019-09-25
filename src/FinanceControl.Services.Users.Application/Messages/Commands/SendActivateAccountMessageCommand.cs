@@ -11,22 +11,22 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
         public Request Request { get; }
 
         [DataMember]
-        public Guid UserId { get; }
-
+        public string Email { get; }
+        
         [DataMember]
         public string Username { get; }
-
+        
         [DataMember]
-        public string Email { get; }
+        public Guid UserId { get; }
 
         [JsonConstructor]
-        public SendActivateAccountMessageCommand(Request request,
-            Guid userId, string username, string email)
+        public SendActivateAccountMessageCommand(Request request, string email, 
+            string username, Guid userId)
         {
             Request = request;
-            UserId = userId;
-            Username = username;
             Email = email;
+            Username = username;
+            UserId = userId;
         }
     }
 }

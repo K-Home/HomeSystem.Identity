@@ -7,7 +7,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 {
-    public class GetUserStateQueryHandler : IRequestHandler<GetUserStateQuery, string>
+    internal class GetUserStateQueryHandler : IRequestHandler<GetUserStateQuery, string>
     {
         private readonly IUserService _userService;
 

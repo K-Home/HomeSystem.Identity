@@ -20,13 +20,20 @@ namespace FinanceControl.Services.Users.Api.Controllers
         {
             return await SendAsync(command, "accounts/activate");
         }
-        
+
         [HttpPost]
         [AllowAnonymous]
         [Route("sign-up")]
         public async Task<IActionResult> Post([FromBody] SignUpCommand command)
         {
             return await SendAsync(command, "accounts/sign-up");
+        }
+
+        [HttpPost]
+        [Route("resend-activate-email")]
+        public async Task<IActionResult> Post([FromBody] SendActivateAccountMessageCommand command)
+        {
+            return await SendAsync(command, "accounts/resend-activate-email");
         }
     }
 }
