@@ -28,7 +28,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
         protected override async Task Handle(ActivateAccountCommand command, CancellationToken cancellationToken)
         {
             await _handler
-                .Run(async () => { await _userService.ActivateAsync(command.Email, command.Token); })
+                .Run(async () => await _userService.ActivateAsync(command.Email, command.Token))
                 .OnSuccess(async () =>
                 {
                     var user = await _userService.GetByEmailAsync(command.Email);
