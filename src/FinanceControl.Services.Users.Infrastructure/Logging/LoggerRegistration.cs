@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
-using Serilog.Sinks.Graylog;
-using Serilog.Sinks.Graylog.Core.Transport;
+using Serilog.Sinks.Elasticsearch;
 
 namespace FinanceControl.Services.Users.Infrastructure.Logging
 {
@@ -32,15 +31,16 @@ namespace FinanceControl.Services.Users.Infrastructure.Logging
                     .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
                     .Enrich.WithProperty("ApplicationName", applicationName);
 
-                Configure(loggerConfiguration, options);
+                Configure(loggerConfiguration, options, level);
             });
         }
 
-        private static void Configure(LoggerConfiguration loggerConfiguration, LoggerOptions options)
+        private static void Configure(LoggerConfiguration loggerConfiguration, LoggerOptions options,
+            LogEventLevel level)
         {
             var consoleOptions = options.Console ?? new ConsoleOptions();
             var fileOptions = options.File ?? new FileOptions();
-            var grayLogOptions = options.GrayLog ?? new GrayLogOptions();
+            var elkOptions = options.Elk ?? new ElkOptions();
 
             if (consoleOptions.Enabled)
             {
@@ -59,15 +59,21 @@ namespace FinanceControl.Services.Users.Infrastructure.Logging
                 loggerConfiguration.WriteTo.File(path, rollingInterval: interval);
             }
 
-            if (grayLogOptions.Enabled)
+            if (elkOptions.Enabled)
             {
-                loggerConfiguration.WriteTo.Graylog(
-                    new GraylogSinkOptions
-                    {
-                        HostnameOrAddress = grayLogOptions.Address,
-                        Port = grayLogOptions.Port,
-                        TransportType = TransportType.Http
-                    });
+                loggerConfiguration.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elkOptions.Url))
+                {
+                    MinimumLogEventLevel = level,
+                    AutoRegisterTemplate = true,
+                    AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+                    IndexFormat = string.IsNullOrWhiteSpace(elkOptions.IndexFormat)
+                        ? "logstash-{0:yyyy.MM.dd}"
+                        : elkOptions.IndexFormat,
+                    ModifyConnectionSettings = connectionConfiguration =>
+                        elkOptions.BasicAuthEnabled
+                            ? connectionConfiguration.BasicAuthentication(elkOptions.Username, elkOptions.Password)
+                            : connectionConfiguration
+                });
             }
         }
     }
