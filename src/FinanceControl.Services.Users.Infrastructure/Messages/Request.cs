@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using FinanceControl.Services.Users.Domain.Extensions;
 
 namespace FinanceControl.Services.Users.Infrastructure.Messages
 {
@@ -42,12 +43,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Messages
 
         private static string GetName(string name)
         {
-            return Underscore(name).ToLowerInvariant();
-        }
-
-        private static string Underscore(string value)
-        {
-            return string.Concat(value.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x : x.ToString()));
+            return name.Underscore().ToLowerInvariant();
         }
     }
 }

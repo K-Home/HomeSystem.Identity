@@ -5,10 +5,12 @@ using FinanceControl.Services.Users.Infrastructure;
 using FinanceControl.Services.Users.Infrastructure.MediatR.Bus;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using FinanceControl.Services.Users.Infrastructure.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceControl.Services.Users.Api.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class BaseController : ControllerBase
     {
