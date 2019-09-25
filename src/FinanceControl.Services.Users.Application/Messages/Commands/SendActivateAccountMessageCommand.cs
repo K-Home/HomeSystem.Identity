@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using FinanceControl.Services.Users.Domain.Aggregates;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 

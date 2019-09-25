@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 {
-    public class SignedUpRejectedDomainEvent : IDomainRejectedEvent
+    public class SignUpRejectedDomainEvent : IDomainRejectedEvent
     {
         [DataMember]
         public Guid RequestId { get; }
@@ -23,7 +23,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Code { get; }
 
         [JsonConstructor]
-        public SignedUpRejectedDomainEvent(Guid requestId, Guid userId,
+        public SignUpRejectedDomainEvent(Guid requestId, Guid userId,
             string message, string reason, string code)
         {
             RequestId = requestId;

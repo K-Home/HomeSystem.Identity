@@ -13,7 +13,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 {
-    public class BrowseUsersQueryHandler : IRequestHandler<BrowseUsersQuery, PagedResult<UserDto>>
+    internal class BrowseUsersQueryHandler : IRequestHandler<BrowseUsersQuery, PagedResult<UserDto>>
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;

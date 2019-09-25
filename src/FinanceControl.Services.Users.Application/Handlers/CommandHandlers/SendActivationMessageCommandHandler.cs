@@ -14,7 +14,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    public class
+    internal class
         SendActivationMessageCommandHandler : AsyncRequestHandler<
             SendActivateAccountMessageCommand>
     {

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 {
-    public class IsNameAvailableQueryHandler : IRequestHandler<GetNameAvailablityQuery, bool>
+    internal class IsNameAvailableQueryHandler : IRequestHandler<GetNameAvailablityQuery, bool>
     {
         private readonly IUserService _userService;
 
