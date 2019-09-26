@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace FinanceControl.Services.Users.Infrastructure.Messages
+﻿namespace FinanceControl.Services.Users.Infrastructure.Messages
 {
     public interface IIntegrationRejectedEvent : IIntegrationEvent
     {
