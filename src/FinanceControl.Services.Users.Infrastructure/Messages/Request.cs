@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using FinanceControl.Services.Users.Domain.Extensions;
 
 namespace FinanceControl.Services.Users.Infrastructure.Messages
