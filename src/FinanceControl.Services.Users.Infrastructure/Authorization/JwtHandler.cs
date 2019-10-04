@@ -14,6 +14,9 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
     {
         private const string RoleClaim = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
         private const string StateClaim = "state";
+        private const string SessionClaim = "session";
+        private const string IpAddressClaim = "ipAddress";
+        private const string UserAgentClaim = "userAgent";
 
         private readonly ILogger _logger;
         private readonly JwtTokenSettings _settings;
@@ -50,17 +53,20 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
             };
         }
 
-        public JwtBasic Create(Guid userId, string role, TimeSpan? expiry = null, string state = "active")
+        public JwtBasic Create(Guid userId, Guid sessionId, string role, string state, string ipAddress, string userAgent)
         {
             var now = DateTime.UtcNow;
-            var claims = new Claim[]
+            var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString("N")),
-                new Claim(JwtRegisteredClaimNames.UniqueName, userId.ToString("N")),
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, userId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString()),
                 new Claim(ClaimTypes.Role, role),
-                new Claim(StateClaim, state)
+                new Claim(SessionClaim, sessionId.ToString()), 
+                new Claim(StateClaim, state),
+                new Claim(IpAddressClaim, ipAddress),
+                new Claim(UserAgentClaim, userAgent), 
             };
             var expires = now.AddDays(_settings.ExpiryDays);
             var jwt = new JwtSecurityToken(
@@ -115,6 +121,9 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
                         Claims = validatedJwt.Claims,
                         Role = validatedJwt.Claims.FirstOrDefault(x => x.Type == RoleClaim)?.Value,
                         State = validatedJwt.Claims.FirstOrDefault(x => x.Type == StateClaim)?.Value,
+                        IpAddress = validatedJwt.Claims.First(x => x.Type == IpAddressClaim)?.Value,
+                        UserAgent = validatedJwt.Claims.First(x => x.Type == UserAgentClaim)?.Value,
+                        SessionId = validatedJwt.Claims.First(x => x.Type == SessionClaim)?.Value,
                         Expires = validatedJwt.ValidTo.ToTimestamp()
                     };
                 }

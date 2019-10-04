@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using MediatR;
+﻿using MediatR;
 
 namespace FinanceControl.Services.Users.Infrastructure.Messages
 {

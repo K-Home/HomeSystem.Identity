@@ -30,7 +30,11 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
         protected override async Task Handle(SignOutCommand command, CancellationToken cancellationToken)
         {
             await _handler
-                .Run(async () => await _authenticationService.SignOutAsync(command.SessionId, command.UserId))
+                .Run(async () =>
+                {
+                    await _authenticationService.SignOutAsync(command.SessionId, command.UserId);
+                    await _authenticationService.SaveChangesAsync(cancellationToken);
+                })
                 .OnSuccess(async () =>
                     await _mediatRBus.PublishAsync(
                         new SignedOutDomainEvent(command.Request.Id, command.UserId,

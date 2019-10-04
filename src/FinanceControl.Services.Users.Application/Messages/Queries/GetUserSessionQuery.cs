@@ -6,6 +6,6 @@ namespace FinanceControl.Services.Users.Application.Messages.Queries
 {
     public class GetUserSessionQuery : IQuery<UserSessionDto>
     {
-        public Guid Id { get; set; }
+        public Guid SessionId { get; set; }
     }
 }

@@ -2,8 +2,8 @@
 
 namespace FinanceControl.Services.Users.Infrastructure.Messages
 {
-    public interface IIntegrationEvent
+    public interface ISessionCommand : ICommand
     {
-        Guid RequestId { get; }
+        Guid SessionId { get; }
     }
 }

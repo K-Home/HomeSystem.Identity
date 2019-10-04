@@ -23,7 +23,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 
         public async Task<UserSessionDto> Handle(GetUserSessionQuery query, CancellationToken cancellationToken)
         {
-            var session = await _authenticationService.GetSessionAsync(query.Id);
+            var session = await _authenticationService.GetSessionAsync(query.SessionId);
             var mappedSession = _mapper.Map<UserSession, UserSessionDto>(session);
 
             return mappedSession;

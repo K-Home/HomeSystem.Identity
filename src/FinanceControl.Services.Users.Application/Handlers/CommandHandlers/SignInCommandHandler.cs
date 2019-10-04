@@ -32,8 +32,13 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
             var user = await _userService.GetByEmailAsync(command.Email);
 
             await _handler
-                .Run(async () => await _authenticationService.SignInAsync(command.SessionId, command.Email,
-                    command.Password, command.IpAddress, command.UserAgent))
+                .Run(async () =>
+                {
+                    await _authenticationService.SignInAsync(command.SessionId, command.Email,
+                        command.Password, command.IpAddress, command.UserAgent);
+
+                    await _authenticationService.SaveChangesAsync(cancellationToken);
+                })
                 .OnSuccess(async () =>
                     await _mediatRBus.PublishAsync(new SignedInDomainEvent(command.Request.Id, user.Id,
                         $"User with id: {user.Id} successfully logged in.", user.Email,

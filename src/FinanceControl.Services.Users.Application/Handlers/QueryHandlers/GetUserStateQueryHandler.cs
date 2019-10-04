@@ -18,7 +18,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 
         public async Task<string> Handle(GetUserStateQuery query, CancellationToken cancellationToken)
         {
-            var state = await _userService.GetStateAsync(query.Id);
+            var state = await _userService.GetStateAsync(query.UserId);
 
             return state;
         }
