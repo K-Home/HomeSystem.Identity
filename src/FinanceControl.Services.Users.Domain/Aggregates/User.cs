@@ -12,6 +12,8 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
 {
     public class User : AggregateRootBase, IEditable, ITimestampable
     {
+        private static readonly string DefaultCulture = "en-gb";
+
         public Avatar Avatar { get; private set; }
         public string Username { get; private set; }
         public string FirstName { get; private set; }
@@ -23,30 +25,32 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
         public string Salt { get; private set; }
         public string Role { get; private set; }
         public string State { get; private set; }
+        public string Culture { get; private set; }
         public bool TwoFactorAuthentication { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        public static IEnumerable<UserSession> UserSessions
+        public IEnumerable<UserSession> UserSessions
             => new List<UserSession>();
 
-        public static IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations
+        public IEnumerable<OneTimeSecuredOperation> OneTimeSecuredOperations
             => new List<OneTimeSecuredOperation>();
 
         protected User()
         {
         }
 
-        public User(Guid id, string email, string role)
+        public User(Guid id, string email, string name)
         {
             Id = id;
             Avatar = Avatar.Empty;
             Address = UserAddress.Empty;
-            Username = $"user-{Id:N}";
+            SetUserName(name);
             SetEmail(email);
-            SetRole(role);
+            Role = Roles.User;
             State = States.Incomplete;
             TwoFactorAuthentication = false;
+            SetCulture(DefaultCulture);
             CreatedAt = DateTime.UtcNow;
         }
 
@@ -136,7 +140,7 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
                 throw new ArgumentException("User name is too long.", nameof(name));
             }
 
-            if (name.IsName() == false)
+            if (!name.IsName())
             {
                 throw new ArgumentException("User name doesn't meet the required criteria.", nameof(name));
             }
@@ -176,6 +180,11 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
 
         public void SetAddress(UserAddress address)
         {
+            if (address.HasNoValue())
+            {
+                return;
+            }
+
             if (Address.Equals(address))
             {
                 return;
@@ -196,9 +205,22 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             UpdatedAt = DateTime.UtcNow;
         }
 
+        public void SetCulture(string culture)
+        {
+            if (culture.IsEmpty())
+            {
+                Culture = DefaultCulture;
+                UpdatedAt = DateTime.UtcNow;
+                return;
+            }
+
+            Culture = culture;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
         public void SetAvatar(Avatar avatar)
         {
-            if (avatar == null)
+            if (avatar.HasNoValue())
             {
                 return;
             }

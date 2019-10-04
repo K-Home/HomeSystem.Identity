@@ -9,7 +9,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 {
-    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
+    internal class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
@@ -22,7 +22,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 
         public async Task<UserDto> Handle(GetUserQuery query, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetAsync(query.Id);
+            var user = await _userService.GetAsync(query.UserId);
             var mappedUser = _mapper.Map<User, UserDto>(user);
 
             return mappedUser;

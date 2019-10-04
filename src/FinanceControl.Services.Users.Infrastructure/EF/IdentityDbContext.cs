@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Domain.Aggregates;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.SeedWork;
 using FinanceControl.Services.Users.Infrastructure.EF.Configurations;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
 
         public IdentityDbContext(IOptions<SqlOptions> sqlOptions)
         {
-            _sqlOptions = sqlOptions;
+            _sqlOptions = sqlOptions.CheckIfNotEmpty();
         }
 
         public DbSet<User> Users { get; set; }
@@ -31,7 +32,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
             return _currentTransaction;
         }
 
-        public bool HasActiveTransaction => _currentTransaction != null;
+        public bool HasActiveTransaction => _currentTransaction.HasValue();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -79,7 +80,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
 
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
-            if (_currentTransaction != null)
+            if (_currentTransaction.HasValue())
             {
                 return null;
             }
@@ -91,10 +92,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
 
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
-            if (transaction == null)
-            {
-                throw new ArgumentNullException(nameof(transaction));
-            }
+            transaction.ThrowIfNull();
 
             if (transaction != _currentTransaction)
             {
@@ -113,7 +111,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
             }
             finally
             {
-                if (_currentTransaction != null)
+                if (_currentTransaction.HasValue())
                 {
                     _currentTransaction.Dispose();
                     _currentTransaction = null;
@@ -129,7 +127,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
             }
             finally
             {
-                if (_currentTransaction != null)
+                if (_currentTransaction.HasValue())
                 {
                     _currentTransaction.Dispose();
                     _currentTransaction = null;

@@ -7,20 +7,21 @@ using FinanceControl.Services.Users.Application.Dtos;
 using FinanceControl.Services.Users.Application.Messages.Queries;
 using FinanceControl.Services.Users.Application.Services.Base;
 using FinanceControl.Services.Users.Domain.Aggregates;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Pagination;
 using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 {
-    public class BrowseUsersQueryHandler : IRequestHandler<BrowseUsersQuery, PagedResult<UserDto>>
+    internal class BrowseUsersQueryHandler : IRequestHandler<BrowseUsersQuery, PagedResult<UserDto>>
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
 
         public BrowseUsersQueryHandler(IMapper mapper, IUserService userService)
         {
-            _mapper = mapper;
-            _userService = userService;
+            _mapper = mapper.CheckIfNotEmpty();
+            _userService = userService.CheckIfNotEmpty();
         }
 
         public async Task<PagedResult<UserDto>> Handle(BrowseUsersQuery query, CancellationToken cancellationToken)

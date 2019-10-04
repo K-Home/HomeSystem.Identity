@@ -8,30 +8,30 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
     {
         private readonly ISet<IHandlerTask> _handlerTasks = new HashSet<IHandlerTask>();
 
-        public IHandlerTask Run(Action run)
+        public IHandlerTask Run(Action runAction)
         {
-            var handlerTask = new HandlerTask(this, run);
+            var handlerTask = new HandlerTask(this, runAction);
             _handlerTasks.Add(handlerTask);
 
             return handlerTask;
         }
 
-        public IHandlerTask Run(Func<Task> runAsync)
+        public IHandlerTask Run(Func<Task> runActionAsync)
         {
-            var handlerTask = new HandlerTask(this, runAsync);
+            var handlerTask = new HandlerTask(this, runActionAsync);
             _handlerTasks.Add(handlerTask);
 
             return handlerTask;
         }
 
-        public IHandlerTaskRunner Validate(Action validate)
+        public IHandlerTaskRunner Validate(Action validateAction)
         {
-            return new HandlerTaskRunner(this, validate, null, _handlerTasks);
+            return new HandlerTaskRunner(this, validateAction, null, _handlerTasks);
         }
 
-        public IHandlerTaskRunner Validate(Func<Task> validateAsync)
+        public IHandlerTaskRunner Validate(Func<Task> validateActionAsync)
         {
-            return new HandlerTaskRunner(this, null, validateAsync, _handlerTasks);
+            return new HandlerTaskRunner(this, null, validateActionAsync, _handlerTasks);
         }
 
         public void ExecuteAll()
@@ -40,18 +40,22 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             {
                 handlerTask.Execute();
             }
-            
-            _handlerTasks.Clear();
+
+            {
+                _handlerTasks.Clear();
+            }
         }
 
         public async Task ExecuteAllAsync()
         {
-            foreach (var handlerTask in _handlerTasks)    
+            foreach (var handlerTask in _handlerTasks)
             {
                 await handlerTask.ExecuteAsync();
             }
-            
-            _handlerTasks.Clear();
+
+            {
+                _handlerTasks.Clear();
+            }
         }
     }
 }

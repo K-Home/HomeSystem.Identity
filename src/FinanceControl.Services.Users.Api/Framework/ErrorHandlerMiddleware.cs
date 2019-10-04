@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Domain.Exceptions;
+using FinanceControl.Services.Users.Domain.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -16,8 +17,8 @@ namespace FinanceControl.Services.Users.Api.Framework
         public ErrorHandlerMiddleware(RequestDelegate next,
             ILogger<ErrorHandlerMiddleware> logger)
         {
-            _next = next;
-            _logger = logger;
+            _next = next.CheckIfNotEmpty();
+            _logger = logger.CheckIfNotEmpty();
         }
 
         public async Task Invoke(HttpContext context)
@@ -29,7 +30,7 @@ namespace FinanceControl.Services.Users.Api.Framework
             catch (Exception exception)
             {
                 _logger.LogError(exception, exception.Message);
-                await HandleErrorAsync(context, exception).ConfigureAwait(false);
+                await HandleErrorAsync(context, exception);
             }
         }
 
@@ -37,7 +38,7 @@ namespace FinanceControl.Services.Users.Api.Framework
         {
             string errorCode;
             const HttpStatusCode statusCode = HttpStatusCode.BadRequest;
-            
+
             switch (exception)
             {
                 case FinanceControlException e:

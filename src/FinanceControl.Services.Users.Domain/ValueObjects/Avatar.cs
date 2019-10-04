@@ -6,14 +6,12 @@ namespace FinanceControl.Services.Users.Domain.ValueObjects
 {
     public class Avatar : ValueObject<Avatar>
     {
+        private bool _isEmpty;
+
         public string Name { get; protected set; }
         public string Url { get; protected set; }
 
-        public bool IsEmpty
-        {
-            get => Name.IsEmpty();
-            set { } //Required by EF
-        }
+        public bool IsEmpty => _isEmpty = Name.IsEmpty() || Url.IsEmpty();
 
         protected Avatar()
         {

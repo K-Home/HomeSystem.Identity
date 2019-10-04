@@ -1,6 +1,6 @@
 namespace FinanceControl.Services.Users.Domain.Enumerations
 {
-    public class Roles
+    public static class Roles
     {
         public static string User => "user";
         public static string Moderator => "moderator";

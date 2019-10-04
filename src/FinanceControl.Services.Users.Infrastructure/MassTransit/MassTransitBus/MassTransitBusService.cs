@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using MassTransit;
 
@@ -13,8 +13,8 @@ namespace FinanceControl.Services.Users.Infrastructure.MassTransit.MassTransitBu
 
         public MassTransitBusService(IBusControl busControl, IBus bus)
         {
-            _busControl = busControl ?? throw new ArgumentNullException(nameof(busControl));
-            _bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            _busControl = busControl.CheckIfNotEmpty();
+            _bus = bus.CheckIfNotEmpty();
         }
 
         public async Task SendAsync<TIntegrationCommand>(TIntegrationCommand integrationCommand)

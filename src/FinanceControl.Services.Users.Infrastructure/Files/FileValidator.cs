@@ -1,4 +1,5 @@
 ﻿using System;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Files.Base;
 using Serilog;
 using SixLabors.ImageSharp;
@@ -11,7 +12,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Files
 
         public FileValidator(ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _logger = logger.CheckIfNotEmpty();
         }
 
         public bool IsImage(File file)

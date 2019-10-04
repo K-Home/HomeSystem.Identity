@@ -4,6 +4,7 @@ using FinanceControl.Services.Users.Application.Exceptions;
 using FinanceControl.Services.Users.Application.Services.Base;
 using FinanceControl.Services.Users.Domain;
 using FinanceControl.Services.Users.Domain.Aggregates;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.Repositories;
 using FinanceControl.Services.Users.Domain.ValueObjects;
 using FinanceControl.Services.Users.Infrastructure.Files;
@@ -22,16 +23,16 @@ namespace FinanceControl.Services.Users.Application.Services
             IFileHandler fileHandler, IImageService imageService,
             IFileValidator fileValidator)
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _fileHandler = fileHandler ?? throw new ArgumentNullException(nameof(fileHandler));
-            _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
-            _fileValidator = fileValidator ?? throw new ArgumentNullException(nameof(fileValidator));
+            _userRepository = userRepository.CheckIfNotEmpty();
+            _fileHandler = fileHandler.CheckIfNotEmpty();
+            _imageService = imageService.CheckIfNotEmpty();
+            _fileValidator = fileValidator.CheckIfNotEmpty();
         }
 
         public async Task<string> GetUrlAsync(Guid userId)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
@@ -42,7 +43,7 @@ namespace FinanceControl.Services.Users.Application.Services
 
         public async Task AddOrUpdateAsync(Guid userId, File avatar)
         {
-            if (avatar == null)
+            if (avatar.HasNoValue())
             {
                 throw new ServiceException(Codes.FileIsInvalid,
                     $"There is no avatar file to be uploaded.");
@@ -66,19 +67,19 @@ namespace FinanceControl.Services.Users.Application.Services
         public async Task RemoveAsync(Guid userId)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
-            await RemoveAsync(user, userId).ConfigureAwait(false);
+            await RemoveAsync(user, userId);
             _userRepository.EditUser(user);
         }
 
         private async Task RemoveAsync(User user, Guid userId)
         {
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id: '{userId}' has not been found.");
             }
 
-            if (user.Avatar == null)
+            if (user.Avatar.HasNoValue())
             {
                 return;
             }

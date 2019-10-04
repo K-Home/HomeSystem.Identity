@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using MediatR;
@@ -14,7 +14,7 @@ namespace FinanceControl.Services.Users.Application.Behaviors
 
         public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _logger = logger.CheckIfNotEmpty();
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,

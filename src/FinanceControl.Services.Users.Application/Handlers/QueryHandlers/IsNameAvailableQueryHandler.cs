@@ -2,17 +2,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Application.Messages.Queries;
 using FinanceControl.Services.Users.Application.Services.Base;
+using FinanceControl.Services.Users.Domain.Extensions;
 using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 {
-    public class IsNameAvailableQueryHandler : IRequestHandler<GetNameAvailablityQuery, bool>
+    internal class IsNameAvailableQueryHandler : IRequestHandler<GetNameAvailablityQuery, bool>
     {
         private readonly IUserService _userService;
 
         public IsNameAvailableQueryHandler(IUserService userService)
         {
-            _userService = userService;
+            _userService = userService.CheckIfNotEmpty();
         }
 
         public async Task<bool> Handle(GetNameAvailablityQuery query, CancellationToken cancellationToken)

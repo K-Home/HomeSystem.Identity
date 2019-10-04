@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Domain.Exceptions;
+using FinanceControl.Services.Users.Domain.Extensions;
 using Serilog;
 
 namespace FinanceControl.Services.Users.Infrastructure.Handlers
@@ -30,192 +31,194 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
         private bool _propagateException = true;
         private bool _executeOnError = true;
 
-        public HandlerTask(IHandler handler, Action run)
+        public HandlerTask(IHandler handler, Action runAction)
         {
-            _handler = handler;
-            _run = run;
+            _handler = handler.CheckIfNotEmpty();
+            _run = runAction.CheckIfNotEmpty();
         }
 
-        public HandlerTask(IHandler handler, Func<Task> runAsync)
+        public HandlerTask(IHandler handler, Func<Task> runAsyncAction)
         {
-            _handler = handler;
-            _runAsync = runAsync;
+            _handler = handler.CheckIfNotEmpty();
+            _runAsync = runAsyncAction.CheckIfNotEmpty();
         }
 
-        public HandlerTask(IHandler handler, Action run,
+        public HandlerTask(IHandler handler, Action runAction,
             Action validate)
         {
-            _handler = handler;
-            _run = run;
-            _validate = validate;
+            _handler = handler.CheckIfNotEmpty();
+            _run = runAction.CheckIfNotEmpty();
+            _validate = validate.CheckIfNotEmpty();
         }
 
-        public HandlerTask(IHandler handler, Action run,
-            Func<Task> validateAsync)
+        public HandlerTask(IHandler handler, Action runAction,
+            Func<Task> validateActionAsync)
         {
-            _handler = handler;
-            _run = run;
-            _validateAsync = validateAsync;
+            _handler = handler.CheckIfNotEmpty();
+            _run = runAction.CheckIfNotEmpty();
+            _validateAsync = validateActionAsync.CheckIfNotEmpty();
         }
 
-        public HandlerTask(IHandler handler, Action run,
-            Action validate, Func<Task> validateAsync)
+        public HandlerTask(IHandler handler, Action runAction,
+            Action validateAction, Func<Task> validateAsyncAction)
         {
-            _handler = handler;
-            _run = run;
-            _validate = validate;
-            _validateAsync = validateAsync;
+            _handler = handler.CheckIfNotEmpty();
+            _run = runAction.CheckIfNotEmpty();
+            _validate = validateAction.CheckIfNotEmpty();
+            _validateAsync = validateAsyncAction.CheckIfNotEmpty();
         }
 
-        public HandlerTask(IHandler handler, Func<Task> runAsync,
-            Action validate)
+        public HandlerTask(IHandler handler, Func<Task> runAsyncAsync,
+            Action validateAction)
         {
-            _handler = handler;
-            _runAsync = runAsync;
-            _validate = validate;
+            _handler = handler.CheckIfNotEmpty();
+            _runAsync = runAsyncAsync.CheckIfNotEmpty();
+            _validate = validateAction.CheckIfNotEmpty();
         }
 
-        public HandlerTask(IHandler handler, Func<Task> runAsync,
-            Func<Task> validateAsync)
+        public HandlerTask(IHandler handler, Func<Task> runAsyncAsync,
+            Func<Task> validateAsyncAction)
         {
-            _handler = handler;
-            _runAsync = runAsync;
-            _validateAsync = validateAsync;
+            _handler = handler.CheckIfNotEmpty();
+            _runAsync = runAsyncAsync.CheckIfNotEmpty();
+            _validateAsync = validateAsyncAction.CheckIfNotEmpty();
         }
 
-        public HandlerTask(IHandler handler, Func<Task> runAsync,
-            Action validate, Func<Task> validateAsync)
+        public HandlerTask(IHandler handler, Func<Task> runAsyncAsync,
+            Action validateAction, Func<Task> validateAsyncAction)
         {
-            _handler = handler;
-            _runAsync = runAsync;
-            _validate = validate;
-            _validateAsync = validateAsync;
+            _handler = handler.CheckIfNotEmpty();
+            _runAsync = runAsyncAsync.CheckIfNotEmpty();
+            _validate = validateAction.CheckIfNotEmpty();
+            _validateAsync = validateAsyncAction.CheckIfNotEmpty();
         }
 
-        public IHandlerTask Always(Action actAlways)
+        public IHandlerTask Always(Action alwaysAction)
         {
-            _always = actAlways;
+            _always = alwaysAction;
 
             return this;
         }
 
-        public IHandlerTask Always(Func<Task> funcAlways)
+        public IHandlerTask Always(Func<Task> alwaysAsyncAction)
         {
-            _alwaysAsync = funcAlways;
+            _alwaysAsync = alwaysAsyncAction;
 
             return this;
         }
 
-        public IHandlerTask OnCustomError(Action<FinanceControlException> actOnCustomError,
+        public IHandlerTask OnCustomError(Action<FinanceControlException> onCustomErrorAction,
             bool propagateException = false, bool executeOnError = false)
         {
-            _onCustomError = actOnCustomError;
+            _onCustomError = onCustomErrorAction;
             _propagateException = propagateException;
             _executeOnError = executeOnError;
 
             return this;
         }
 
-        public IHandlerTask OnCustomError(Action<FinanceControlException, ILogger> actOnCustomErrorWithLogger,
+        public IHandlerTask OnCustomError(Action<FinanceControlException, ILogger> onCustomErrorAsyncWithLoggerAction,
             bool propagateException = false, bool executeOnError = false)
         {
-            _onCustomErrorWithLogger = actOnCustomErrorWithLogger;
+            _onCustomErrorWithLogger = onCustomErrorAsyncWithLoggerAction;
             _propagateException = propagateException;
             _executeOnError = executeOnError;
 
             return this;
         }
 
-        public IHandlerTask OnCustomError(Func<FinanceControlException, Task> funcOnCustomError,
+        public IHandlerTask OnCustomError(Func<FinanceControlException, Task> onCustomErrorAsyncAction,
             bool propagateException = false, bool executeOnError = false)
         {
-            _onCustomErrorAsync = funcOnCustomError;
+            _onCustomErrorAsync = onCustomErrorAsyncAction;
             _propagateException = propagateException;
             _executeOnError = executeOnError;
 
             return this;
         }
 
-        public IHandlerTask OnCustomError(Func<FinanceControlException, ILogger, Task> funcOnCustomErrorWithLogger,
+        public IHandlerTask OnCustomError(
+            Func<FinanceControlException, ILogger, Task> onCustomErrorAsyncWithLoggerAction,
             bool propagateException = false, bool executeOnError = false)
         {
-            _onCustomErrorWithLoggerAsync = funcOnCustomErrorWithLogger;
+            _onCustomErrorWithLoggerAsync = onCustomErrorAsyncWithLoggerAction;
             _propagateException = propagateException;
             _executeOnError = executeOnError;
 
             return this;
         }
 
-        public IHandlerTask OnError(Action<Exception> actOnError)
+        public IHandlerTask OnError(Action<Exception> onErrorAction)
         {
-            _onError = actOnError;
+            _onError = onErrorAction;
 
             return this;
         }
 
-        public IHandlerTask OnError(Action<Exception> actOnError, bool propagateException)
+        public IHandlerTask OnError(Action<Exception> onErrorAction, bool propagateException)
         {
-            _onError = actOnError;
+            _onError = onErrorAction;
             _propagateException = propagateException;
 
             return this;
         }
 
-        public IHandlerTask OnError(Action<Exception, ILogger> actOnErrorWithLogger)
+        public IHandlerTask OnError(Action<Exception, ILogger> onErrorWithLoggerAction)
         {
-            _onErrorWithLogger = actOnErrorWithLogger;
+            _onErrorWithLogger = onErrorWithLoggerAction;
 
             return this;
         }
 
-        public IHandlerTask OnError(Action<Exception, ILogger> actOnErrorWithLogger, bool propagateException)
+        public IHandlerTask OnError(Action<Exception, ILogger> onErrorWithLoggerAction, bool propagateException)
         {
-            _onErrorWithLogger = actOnErrorWithLogger;
+            _onErrorWithLogger = onErrorWithLoggerAction;
             _propagateException = propagateException;
 
             return this;
         }
 
-        public IHandlerTask OnError(Func<Exception, Task> funcOnError)
+        public IHandlerTask OnError(Func<Exception, Task> onErrorAsyncAction)
         {
-            _onErrorAsync = funcOnError;
+            _onErrorAsync = onErrorAsyncAction;
 
             return this;
         }
 
-        public IHandlerTask OnError(Func<Exception, Task> funcOnError, bool propagateException)
+        public IHandlerTask OnError(Func<Exception, Task> onErrorAsyncAction, bool propagateException)
         {
-            _onErrorAsync = funcOnError;
+            _onErrorAsync = onErrorAsyncAction;
             _propagateException = propagateException;
 
             return this;
         }
 
-        public IHandlerTask OnError(Func<Exception, ILogger, Task> funcOnErrorWithLogger)
+        public IHandlerTask OnError(Func<Exception, ILogger, Task> onErrorAsyncWithLoggerAction)
         {
-            _onErrorWithLoggerAsync = funcOnErrorWithLogger;
+            _onErrorWithLoggerAsync = onErrorAsyncWithLoggerAction;
 
             return this;
         }
 
-        public IHandlerTask OnError(Func<Exception, ILogger, Task> funcOnErrorWithLogger, bool propagateException)
+        public IHandlerTask OnError(Func<Exception, ILogger, Task> onErrorAsyncWithLoggerAction,
+            bool propagateException)
         {
-            _onErrorWithLoggerAsync = funcOnErrorWithLogger;
+            _onErrorWithLoggerAsync = onErrorAsyncWithLoggerAction;
             _propagateException = propagateException;
 
             return this;
         }
 
-        public IHandlerTask OnSuccess(Action actOnSuccess)
+        public IHandlerTask OnSuccess(Action onSuccessAction)
         {
-            _onSuccess = actOnSuccess;
+            _onSuccess = onSuccessAction;
 
             return this;
         }
 
-        public IHandlerTask OnSuccess(Func<Task> funcOnSuccess)
+        public IHandlerTask OnSuccess(Func<Task> onSuccessAsyncAction)
         {
-            _onSuccessAsync = funcOnSuccess;
+            _onSuccessAsync = onSuccessAsyncAction;
 
             return this;
         }
@@ -250,13 +253,13 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             catch (Exception exception)
             {
                 var customException = exception as FinanceControlException;
-                if (customException != null)
+                if (customException.HasValue())
                 {
                     _onCustomErrorWithLogger?.Invoke(customException, Logger);
                     _onCustomError?.Invoke(customException);
                 }
 
-                var executeOnError = _executeOnError || customException == null;
+                var executeOnError = _executeOnError || customException.HasNoValue();
                 if (executeOnError)
                 {
                     _onErrorWithLogger?.Invoke(customException, Logger);
@@ -279,48 +282,48 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             try
             {
                 _validate?.Invoke();
-                if (_validateAsync != null)
+                if (_validateAsync.HasValue())
                 {
-                    await _validateAsync().ConfigureAwait(false);
+                    await _validateAsync();
                 }
 
-                await _runAsync().ConfigureAwait(false);
-                if (_onSuccessAsync != null)
+                await _runAsync();
+                if (_onSuccessAsync.HasValue())
                 {
-                    await _onSuccessAsync().ConfigureAwait(false);
+                    await _onSuccessAsync();
                 }
             }
             catch (Exception exception)
             {
                 var customException = exception as FinanceControlException;
-                if (customException != null)
+                if (customException.HasValue())
                 {
                     _onCustomErrorWithLogger?.Invoke(customException, Logger);
-                    if (_onCustomErrorWithLoggerAsync != null)
+                    if (_onCustomErrorWithLoggerAsync.HasValue())
                     {
-                        await _onCustomErrorWithLoggerAsync(customException, Logger).ConfigureAwait(false);
+                        await _onCustomErrorWithLoggerAsync(customException, Logger);
                     }
 
                     _onCustomError?.Invoke(customException);
-                    if (_onCustomErrorAsync != null)
+                    if (_onCustomErrorAsync.HasValue())
                     {
-                        await _onCustomErrorAsync(customException).ConfigureAwait(false);
+                        await _onCustomErrorAsync(customException);
                     }
                 }
 
-                var executeOnError = _executeOnError || customException == null;
+                var executeOnError = _executeOnError || customException.HasNoValue();
                 if (executeOnError)
                 {
                     _onErrorWithLogger?.Invoke(customException, Logger);
-                    if (_onErrorWithLoggerAsync != null)
+                    if (_onErrorWithLoggerAsync.HasValue())
                     {
-                        await _onErrorWithLoggerAsync(exception, Logger).ConfigureAwait(false);
+                        await _onErrorWithLoggerAsync(exception, Logger);
                     }
 
                     _onError?.Invoke(exception);
-                    if (_onErrorAsync != null)
+                    if (_onErrorAsync.HasValue())
                     {
-                        await _onErrorAsync(exception).ConfigureAwait(false);
+                        await _onErrorAsync(exception);
                     }
                 }
 
@@ -331,9 +334,9 @@ namespace FinanceControl.Services.Users.Infrastructure.Handlers
             }
             finally
             {
-                if (_alwaysAsync != null)
+                if (_alwaysAsync.HasValue())
                 {
-                    await _alwaysAsync().ConfigureAwait(false);
+                    await _alwaysAsync();
                 }
             }
         }

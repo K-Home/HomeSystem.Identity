@@ -1,26 +1,27 @@
-﻿using System;
+﻿using System.Runtime.Serialization;
+using FinanceControl.Services.Users.Domain.Aggregates;
 using FinanceControl.Services.Users.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 {
     public class SignedUpDomainEvent : IDomainEvent
     {
-        public Guid RequestId { get; }
-        public Guid UserId { get; }
-        public string Message { get; }
-        public Resource Resource { get; }
-        public string Role { get; }
-        public string State { get; }
+        [DataMember]
+        public Request Request { get; }
 
-        public SignedUpDomainEvent(Guid requestId, Guid userId, string message,
-            Resource resource, string role, string state)
+        [DataMember]
+        public User User { get; }
+
+        [DataMember]
+        public string Message { get; }
+
+        [JsonConstructor]
+        public SignedUpDomainEvent(Request request, User user, string message)
         {
-            RequestId = requestId;
-            UserId = userId;
+            Request = request;
+            User = user;
             Message = message;
-            Resource = resource;
-            Role = role;
-            State = state;
         }
     }
 }

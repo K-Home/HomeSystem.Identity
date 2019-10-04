@@ -36,13 +36,12 @@ namespace FinanceControl.Services.Users.Api
             });
 
             var builder = new ContainerBuilder();
-
+            
             builder.RegisterModule<FilesModule>();
             builder.RegisterModule<MapperModule>();
             builder.RegisterModule<ApplicationModule>();
             builder.RegisterModule<MediatRModule>();
             builder.RegisterModule<MassTransitModule>();
-            builder.RegisterResourceModule();
 
             builder.Populate(services);
 

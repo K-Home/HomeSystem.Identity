@@ -2,5 +2,6 @@
 {
     public interface IIntegrationCommand
     {
+        Request Request { get; }
     }
 }

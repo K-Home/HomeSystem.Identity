@@ -6,25 +6,31 @@ using FinanceControl.Services.Users.Application.Services.Base;
 using FinanceControl.Services.Users.Domain;
 using FinanceControl.Services.Users.Domain.Aggregates;
 using FinanceControl.Services.Users.Domain.Enumerations;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.Repositories;
 using FinanceControl.Services.Users.Domain.Services;
+using FinanceControl.Services.Users.Infrastructure.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
+        private readonly ILogger<AuthenticationService> _logger;
         private readonly IUserRepository _userRepository;
         private readonly IUserSessionRepository _userSessionRepository;
+        private readonly IJwtTokenHandler _jwtTokenHandler;
         private readonly IEncrypter _encrypter;
 
-        public AuthenticationService(IUserRepository userRepository,
-            IUserSessionRepository userSessionRepository,
-            IEncrypter encrypter)
+        public AuthenticationService(ILogger<AuthenticationService> logger,
+            IUserRepository userRepository, IUserSessionRepository userSessionRepository,
+            IJwtTokenHandler jwtTokenHandler, IEncrypter encrypter)
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _userSessionRepository =
-                userSessionRepository ?? throw new ArgumentNullException(nameof(userSessionRepository));
-            _encrypter = encrypter ?? throw new ArgumentNullException(nameof(encrypter));
+            _logger = logger.CheckIfNotEmpty();
+            _userRepository = userRepository.CheckIfNotEmpty();
+            _userSessionRepository = userSessionRepository.CheckIfNotEmpty();
+            _encrypter = encrypter.CheckIfNotEmpty();
+            _jwtTokenHandler = jwtTokenHandler.CheckIfNotEmpty();
         }
 
         public async Task<UserSession> GetSessionAsync(Guid id)
@@ -32,11 +38,78 @@ namespace FinanceControl.Services.Users.Application.Services
             return await _userSessionRepository.GetByIdAsync(id);
         }
 
+        public async Task<string> GetTokenFromHeader(string authorizationHeader)
+        {
+            var token = _jwtTokenHandler.GetFromAuthorizationHeader(authorizationHeader);
+
+            if (token.IsEmpty())
+            {
+                _logger.LogError($"Can not get token from header, because value from authorization header is empty.");
+            }
+
+            return await Task.FromResult(token);
+        }
+
+        public async Task CheckIpAddressOrDevice(string ipAddress, string userAgent, string token)
+        {
+            var jwtValues = _jwtTokenHandler.Parse(token);
+            if (jwtValues.HasNoValue())
+            {
+                _logger.LogError($"Unable to get jwt details, because token is empty or invalid.");
+                return;
+            }
+
+            var success = Guid.TryParse(jwtValues.SessionId, out var sessionId);
+            if (!success)
+            {
+                _logger.LogError($"Parsing sessionId failed. SessionId: {sessionId}");
+                return;
+            }
+
+            var session = await _userSessionRepository.GetByIdAsync(sessionId);
+            if (session.HasNoValue())
+            {
+                _logger.LogError($"Session with id: {sessionId} was not found!");
+                return;
+            }
+
+            if (jwtValues.IpAddress != ipAddress || jwtValues.UserAgent != userAgent)
+            {
+                _logger.LogWarning($"Destroying session with id: {sessionId} for user with id: {session.UserId}" +
+                                   ", because detect attempt to login from another location.");
+
+                session.Destroy();
+                _userSessionRepository.Update(session);
+                await _userSessionRepository.UnitOfWork.SaveEntitiesAsync();
+            }
+        }
+
+        public async Task<JwtSession> GetJwtSessionAsync(Guid sessionId, string ipAddress, string userAgent)
+        {
+            var session = await _userSessionRepository.GetByIdAsync(sessionId);
+            if (session.HasNoValue())
+            {
+                return null;
+            }
+
+            var user = await _userRepository.GetByUserIdAsync(session.UserId);
+            var token = _jwtTokenHandler.Create(user.Id, session.Id,
+                user.Role, user.State, ipAddress, userAgent);
+
+            return new JwtSession
+            {
+                Token = token.Token,
+                Expires = token.Expires,
+                SessionId = session.Id,
+                Key = session.Key
+            };
+        }
+
         public async Task SignInAsync(Guid sessionId, string email, string password,
             string ipAddress, string userAgent)
         {
             var user = await _userRepository.GetByEmailAsync(email);
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with email '{email}' has not been found.");
@@ -54,14 +127,14 @@ namespace FinanceControl.Services.Users.Application.Services
                     "Invalid credentials.");
             }
 
-            await CreateSessionAsync(sessionId, user, ipAddress, userAgent).ConfigureAwait(false);
+            await CreateSessionAsync(sessionId, user, ipAddress, userAgent);
         }
 
         public async Task SignOutAsync(Guid sessionId, Guid userId)
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id '{userId}' has not been found.");
@@ -69,7 +142,7 @@ namespace FinanceControl.Services.Users.Application.Services
 
             var session = await _userSessionRepository.GetByIdAsync(sessionId);
 
-            if (session == null)
+            if (session.HasNoValue())
             {
                 throw new ServiceException(Codes.SessionNotFound,
                     $"Session with id '{sessionId}' has not been found.");
@@ -84,13 +157,13 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var user = await _userRepository.GetByUserIdAsync(userId);
 
-            if (user == null)
+            if (user.HasNoValue())
             {
                 throw new ServiceException(Codes.UserNotFound,
                     $"User with id '{userId}' has not been found.");
             }
 
-            await CreateSessionAsync(sessionId, user, ipAddress, userAgent).ConfigureAwait(false);
+            await CreateSessionAsync(sessionId, user, ipAddress, userAgent);
         }
 
         private async Task CreateSessionAsync(Guid sessionId, User user,
@@ -107,7 +180,7 @@ namespace FinanceControl.Services.Users.Application.Services
         {
             var parentSession = await _userSessionRepository.GetByIdAsync(sessionId);
 
-            if (parentSession == null)
+            if (parentSession.HasNoValue())
             {
                 throw new ServiceException(Codes.SessionNotFound,
                     $"Session with id '{sessionId}' has not been found.");

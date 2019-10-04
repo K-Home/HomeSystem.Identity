@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using MediatR;
 
@@ -11,7 +12,7 @@ namespace FinanceControl.Services.Users.Infrastructure.MediatR.Bus
 
         public MediatRBus(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator.CheckIfNotEmpty();
         }
 
         public async Task SendAsync<TCommand>(TCommand command)
@@ -19,7 +20,7 @@ namespace FinanceControl.Services.Users.Infrastructure.MediatR.Bus
         {
             await _mediator.Send(command);
         }
-        
+
         public async Task SendAsync<TCommand>(TCommand command,
             CancellationToken cancellationToken)
             where TCommand : IRequest
@@ -27,12 +28,12 @@ namespace FinanceControl.Services.Users.Infrastructure.MediatR.Bus
             await _mediator.Send(command, cancellationToken);
         }
 
-        public async Task<TResult> QueryAsync<TQuery, TResult>(TQuery query) 
+        public async Task<TResult> QueryAsync<TQuery, TResult>(TQuery query)
             where TQuery : IQuery<TResult>
         {
             return await _mediator.Send(query);
         }
-        
+
         public async Task<TResult> QueryAsync<TQuery, TResult>(TQuery query,
             CancellationToken cancellationToken) where TQuery : IQuery<TResult>
         {
@@ -44,7 +45,7 @@ namespace FinanceControl.Services.Users.Infrastructure.MediatR.Bus
         {
             await _mediator.Publish(@event);
         }
-        
+
         public async Task PublishAsync<TEvent>(TEvent @event,
             CancellationToken cancellationToken) where TEvent : INotification
         {
