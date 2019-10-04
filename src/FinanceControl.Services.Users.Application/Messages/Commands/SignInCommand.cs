@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
-    public class SignInCommand : ICommand
+    public class SignInCommand : ISessionCommand
     {
         [DataMember]
         public Request Request { get; }

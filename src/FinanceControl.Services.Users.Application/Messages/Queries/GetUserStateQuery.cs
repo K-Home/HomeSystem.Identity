@@ -3,8 +3,8 @@ using FinanceControl.Services.Users.Infrastructure.Messages;
 
 namespace FinanceControl.Services.Users.Application.Messages.Queries
 {
-    public class GetUserStateQuery : IQuery<string>
+    public class GetUserStateQuery : IAuthenticatedQuery<string>
     {
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
     }
 }

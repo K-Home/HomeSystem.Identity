@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FinanceControl.Services.Users.Api.Extensions;
+using FinanceControl.Services.Users.Application.Services.Base;
 using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure;
 using FinanceControl.Services.Users.Infrastructure.MediatR.Bus;
@@ -19,28 +21,74 @@ namespace FinanceControl.Services.Users.Api.Controllers
         private static readonly string PageLink = "page";
 
         private readonly IMediatRBus _mediatRBus;
+        private readonly IAuthenticationService _authenticationService;
         private readonly AppOptions _settings;
 
-        public BaseController(IMediatRBus mediatRBus, AppOptions settings)
+        public BaseController(IMediatRBus mediatRBus,
+            IAuthenticationService authenticationService, AppOptions settings)
         {
             _mediatRBus = mediatRBus.CheckIfNotEmpty();
+            _authenticationService = authenticationService.CheckIfNotEmpty();
             _settings = settings.CheckIfNotEmpty();
         }
 
-        protected async Task<IActionResult> SendAsync<TCommand>(TCommand command, string endpoint)
-            where TCommand : class, ICommand
+        protected async Task<IActionResult> HandleSessionRequestAsync<TCommand>(TCommand command)
+            where TCommand : class, ISessionCommand
         {
+            command.BindRequest(HttpContext);
+
             await _mediatRBus.SendAsync(command);
 
-            return Accepted(command.Request.Id, $"{_settings.ServiceName}/{endpoint}");
+            var jwtSession = await _authenticationService.GetJwtSessionAsync(command.SessionId,
+                command.Request.IpAddress, command.Request.UserAgent);
+
+            return Ok(jwtSession);
         }
 
-        protected async Task<IActionResult> QueryAsync<TQuery, TResult>(TQuery query)
+        protected async Task<IActionResult> HandleRequestWithToken<TCommand>(TCommand command)
+            where TCommand : class, ICommand
+        {
+            command.BindRequest(HttpContext);
+
+            await CheckIfTokenIsValid(command.Request.IpAddress, command.Request.UserAgent);
+            await _mediatRBus.SendAsync(command);
+
+            return Accepted(command.Request.Id,
+                FormatResourceString(_settings.ServiceName, command.Request.Resource));
+        }
+
+        protected async Task<IActionResult> HandleRequestAsync<TCommand>(TCommand command)
+            where TCommand : class, ICommand
+        {
+            command.BindRequest(HttpContext);
+
+            await _mediatRBus.SendAsync(command);
+
+            return Accepted(command.Request.Id,
+                FormatResourceString(_settings.ServiceName, command.Request.Resource));
+        }
+
+        protected async Task<IActionResult> FetchRequestWithTokenAsync<TQuery, TResult>(TQuery query)
+            where TQuery : IQuery<TResult>
+            where TResult : class
+        {
+            await CheckIfTokenIsValid();
+            var result = await _mediatRBus.QueryAsync<IQuery<TResult>, TResult>(query);
+
+            return HandleWithResult(result);
+        }
+
+        protected async Task<IActionResult> FetchRequestAsync<TQuery, TResult>(TQuery query)
             where TQuery : IQuery<TResult>
             where TResult : class
         {
             var result = await _mediatRBus.QueryAsync<IQuery<TResult>, TResult>(query);
 
+            return HandleWithResult(result);
+        }
+
+        private IActionResult HandleWithResult<TResult>(TResult result) where TResult : class
+        {
             if (result.HasNoValue())
             {
                 return NotFound();
@@ -57,12 +105,9 @@ namespace FinanceControl.Services.Users.Api.Controllers
             return Ok(result);
         }
 
-        private IActionResult Accepted(Guid? requestId = null, string resource = "")
+        private IActionResult Accepted(Guid requestId, string resource)
         {
-            if (requestId.HasValue)
-            {
-                Response.Headers.Add(OperationHeader, $"operations/{requestId}");
-            }
+            Response.Headers.Add(OperationHeader, $"operations/{requestId}");
 
             if (resource.IsNotEmpty())
             {
@@ -70,6 +115,31 @@ namespace FinanceControl.Services.Users.Api.Controllers
             }
 
             return base.Accepted();
+        }
+
+        private async Task CheckIfTokenIsValid(string ipAddress, string userAgent)
+        {
+            var token = await GetTokenFromAuthHeader();
+
+            await _authenticationService.CheckIpAddressOrDevice(ipAddress, userAgent, token);
+        }
+
+        private async Task CheckIfTokenIsValid()
+        {
+            var ipAddress = RequestExtensions.GetIpAddressFromHeader(HttpContext);
+            var userAgent = RequestExtensions.GetUserAgent(HttpContext);
+            var token = await GetTokenFromAuthHeader();
+
+            await _authenticationService.CheckIpAddressOrDevice(ipAddress, userAgent, token);
+        }
+
+        private async Task<string> GetTokenFromAuthHeader()
+        {
+            var authHeader = HttpContext.Request.Headers["Authentication"].ToString();
+            var headerValue = authHeader.IsEmpty() ? string.Empty : authHeader;
+            var token = await _authenticationService.GetTokenFromHeader(headerValue);
+
+            return token;
         }
 
         protected Guid UserId
@@ -110,9 +180,14 @@ namespace FinanceControl.Services.Users.Api.Controllers
             return link;
         }
 
+        private static string FormatResourceString(string serviceName, string resource)
+        {
+            return serviceName.IsEmpty() || resource.IsEmpty() ? string.Empty : $"{serviceName}/{resource}";
+        }
+
         private static string FormatLink(string path, string rel)
         {
-            return string.IsNullOrWhiteSpace(path) ? string.Empty : $"<{path}>; rel=\"{rel}\",";
+            return path.IsEmpty() ? string.Empty : $"<{path}>; rel=\"{rel}\",";
         }
     }
 }
