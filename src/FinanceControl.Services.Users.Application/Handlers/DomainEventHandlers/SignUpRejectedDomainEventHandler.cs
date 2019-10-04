@@ -10,32 +10,25 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    internal class ActivationMessageSentDomainEventHandler :
-        INotificationHandler<ActivateAccountSecuredOperationCreatedDomainEvent>
+    public class SignUpRejectedDomainEventHandler : INotificationHandler<SignUpRejectedDomainEvent>
     {
-        private readonly ILogger<ActivationMessageSentDomainEventHandler> _logger;
+        private readonly ILogger<SignUpRejectedDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
 
-        public ActivationMessageSentDomainEventHandler(
-            ILogger<ActivationMessageSentDomainEventHandler> logger,
+        public SignUpRejectedDomainEventHandler(ILogger<SignUpRejectedDomainEventHandler> logger,
             IMassTransitBusService massTransitBusService)
         {
             _logger = logger.CheckIfNotEmpty();
             _massTransitBusService = massTransitBusService.CheckIfNotEmpty();
         }
 
-        public async Task Handle(ActivateAccountSecuredOperationCreatedDomainEvent @event,
-            CancellationToken cancellationToken)
+        public async Task Handle(SignUpRejectedDomainEvent @event, CancellationToken cancellationToken)
         {
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
                 @event.GetGenericTypeName(), @event);
 
-            await _massTransitBusService.SendAsync(new SendActivateAccountMessageIntegrationCommand(@event.Request,
-                @event.Email, @event.Username, @event.Token, @event.Endpoint), cancellationToken);
-
-            await _massTransitBusService.PublishAsync(
-                new ActivateAccountSecuredOperationCreatedIntegrationEvent(@event.Request.Id, @event.UserId,
-                    @event.OperationId, @event.Message), cancellationToken);
+            await _massTransitBusService.PublishAsync(new SignUpRejectedIntegrationEvent(@event.RequestId,
+                @event.UserId, @event.Message, @event.Code, @event.Reason), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

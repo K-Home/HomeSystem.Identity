@@ -12,7 +12,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 
         [DataMember]
         public Guid UserId { get; }
-        
+
         [DataMember]
         public string Message { get; }
 
@@ -23,7 +23,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Name { get; }
 
         [JsonConstructor]
-        public SignedInDomainEvent(Guid requestId, Guid userId, 
+        public SignedInDomainEvent(Guid requestId, Guid userId,
             string message, string email, string name)
         {
             RequestId = requestId;

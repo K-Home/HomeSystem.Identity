@@ -20,7 +20,7 @@ namespace FinanceControl.Services.Users.Api.Extensions
         {
             var resource = httpContext.Request.Path.ToString();
             var formattedResourceString = resource.StartsWith("/") ? resource.Remove(0, 1) : resource;
-            
+
             return resource.IsEmpty() ? string.Empty : formattedResourceString;
         }
 
@@ -36,7 +36,7 @@ namespace FinanceControl.Services.Users.Api.Extensions
         public static string GetIpAddressFromHeader(HttpContext httpContext)
         {
             var ipAddress = httpContext.Connection.RemoteIpAddress.ToString();
-                
+
             return ipAddress.IsEmpty() ? string.Empty : ipAddress;
         }
 
