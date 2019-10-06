@@ -37,18 +37,16 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnSuccess(async () =>
                     await _mediatRBus.PublishAsync(
-                        new SignedOutDomainEvent(command.Request.Id, command.UserId,
-                            $"User with id: {command.UserId} has been successfully logged out."), cancellationToken))
+                        new SignedOutDomainEvent(command.Request.Id, command.UserId), cancellationToken))
                 .OnCustomError(async customException =>
-                    await _mediatRBus.PublishAsync(new SignOutRejectedDomainEvent(command.Request.Id, command.UserId,
-                        $"Logged out failed for user with id: {command.UserId}, because custom exception was thrown.",
-                        customException.Message, customException.Code), cancellationToken))
+                    await _mediatRBus.PublishAsync(new SignOutRejectedDomainEvent(
+                        command.Request.Id, command.UserId, customException.Message, customException.Code), cancellationToken))
                 .OnError(async (exception, logger) =>
                 {
                     logger.Error("Error occured while signing out user.", exception);
-                    await _mediatRBus.PublishAsync(new SignOutRejectedDomainEvent(command.Request.Id, command.UserId,
-                        $"Logged out failed for user with id: {command.UserId}, because custom exception was thrown.",
-                        exception.Message, Codes.Error), cancellationToken);
+                    await _mediatRBus.PublishAsync(
+                        new SignOutRejectedDomainEvent(command.Request.Id, command.UserId, exception.Message,
+                            Codes.Error), cancellationToken);
                 })
                 .ExecuteAsync();
         }

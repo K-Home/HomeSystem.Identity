@@ -60,7 +60,9 @@ namespace FinanceControl.Services.Users.Infrastructure.Files
         private static void CreateDirectoryWhenNotExist(string directoryPath)
         {
             if (!Directory.Exists(directoryPath))
+            {
                 Directory.CreateDirectory(directoryPath);
+            }
         }
     }
 }

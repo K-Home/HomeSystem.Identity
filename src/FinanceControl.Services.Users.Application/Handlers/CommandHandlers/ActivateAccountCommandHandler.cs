@@ -37,24 +37,21 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 {
                     var user = await _userService.GetByEmailAsync(command.Email);
                     await _mediatRBus.PublishAsync(
-                        new AccountActivatedDomainEvent(command.Request.Id, command.Email, user.Id,
-                            $"Successfully activated account for user with id: {user.Id}"),
+                        new AccountActivatedDomainEvent(command.Request.Id, command.Email, user.Id),
                         cancellationToken);
                 })
                 .OnCustomError(async customException =>
                 {
                     await _mediatRBus.PublishAsync(
                         new ActivateAccountRejectedDomainEvent(command.Request.Id, command.Email,
-                            customException.Code, customException.Message,
-                            "Activated account rejected, because custom exception was thrown."), cancellationToken);
+                            customException.Code, customException.Message), cancellationToken);
                 })
                 .OnError(async (exception, logger) =>
                 {
                     logger.Error(exception, "Error when activating account.");
                     await _mediatRBus.PublishAsync(
                         new ActivateAccountRejectedDomainEvent(command.Request.Id, command.Email, Codes.Error,
-                            exception.Message, "Activated account rejected, because custom exception was thrown."),
-                        cancellationToken);
+                            exception.Message), cancellationToken);
                 })
                 .ExecuteAsync();
         }

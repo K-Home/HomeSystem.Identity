@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 
 namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
@@ -8,13 +7,11 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
     {
         public Guid RequestId { get; }
         public Guid UserId { get; }
-        public string Message { get; }
-        
-        public SignedOutDomainEvent(Guid requestId, Guid userId, string message)
+
+        public SignedOutDomainEvent(Guid requestId, Guid userId)
         {
             RequestId = requestId;
             UserId = userId;
-            Message = message;
         }
     }
 }

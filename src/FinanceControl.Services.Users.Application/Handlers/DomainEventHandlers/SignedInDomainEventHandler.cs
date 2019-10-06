@@ -30,7 +30,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             await _massTransitBusService.PublishAsync(
                 new SignedInIntegrationEvent(@event.RequestId, @event.UserId,
-                    @event.Message, @event.Email, @event.Name), cancellationToken);
+                    $"User with id: {@event.UserId} successfully logged in.", @event.Email, @event.Name),
+                cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
@@ -42,7 +43,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             await _massTransitBusService.PublishAsync(
                 new SignInRejectedIntegrationEvent(@event.RequestId, @event.UserId,
-                    @event.Message, @event.Reason, @event.Code), cancellationToken);
+                    $"Logged in for user with id: {@event.UserId}, rejected, because exception was thrown.",
+                    @event.Reason, @event.Code), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
