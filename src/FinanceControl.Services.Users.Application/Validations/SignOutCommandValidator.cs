@@ -12,7 +12,7 @@ namespace FinanceControl.Services.Users.Application.Validations
             RuleFor(so => so.Request.Resource).NotEmpty().WithMessage("Resource from request is empty.");
             RuleFor(so => so.SessionId).NotEmpty().WithMessage("SessionId is empty.");
             RuleFor(so => so.UserId).NotEmpty().WithMessage("UserId is empty.");
-            
+
             logger.LogTrace("----- INSTANCE CREATED - {ClassName}", GetType().Name);
         }
     }

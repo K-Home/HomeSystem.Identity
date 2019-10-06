@@ -9,21 +9,21 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
     {
         [DataMember]
         public Guid RequestId { get; }
-        
+
         [DataMember]
         public Guid UserId { get; }
-        
+
         [DataMember]
         public string Message { get; }
-        
+
         [DataMember]
         public string Code { get; }
-        
+
         [DataMember]
         public string Reason { get; }
 
         [JsonConstructor]
-        public SignInRejectedDomainEvent(Guid requestId, Guid userId, 
+        public SignInRejectedDomainEvent(Guid requestId, Guid userId,
             string message, string code, string reason)
         {
             RequestId = requestId;

@@ -11,10 +11,10 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 
         [DataMember]
         public Guid UserId { get; }
-        
+
         [DataMember]
         public string Message { get; }
-        
+
         public SignedOutDomainEvent(Guid requestId, Guid userId, string message)
         {
             RequestId = requestId;

@@ -53,7 +53,8 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
             };
         }
 
-        public JwtBasic Create(Guid userId, Guid sessionId, string role, string state, string ipAddress, string userAgent)
+        public JwtBasic Create(Guid userId, Guid sessionId, string role, string state, string ipAddress,
+            string userAgent)
         {
             var now = DateTime.UtcNow;
             var claims = new[]
@@ -63,10 +64,10 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString()),
                 new Claim(ClaimTypes.Role, role),
-                new Claim(SessionClaim, sessionId.ToString()), 
+                new Claim(SessionClaim, sessionId.ToString()),
                 new Claim(StateClaim, state),
                 new Claim(IpAddressClaim, ipAddress),
-                new Claim(UserAgentClaim, userAgent), 
+                new Claim(UserAgentClaim, userAgent),
             };
             var expires = now.AddDays(_settings.ExpiryDays);
             var jwt = new JwtSecurityToken(

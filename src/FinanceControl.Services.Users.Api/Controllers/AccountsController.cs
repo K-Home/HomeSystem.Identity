@@ -18,7 +18,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("activate")]
-        public async Task<IActionResult> Post([FromBody]ActivateAccountCommand command)
+        public async Task<IActionResult> Post([FromBody] ActivateAccountCommand command)
         {
             return await HandleRequestAsync(command);
         }
@@ -26,7 +26,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("sign-up")]
-        public async Task<IActionResult> Post([FromBody]SignUpCommand command)
+        public async Task<IActionResult> Post([FromBody] SignUpCommand command)
         {
             return await HandleRequestAsync(command);
         }
@@ -34,7 +34,7 @@ namespace FinanceControl.Services.Users.Api.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("resend-activate-email")]
-        public async Task<IActionResult> Post([FromBody]SendActivateAccountMessageCommand command)
+        public async Task<IActionResult> Post([FromBody] SendActivateAccountMessageCommand command)
         {
             return await HandleRequestAsync(command);
         }

@@ -21,7 +21,7 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 
         [DataMember]
         public string IpAddress { get; }
-        
+
         [DataMember]
         public string UserAgent { get; }
 
