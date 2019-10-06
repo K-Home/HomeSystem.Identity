@@ -3,7 +3,7 @@
     public interface IDomainRejectedEvent : IDomainEvent
     {
         string Reason { get; }
-        
+
         string Code { get; }
     }
 }

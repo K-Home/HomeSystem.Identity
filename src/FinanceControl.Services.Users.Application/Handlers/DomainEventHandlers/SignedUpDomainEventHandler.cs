@@ -12,8 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    internal class SignedUpDomainEventHandler : INotificationHandler<SignedUpDomainEvent>,
-        INotificationHandler<SignUpRejectedDomainEvent>
+    internal class SignedUpDomainEventHandler : INotificationHandler<SignedUpDomainEvent>
     {
         private readonly ILogger<SignedUpDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
@@ -38,17 +37,6 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             await _massTransitBusService.PublishAsync(new SignedUpIntegrationEvent(@event.Request.Id, @event.User.Id,
                 @event.Message, @event.User.Role, @event.User.State), cancellationToken);
-
-            _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
-        }
-
-        public async Task Handle(SignUpRejectedDomainEvent @event, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
-                @event.GetGenericTypeName(), @event);
-
-            await _massTransitBusService.PublishAsync(new SignUpRejectedIntegrationEvent(@event.RequestId,
-                @event.UserId, @event.Message, @event.Code, @event.Reason), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

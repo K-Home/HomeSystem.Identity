@@ -20,7 +20,7 @@ namespace FinanceControl.Services.Users.Application.Modules
 
                 return options;
             }).SingleInstance();
-            
+
             builder.RegisterType<UserService>()
                 .As<IUserService>()
                 .AsImplementedInterfaces()

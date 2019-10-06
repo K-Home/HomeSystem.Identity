@@ -9,7 +9,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public Guid RequestId { get; }
         public Guid UserId { get; }
         public string Message { get; }
-        
+
         public SignedOutDomainEvent(Guid requestId, Guid userId, string message)
         {
             RequestId = requestId;

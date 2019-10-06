@@ -12,7 +12,7 @@ namespace FinanceControl.Services.Users.Application.Validations
             RuleFor(so => so.Request.Resource).NotEmpty().WithMessage("Resource from request or empty.");
             RuleFor(so => so.Email).EmailAddress().WithMessage("Email is invalid.");
             RuleFor(so => so.Token).NotEmpty().WithMessage("Token is empty.");
-            
+
             logger.LogTrace("----- INSTANCE CREATED - {ClassName}", GetType().Name);
         }
     }

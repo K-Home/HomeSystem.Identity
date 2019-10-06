@@ -10,32 +10,29 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    internal class ActivationMessageSentDomainEventHandler :
-        INotificationHandler<ActivateAccountSecuredOperationCreatedDomainEvent>
+    public class CreateActivateAccountSecureOperationRejectedDomainEventHandler :
+        INotificationHandler<CreateActivateAccountSecuredOperationRejectedDomainEvent>
     {
-        private readonly ILogger<ActivationMessageSentDomainEventHandler> _logger;
+        private readonly ILogger<CreateActivateAccountSecureOperationRejectedDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
 
-        public ActivationMessageSentDomainEventHandler(
-            ILogger<ActivationMessageSentDomainEventHandler> logger,
+        public CreateActivateAccountSecureOperationRejectedDomainEventHandler(
+            ILogger<CreateActivateAccountSecureOperationRejectedDomainEventHandler> logger,
             IMassTransitBusService massTransitBusService)
         {
             _logger = logger.CheckIfNotEmpty();
             _massTransitBusService = massTransitBusService.CheckIfNotEmpty();
         }
 
-        public async Task Handle(ActivateAccountSecuredOperationCreatedDomainEvent @event,
+        public async Task Handle(CreateActivateAccountSecuredOperationRejectedDomainEvent @event,
             CancellationToken cancellationToken)
         {
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
                 @event.GetGenericTypeName(), @event);
 
-            await _massTransitBusService.SendAsync(new SendActivateAccountMessageIntegrationCommand(@event.Request,
-                @event.Email, @event.Username, @event.Token, @event.Endpoint), cancellationToken);
-
             await _massTransitBusService.PublishAsync(
-                new ActivateAccountSecuredOperationCreatedIntegrationEvent(@event.Request.Id, @event.UserId,
-                    @event.OperationId, @event.Message), cancellationToken);
+                new CreateActivateAccountSecuredOperationRejectedIntegrationEvent(@event.RequestId, @event.UserId,
+                    @event.OperationId, @event.Message, @event.Reason, @event.Code), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

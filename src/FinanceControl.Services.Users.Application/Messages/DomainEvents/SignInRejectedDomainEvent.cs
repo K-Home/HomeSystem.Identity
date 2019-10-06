@@ -14,7 +14,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Reason { get; }
 
         [JsonConstructor]
-        public SignInRejectedDomainEvent(Guid requestId, Guid userId, 
+        public SignInRejectedDomainEvent(Guid requestId, Guid userId,
             string message, string code, string reason)
         {
             RequestId = requestId;
