@@ -10,13 +10,8 @@ namespace FinanceControl.IntegrationMessages
 {
     public class AccountActivatedIntegrationEvent : IIntegrationEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public string Email { get; }
-
-        [DataMember]
         public Guid UserId { get; }
 
         [JsonConstructor]

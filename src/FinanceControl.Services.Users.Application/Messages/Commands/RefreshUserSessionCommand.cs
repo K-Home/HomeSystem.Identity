@@ -7,16 +7,9 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class RefreshUserSessionCommand : ISessionCommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public Guid SessionId { get; }
-
-        [DataMember]
         public Guid NewSessionId { get; }
-
-        [DataMember]
         public string Key { get; }
 
         [JsonConstructor]

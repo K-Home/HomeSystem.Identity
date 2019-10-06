@@ -7,19 +7,10 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 {
     public class ActivateAccountRejectedDomainEvent : IDomainRejectedEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public string Reason { get; }
-
-        [DataMember]
         public string Code { get; }
-
-        [DataMember]
         public string Email { get; }
-
-        [DataMember]
         public string Message { get; }
 
         [JsonConstructor]

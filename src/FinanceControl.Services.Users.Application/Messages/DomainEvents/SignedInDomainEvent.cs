@@ -7,19 +7,10 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 {
     public class SignedInDomainEvent : IDomainEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string Message { get; }
-
-        [DataMember]
         public string Email { get; }
-
-        [DataMember]
         public string Name { get; }
 
         [JsonConstructor]

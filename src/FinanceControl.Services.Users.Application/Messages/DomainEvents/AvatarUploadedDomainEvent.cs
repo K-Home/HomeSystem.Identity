@@ -7,13 +7,8 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 {
     public class AvatarUploadedDomainEvent : IDomainEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string AvatarUrl { get; }
 
         [JsonConstructor]

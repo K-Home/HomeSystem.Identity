@@ -7,16 +7,9 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 {
     public class AccountActivatedDomainEvent : IDomainEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public string Email { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string Message { get; }
 
         [JsonConstructor]

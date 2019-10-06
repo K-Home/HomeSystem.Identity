@@ -6,13 +6,8 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class ActivateAccountCommand : ICommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public string Email { get; }
-
-        [DataMember]
         public string Token { get; }
 
         [JsonConstructor]

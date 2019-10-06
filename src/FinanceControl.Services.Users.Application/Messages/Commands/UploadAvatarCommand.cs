@@ -7,19 +7,10 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class UploadAvatarCommand : IFileUploadCommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string Filename { get; }
-
-        [DataMember]
         public string FileContentType { get; }
-
-        [DataMember]
         public string FileBase64 { get; }
 
         [JsonConstructor]

@@ -7,13 +7,8 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class SignOutCommand : IAuthenticatedCommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public Guid SessionId { get; }
-
-        [DataMember]
         public Guid UserId { get; }
 
         [JsonConstructor]

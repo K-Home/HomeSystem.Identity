@@ -9,19 +9,10 @@ namespace FinanceControl.IntegrationMessages
 {
     public class SignOutRejectedIntegrationEvent : IAuthenticatedIntegrationEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string Message { get; }
-
-        [DataMember]
         public string Reason { get; }
-
-        [DataMember]
         public string Code { get; }
 
         public SignOutRejectedIntegrationEvent(Guid requestId, Guid userId,

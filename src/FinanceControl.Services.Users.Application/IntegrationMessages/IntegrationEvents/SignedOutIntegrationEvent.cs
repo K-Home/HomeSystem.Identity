@@ -9,13 +9,8 @@ namespace FinanceControl.IntegrationMessages
 {
     public class SignedOutIntegrationEvent : IAuthenticatedIntegrationEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string Message { get; }
 
         public SignedOutIntegrationEvent(Guid requestId, Guid userId, string message)
