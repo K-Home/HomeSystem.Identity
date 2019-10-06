@@ -10,8 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    internal class AccountActivatedDomainEventHandler : INotificationHandler<AccountActivatedDomainEvent>,
-        INotificationHandler<ActivateAccountRejectedDomainEvent>
+    internal class AccountActivatedDomainEventHandler : INotificationHandler<AccountActivatedDomainEvent>
     {
         private readonly ILogger<SignedUpDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
@@ -29,19 +28,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(
-                new AccountActivatedIntegrationEvent(@event.RequestId, @event.Email, @event.UserId), cancellationToken);
-
-            _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
-        }
-
-        public async Task Handle(ActivateAccountRejectedDomainEvent @event, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
-                @event.GetGenericTypeName(), @event);
-
-            await _massTransitBusService.PublishAsync(
-                new ActivateAccountRejectedIntegrationEvent(@event.RequestId, @event.Email, @event.Code, @event.Reason),
-                cancellationToken);
+                new AccountActivatedIntegrationEvent(@event.RequestId, @event.Email, @event.UserId,
+                    $"Successfully activated account for user with id: {@event.UserId}"), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

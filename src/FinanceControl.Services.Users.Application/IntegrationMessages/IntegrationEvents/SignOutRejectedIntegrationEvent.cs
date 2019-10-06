@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 
 // namespace must be the same in services, required by MassTransit library
@@ -9,22 +8,13 @@ namespace FinanceControl.IntegrationMessages
 {
     public class SignOutRejectedIntegrationEvent : IAuthenticatedIntegrationEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string Message { get; }
-
-        [DataMember]
         public string Reason { get; }
-
-        [DataMember]
         public string Code { get; }
 
-        public SignOutRejectedIntegrationEvent(Guid requestId, Guid userId, 
+        public SignOutRejectedIntegrationEvent(Guid requestId, Guid userId,
             string message, string reason, string code)
         {
             RequestId = requestId;

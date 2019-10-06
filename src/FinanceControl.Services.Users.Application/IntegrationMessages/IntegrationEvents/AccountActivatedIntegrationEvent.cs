@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
@@ -10,21 +9,19 @@ namespace FinanceControl.IntegrationMessages
 {
     public class AccountActivatedIntegrationEvent : IIntegrationEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public string Email { get; }
-
-        [DataMember]
         public Guid UserId { get; }
+        public string Message { get; }
 
         [JsonConstructor]
-        public AccountActivatedIntegrationEvent(Guid requestId, string email, Guid userId)
+        public AccountActivatedIntegrationEvent(Guid requestId,
+            string email, Guid userId, string message)
         {
             RequestId = requestId;
             Email = email;
             UserId = userId;
+            Message = message;
         }
     }
 }

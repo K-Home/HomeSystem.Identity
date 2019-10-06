@@ -18,14 +18,14 @@ namespace FinanceControl.Services.Users.Api.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("sign-in")]
-        public async Task<IActionResult> Post([FromBody]SignInCommand command)
+        public async Task<IActionResult> Post([FromBody] SignInCommand command)
         {
             return await HandleRequestAsync(command);
         }
 
         [HttpPost]
         [Route("sign-out")]
-        public async Task<IActionResult> Post([FromBody]SignOutCommand command)
+        public async Task<IActionResult> Post([FromBody] SignOutCommand command)
         {
             return await HandleRequestWithToken(command);
         }

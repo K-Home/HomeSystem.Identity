@@ -1,28 +1,26 @@
 ﻿using System;
-using System.Runtime.Serialization;
-using FinanceControl.Services.Users.Infrastructure.Files;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
 namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
-    public class UploadAvatarCommand : IAuthenticatedCommand
+    public class UploadAvatarCommand : IFileUploadCommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
-        public File Avatar { get; }
+        public string Filename { get; }
+        public string FileContentType { get; }
+        public string FileBase64 { get; }
 
         [JsonConstructor]
-        public UploadAvatarCommand(Guid userId, File avatar)
+        public UploadAvatarCommand(Guid userId, string filename,
+            string fileContentType, string fileBase64)
         {
             Request = Request.New<UploadAvatarCommand>();
             UserId = userId;
-            Avatar = avatar;
+            Filename = filename;
+            FileContentType = fileContentType;
+            FileBase64 = fileBase64;
         }
     }
 }

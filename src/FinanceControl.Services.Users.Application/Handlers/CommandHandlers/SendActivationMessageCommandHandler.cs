@@ -52,23 +52,21 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 
                     await _mediatRBus.PublishAsync(new ActivateAccountSecuredOperationCreatedDomainEvent(
                         command.Request, command.UserId, command.Username, command.Email, operation.Id,
-                        $"Successfully created secured operation for user with id: {command.UserId}.", operation.Token,
-                        _appOptions.ActivationAccountUrl), cancellationToken);
+                        operation.Token, _appOptions.ActivationAccountUrl), cancellationToken);
                 })
                 .OnCustomError(async customException =>
                 {
                     await _mediatRBus.PublishAsync(new CreateActivateAccountSecuredOperationRejectedDomainEvent(
-                        command.Request.Id, command.UserId, operationId,
-                        $"Created secured operation for user with id: {command.UserId} rejected, because custom exception was thrown",
-                        customException.Message, customException.Code), cancellationToken);
+                            command.Request.Id, command.UserId, operationId, customException.Message,
+                            customException.Code),
+                        cancellationToken);
                 })
                 .OnError(async (exception, logger) =>
                 {
                     logger.Error("Error occured while creating a secured operation.", exception);
                     await _mediatRBus.PublishAsync(new CreateActivateAccountSecuredOperationRejectedDomainEvent(
-                        command.Request.Id, command.UserId, operationId,
-                        $"Created secured operation for user with id: {command.UserId} rejected, because exception was thrown",
-                        exception.Message, Codes.Error), cancellationToken);
+                            command.Request.Id, command.UserId, operationId, exception.Message, Codes.Error),
+                        cancellationToken);
                 }).ExecuteAsync();
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
@@ -7,22 +6,11 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class SignInCommand : ISessionCommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public Guid SessionId { get; }
-
-        [DataMember]
         public string Email { get; }
-
-        [DataMember]
         public string Password { get; }
-
-        [DataMember]
         public string IpAddress { get; }
-        
-        [DataMember]
         public string UserAgent { get; }
 
         [JsonConstructor]

@@ -40,21 +40,19 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                     await _authenticationService.SaveChangesAsync(cancellationToken);
                 })
                 .OnSuccess(async () =>
-                    await _mediatRBus.PublishAsync(new SignedInDomainEvent(command.Request.Id, user.Id,
-                        $"User with id: {user.Id} successfully logged in.", user.Email,
-                        user.Username), cancellationToken))
+                    await _mediatRBus.PublishAsync(new SignedInDomainEvent(
+                        command.Request.Id, user.Id, user.Email, user.Username), cancellationToken))
                 .OnCustomError(async customException =>
                     await _mediatRBus.PublishAsync(
-                        new SignInRejectedDomainEvent(command.Request.Id, user.Id,
-                            $"Logged in for user with id: {user.Id}, rejected, because custom exception was thrown.",
-                            customException.Code, customException.Message), cancellationToken))
+                        new SignInRejectedDomainEvent(
+                            command.Request.Id, user.Id, customException.Code, customException.Message),
+                        cancellationToken))
                 .OnError(async (exception, logger) =>
                 {
                     logger.Error($"Error occured while logging in a user wid id: {user.Id}.", exception);
                     await _mediatRBus.PublishAsync(
-                        new SignInRejectedDomainEvent(command.Request.Id, user.Id,
-                            $"Logged in for user with id: {user.Id}, rejected, because exception was thrown.",
-                            Codes.Error, exception.Message), cancellationToken);
+                        new SignInRejectedDomainEvent(command.Request.Id, user.Id, Codes.Error, exception.Message),
+                        cancellationToken);
                 })
                 .ExecuteAsync();
         }

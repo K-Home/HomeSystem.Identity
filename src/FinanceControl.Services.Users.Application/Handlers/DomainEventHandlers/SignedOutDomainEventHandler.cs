@@ -10,8 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    public class SignedOutDomainEventHandler : INotificationHandler<SignedOutDomainEvent>,
-        INotificationHandler<SignOutRejectedDomainEvent>
+    public class SignedOutDomainEventHandler : INotificationHandler<SignedOutDomainEvent>
     {
         private readonly ILogger<SignedOutDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
@@ -29,19 +28,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(
-                new SignedOutIntegrationEvent(@event.RequestId, @event.UserId, @event.Message), cancellationToken);
-
-            _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
-        }
-
-        public async Task Handle(SignOutRejectedDomainEvent @event, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
-                @event.GetGenericTypeName(), @event);
-
-            await _massTransitBusService.PublishAsync(
-                new SignOutRejectedIntegrationEvent(@event.RequestId, @event.UserId, @event.Message, @event.Reason,
-                    @event.Code), cancellationToken);
+                new SignedOutIntegrationEvent(@event.RequestId, @event.UserId,
+                    $"User with id: {@event.UserId} has been successfully logged out."), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

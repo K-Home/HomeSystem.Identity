@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using FinanceControl.Services.Users.Infrastructure.Messages;
+﻿using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
 // namespace must be the same in services, required by MassTransit library
@@ -9,24 +8,15 @@ namespace FinanceControl.IntegrationMessages
 {
     public class SendActivateAccountMessageIntegrationCommand : IIntegrationCommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public string Email { get; }
-
-        [DataMember]
         public string Username { get; }
-
-        [DataMember]
         public string Token { get; }
-
-        [DataMember]
         public string Endpoint { get; }
 
         [JsonConstructor]
-        public SendActivateAccountMessageIntegrationCommand(Request request, string email, string username,
-            string token, string endpoint)
+        public SendActivateAccountMessageIntegrationCommand(Request request,
+            string email, string username, string token, string endpoint)
         {
             Request = request;
             Email = email;
