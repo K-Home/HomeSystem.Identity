@@ -6,16 +6,12 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class SignUpCommand : ICommand
     {
-        [DataMember]
         public Request Request { get; }
 
-        [DataMember]
         public string Email { get; }
 
-        [DataMember]
         public string Password { get; }
 
-        [DataMember]
         public string UserName { get; }
 
         [JsonConstructor]

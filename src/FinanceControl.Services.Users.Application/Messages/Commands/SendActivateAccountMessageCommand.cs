@@ -7,16 +7,9 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class SendActivateAccountMessageCommand : ICommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public string Email { get; }
-        
-        [DataMember]
         public string Username { get; }
-        
-        [DataMember]
         public Guid UserId { get; }
 
         [JsonConstructor]

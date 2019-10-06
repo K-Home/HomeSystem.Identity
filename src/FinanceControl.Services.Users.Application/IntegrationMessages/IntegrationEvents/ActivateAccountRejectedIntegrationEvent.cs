@@ -10,16 +10,9 @@ namespace FinanceControl.IntegrationMessages
 {
     public class ActivateAccountRejectedIntegrationEvent : IIntegrationRejectedEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public string Reason { get; }
-
-        [DataMember]
         public string Code { get; }
-
-        [DataMember]
         public string Email { get; }
 
         [JsonConstructor]

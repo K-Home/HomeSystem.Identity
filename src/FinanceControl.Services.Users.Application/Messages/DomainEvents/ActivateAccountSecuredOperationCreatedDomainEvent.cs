@@ -7,28 +7,13 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 {
     public class ActivateAccountSecuredOperationCreatedDomainEvent : IDomainEvent
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string Username { get; }
-
-        [DataMember]
         public string Email { get; }
-
-        [DataMember]
         public Guid OperationId { get; }
-
-        [DataMember]
         public string Message { get; }
-
-        [DataMember]
         public string Token { get; }
-
-        [DataMember]
         public string Endpoint { get; }
 
         [JsonConstructor]

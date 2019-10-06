@@ -7,13 +7,8 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class EnabledTwoFactorAuthorizationCommand : IAuthenticatedCommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public bool EnableTwoFactorAuthorization { get; }
 
         [JsonConstructor]

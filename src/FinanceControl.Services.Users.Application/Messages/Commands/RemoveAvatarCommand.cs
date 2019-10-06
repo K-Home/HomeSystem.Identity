@@ -7,10 +7,7 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class RemoveAvatarCommand : IAuthenticatedCommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public Guid UserId { get; }
 
         [JsonConstructor]

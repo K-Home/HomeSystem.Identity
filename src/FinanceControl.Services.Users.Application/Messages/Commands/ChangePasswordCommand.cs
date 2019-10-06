@@ -7,16 +7,9 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
     public class ChangePasswordCommand : IAuthenticatedCommand
     {
-        [DataMember]
         public Request Request { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string CurrentPassword { get; }
-
-        [DataMember]
         public string NewPassword { get; }
 
         [JsonConstructor]

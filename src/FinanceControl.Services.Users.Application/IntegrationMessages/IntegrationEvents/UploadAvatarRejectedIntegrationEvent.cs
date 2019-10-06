@@ -10,19 +10,10 @@ namespace FinanceControl.IntegrationMessages
 {
     public class UploadAvatarRejectedIntegrationEvent : IIntegrationRejectedEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string Message { get; set; }
-
-        [DataMember]
         public string Code { get; }
-
-        [DataMember]
         public string Reason { get; }
 
         [JsonConstructor]

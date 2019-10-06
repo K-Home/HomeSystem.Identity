@@ -10,16 +10,9 @@ namespace FinanceControl.IntegrationMessages
 {
     public class AvatarUploadedIntegrationEvent : IIntegrationEvent
     {
-        [DataMember]
         public Guid RequestId { get; }
-
-        [DataMember]
         public Guid UserId { get; }
-
-        [DataMember]
         public string Message { get; set; }
-
-        [DataMember]
         public string AvatarUrl { get; }
 
         [JsonConstructor]
