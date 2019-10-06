@@ -15,6 +15,7 @@ namespace FinanceControl.Services.Users.Domain
         public static readonly string SecuredOperationIsInvalid = "secured_operation_is_invalid";
         public static readonly string SessionKeyIsInvalid = "session_key_is_invalid";
         public static readonly string FileIsInvalid = "file_is_invalid";
+        public static readonly string AvatarIsInvalid = "avatar_is_invalid";
 
         public static readonly string FirstNameNotProvided = "first_name_not_provided";
         public static readonly string LastNameNotProvided = "last_name_not_provided";

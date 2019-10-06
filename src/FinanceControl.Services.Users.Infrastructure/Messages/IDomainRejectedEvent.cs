@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace FinanceControl.Services.Users.Infrastructure.Messages
+﻿namespace FinanceControl.Services.Users.Infrastructure.Messages
 {
     public interface IDomainRejectedEvent : IDomainEvent
     {

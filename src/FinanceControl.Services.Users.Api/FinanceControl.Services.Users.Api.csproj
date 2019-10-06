@@ -13,4 +13,8 @@
     <ProjectReference Include="..\FinanceControl.Services.Users.Application\FinanceControl.Services.Users.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot" />
+  </ItemGroup>
+
 </Project>
