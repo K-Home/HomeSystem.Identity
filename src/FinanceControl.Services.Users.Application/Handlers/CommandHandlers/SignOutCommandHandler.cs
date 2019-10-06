@@ -40,7 +40,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                         new SignedOutDomainEvent(command.Request.Id, command.UserId), cancellationToken))
                 .OnCustomError(async customException =>
                     await _mediatRBus.PublishAsync(new SignOutRejectedDomainEvent(
-                        command.Request.Id, command.UserId, customException.Message, customException.Code), cancellationToken))
+                            command.Request.Id, command.UserId, customException.Message, customException.Code),
+                        cancellationToken))
                 .OnError(async (exception, logger) =>
                 {
                     logger.Error("Error occured while signing out user.", exception);

@@ -14,7 +14,7 @@ namespace FinanceControl.IntegrationMessages
         public string Reason { get; }
         public string Code { get; }
 
-        public SignOutRejectedIntegrationEvent(Guid requestId, Guid userId, 
+        public SignOutRejectedIntegrationEvent(Guid requestId, Guid userId,
             string message, string reason, string code)
         {
             RequestId = requestId;

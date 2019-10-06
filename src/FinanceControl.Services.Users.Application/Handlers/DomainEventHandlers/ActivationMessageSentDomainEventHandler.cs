@@ -36,7 +36,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             await _massTransitBusService.PublishAsync(
                 new ActivateAccountSecuredOperationCreatedIntegrationEvent(@event.Request.Id, @event.UserId,
-                    @event.OperationId, $"Successfully created secured operation for user with id: {@event.UserId}."), cancellationToken);
+                    @event.OperationId, $"Successfully created secured operation for user with id: {@event.UserId}."),
+                cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
@@ -49,7 +50,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             await _massTransitBusService.PublishAsync(
                 new CreateActivateAccountSecuredOperationRejectedIntegrationEvent(@event.RequestId, @event.UserId,
-                    @event.OperationId, $"Created secured operation for user with id: {@event.UserId} rejected, because exception was thrown",
+                    @event.OperationId,
+                    $"Created secured operation for user with id: {@event.UserId} rejected, because exception was thrown",
                     @event.Reason, @event.Code), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());

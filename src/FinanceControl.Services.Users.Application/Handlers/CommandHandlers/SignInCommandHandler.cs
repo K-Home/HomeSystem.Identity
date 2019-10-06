@@ -45,7 +45,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 .OnCustomError(async customException =>
                     await _mediatRBus.PublishAsync(
                         new SignInRejectedDomainEvent(
-                            command.Request.Id, user.Id, customException.Code, customException.Message), cancellationToken))
+                            command.Request.Id, user.Id, customException.Code, customException.Message),
+                        cancellationToken))
                 .OnError(async (exception, logger) =>
                 {
                     logger.Error($"Error occured while logging in a user wid id: {user.Id}.", exception);

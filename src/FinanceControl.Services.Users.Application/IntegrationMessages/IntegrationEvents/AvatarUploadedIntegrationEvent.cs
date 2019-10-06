@@ -15,7 +15,7 @@ namespace FinanceControl.IntegrationMessages
         public string AvatarUrl { get; }
 
         [JsonConstructor]
-        public AvatarUploadedIntegrationEvent(Guid requestId, 
+        public AvatarUploadedIntegrationEvent(Guid requestId,
             Guid userId, string message, string avatarUrl)
         {
             RequestId = requestId;

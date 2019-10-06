@@ -22,7 +22,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
             _logger = logger.CheckIfNotEmpty();
             _massTransitBusService = massTransitBusService.CheckIfNotEmpty();
         }
-        
+
         public async Task Handle(SignedInDomainEvent @event, CancellationToken cancellationToken)
         {
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",

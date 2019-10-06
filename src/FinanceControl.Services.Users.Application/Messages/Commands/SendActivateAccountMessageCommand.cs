@@ -12,7 +12,7 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
         public Guid UserId { get; }
 
         [JsonConstructor]
-        public SendActivateAccountMessageCommand(Request request, string email, 
+        public SendActivateAccountMessageCommand(Request request, string email,
             string username, Guid userId)
         {
             Request = request;

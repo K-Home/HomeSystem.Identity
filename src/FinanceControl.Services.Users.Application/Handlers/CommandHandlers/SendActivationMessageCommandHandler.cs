@@ -51,7 +51,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                     var operation = await _oneTimeSecuredOperationService.GetAsync(operationId);
 
                     await _mediatRBus.PublishAsync(new ActivateAccountSecuredOperationCreatedDomainEvent(
-                        command.Request, command.UserId, command.Username, command.Email, operation.Id, 
+                        command.Request, command.UserId, command.Username, command.Email, operation.Id,
                         operation.Token, _appOptions.ActivationAccountUrl), cancellationToken);
                 })
                 .OnCustomError(async customException =>

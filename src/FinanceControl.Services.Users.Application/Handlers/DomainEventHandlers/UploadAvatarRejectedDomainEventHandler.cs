@@ -31,7 +31,6 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 @event.UserId, "", @event.Code, @event.Reason), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
-
         }
     }
 }

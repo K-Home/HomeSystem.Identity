@@ -13,7 +13,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Code { get; }
 
         [JsonConstructor]
-        public CreateActivateAccountSecuredOperationRejectedDomainEvent(Guid requestId, 
+        public CreateActivateAccountSecuredOperationRejectedDomainEvent(Guid requestId,
             Guid userId, Guid operationId, string reason, string code)
         {
             RequestId = requestId;

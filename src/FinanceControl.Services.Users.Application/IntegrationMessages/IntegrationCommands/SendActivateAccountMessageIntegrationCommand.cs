@@ -15,7 +15,7 @@ namespace FinanceControl.IntegrationMessages
         public string Endpoint { get; }
 
         [JsonConstructor]
-        public SendActivateAccountMessageIntegrationCommand(Request request, 
+        public SendActivateAccountMessageIntegrationCommand(Request request,
             string email, string username, string token, string endpoint)
         {
             Request = request;
