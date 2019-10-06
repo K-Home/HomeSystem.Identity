@@ -2,7 +2,7 @@
 
 namespace FinanceControl.Services.Users.Infrastructure.Messages
 {
-    public interface IQuery
+    public interface IQuery : IRequest
     {
     }
 

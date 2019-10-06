@@ -11,8 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
     internal class ActivationMessageSentDomainEventHandler :
-        INotificationHandler<ActivateAccountSecuredOperationCreatedDomainEvent>,
-        INotificationHandler<CreateActivateAccountSecuredOperationRejectedDomainEvent>
+        INotificationHandler<ActivateAccountSecuredOperationCreatedDomainEvent>
     {
         private readonly ILogger<ActivationMessageSentDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
@@ -36,23 +35,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             await _massTransitBusService.PublishAsync(
                 new ActivateAccountSecuredOperationCreatedIntegrationEvent(@event.Request.Id, @event.UserId,
-                    @event.OperationId, $"Successfully created secured operation for user with id: {@event.UserId}."),
-                cancellationToken);
-
-            _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
-        }
-
-        public async Task Handle(CreateActivateAccountSecuredOperationRejectedDomainEvent @event,
-            CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
-                @event.GetGenericTypeName(), @event);
-
-            await _massTransitBusService.PublishAsync(
-                new CreateActivateAccountSecuredOperationRejectedIntegrationEvent(@event.RequestId, @event.UserId,
-                    @event.OperationId,
-                    $"Created secured operation for user with id: {@event.UserId} rejected, because exception was thrown",
-                    @event.Reason, @event.Code), cancellationToken);
+                    @event.OperationId, @event.Message), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

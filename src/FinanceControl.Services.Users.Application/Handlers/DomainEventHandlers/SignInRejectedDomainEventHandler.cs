@@ -10,29 +10,16 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    internal class SignedInDomainEventHandler : INotificationHandler<SignedInDomainEvent>
+    public class SignInRejectedDomainEventHandler : INotificationHandler<SignInRejectedDomainEvent>
     {
-        private readonly ILogger<SignedInDomainEventHandler> _logger;
+        private readonly ILogger<SignInRejectedDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
 
-        public SignedInDomainEventHandler(ILogger<SignedInDomainEventHandler> logger,
+        public SignInRejectedDomainEventHandler(ILogger<SignInRejectedDomainEventHandler> logger,
             IMassTransitBusService massTransitBusService)
         {
             _logger = logger.CheckIfNotEmpty();
             _massTransitBusService = massTransitBusService.CheckIfNotEmpty();
-        }
-
-        public async Task Handle(SignedInDomainEvent @event, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
-                @event.GetGenericTypeName(), @event);
-
-            await _massTransitBusService.PublishAsync(
-                new SignedInIntegrationEvent(@event.RequestId, @event.UserId,
-                    $"User with id: {@event.UserId} successfully logged in.", @event.Email, @event.Name),
-                cancellationToken);
-
-            _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
 
         public async Task Handle(SignInRejectedDomainEvent @event, CancellationToken cancellationToken)
@@ -42,8 +29,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             await _massTransitBusService.PublishAsync(
                 new SignInRejectedIntegrationEvent(@event.RequestId, @event.UserId,
-                    $"Logged in for user with id: {@event.UserId}, rejected, because exception was thrown.",
-                    @event.Reason, @event.Code), cancellationToken);
+                    @event.Message, @event.Reason, @event.Code), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

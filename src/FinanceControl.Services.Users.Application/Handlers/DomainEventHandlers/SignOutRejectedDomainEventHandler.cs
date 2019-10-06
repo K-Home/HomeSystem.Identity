@@ -10,28 +10,16 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    public class SignedOutDomainEventHandler : INotificationHandler<SignedOutDomainEvent>
+    public class SignOutRejectedDomainEventHandler : INotificationHandler<SignOutRejectedDomainEvent>
     {
-        private readonly ILogger<SignedOutDomainEventHandler> _logger;
+        private readonly ILogger<SignOutRejectedDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
 
-        public SignedOutDomainEventHandler(ILogger<SignedOutDomainEventHandler> logger,
+        public SignOutRejectedDomainEventHandler(ILogger<SignOutRejectedDomainEventHandler> logger,
             IMassTransitBusService massTransitBusService)
         {
             _logger = logger.CheckIfNotEmpty();
             _massTransitBusService = massTransitBusService.CheckIfNotEmpty();
-        }
-
-        public async Task Handle(SignedOutDomainEvent @event, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
-                @event.GetGenericTypeName(), @event);
-
-            await _massTransitBusService.PublishAsync(
-                new SignedOutIntegrationEvent(@event.RequestId, @event.UserId,
-                    $"User with id: {@event.UserId} has been successfully logged out."), cancellationToken);
-
-            _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
 
         public async Task Handle(SignOutRejectedDomainEvent @event, CancellationToken cancellationToken)
@@ -40,9 +28,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(
-                new SignOutRejectedIntegrationEvent(@event.RequestId, @event.UserId,
-                    $"Logged out failed for user with id: {@event.UserId}, because custom exception was thrown.",
-                    @event.Reason, @event.Code), cancellationToken);
+                new SignOutRejectedIntegrationEvent(@event.RequestId, @event.UserId, @event.Message, @event.Reason,
+                    @event.Code), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
