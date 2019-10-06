@@ -3,7 +3,7 @@
     public interface IAuthenticatedPagedQuery : IAuthenticatedQuery, IPagedQuery
     {
     }
-    
+
     public interface IAuthenticatedPagedQuery<out T> : IAuthenticatedQuery<T>, IPagedQuery<T>
     {
     }

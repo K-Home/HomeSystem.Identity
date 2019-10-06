@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
@@ -10,18 +9,16 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public Guid RequestId { get; }
         public Guid UserId { get; }
         public Guid OperationId { get; }
-        public string Message { get; }
         public string Reason { get; }
         public string Code { get; }
 
         [JsonConstructor]
-        public CreateActivateAccountSecuredOperationRejectedDomainEvent(Guid requestId, Guid userId,
-            Guid operationId, string message, string reason, string code)
+        public CreateActivateAccountSecuredOperationRejectedDomainEvent(Guid requestId,
+            Guid userId, Guid operationId, string reason, string code)
         {
             RequestId = requestId;
             UserId = userId;
             OperationId = operationId;
-            Message = message;
             Reason = reason;
             Code = code;
         }

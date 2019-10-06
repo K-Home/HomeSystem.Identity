@@ -29,7 +29,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             await _massTransitBusService.PublishAsync(
                 new SignedInIntegrationEvent(@event.RequestId, @event.UserId,
-                    @event.Message, @event.Email, @event.Name), cancellationToken);
+                    $"User with id: {@event.UserId} successfully logged in.", @event.Email, @event.Name),
+                cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

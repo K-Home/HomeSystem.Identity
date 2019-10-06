@@ -28,7 +28,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(
-                new SignedOutIntegrationEvent(@event.RequestId, @event.UserId, @event.Message), cancellationToken);
+                new SignedOutIntegrationEvent(@event.RequestId, @event.UserId,
+                    $"User with id: {@event.UserId} has been successfully logged out."), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

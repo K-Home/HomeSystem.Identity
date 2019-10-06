@@ -43,24 +43,20 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                     var user = await _userService.GetAsync(userId);
 
                     await _mediatRBus.PublishAsync(
-                        new SignedUpDomainEvent(command.Request, user,
-                            $"Successfully signed up user with id: {userId}."),
-                        cancellationToken);
+                        new SignedUpDomainEvent(command.Request, user), cancellationToken);
                 })
                 .OnCustomError(async customException =>
                 {
                     await _mediatRBus.PublishAsync(
-                        new SignUpRejectedDomainEvent(command.Request.Id, userId,
-                            "Sign up rejected, because custom exception was thrown.",
-                            customException.Message, customException.Code), cancellationToken);
+                        new SignUpRejectedDomainEvent(command.Request.Id, userId, customException.Message,
+                            customException.Code), cancellationToken);
                 })
                 .OnError(async (exception, logger) =>
                 {
                     logger.Error("Error occured while signing up a user.", exception);
                     await _mediatRBus.PublishAsync(
-                        new SignUpRejectedDomainEvent(command.Request.Id, userId,
-                            "Sign up rejected, because exception was thrown.", exception.Message,
-                            Codes.Error), cancellationToken);
+                        new SignUpRejectedDomainEvent(command.Request.Id, userId, exception.Message, Codes.Error),
+                        cancellationToken);
                 })
                 .ExecuteAsync();
         }

@@ -10,7 +10,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Pagination
         public int TotalNumberOfPages { get; }
         public int TotalNumberOfRecords { get; }
         public IEnumerable<T> Results { get; }
-        
+
         public bool IsEmpty => Results == null || !Results.Any();
         public bool IsNotEmpty => !IsEmpty;
 
@@ -30,7 +30,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Pagination
             Results = results;
         }
 
-        public static PagedResult<T> Create(int pageNumber, int pageSize, 
+        public static PagedResult<T> Create(int pageNumber, int pageSize,
             int totalNumberOfPages, int totalNumberOfRecords, IEnumerable<T> results)
         {
             var pagedResult =

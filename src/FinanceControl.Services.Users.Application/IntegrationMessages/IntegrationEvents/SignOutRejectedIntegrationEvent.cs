@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 
 // namespace must be the same in services, required by MassTransit library

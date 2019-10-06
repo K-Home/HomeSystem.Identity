@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
@@ -16,7 +15,7 @@ namespace FinanceControl.IntegrationMessages
         public string AvatarUrl { get; }
 
         [JsonConstructor]
-        public AvatarUploadedIntegrationEvent(Guid requestId, 
+        public AvatarUploadedIntegrationEvent(Guid requestId,
             Guid userId, string message, string avatarUrl)
         {
             RequestId = requestId;

@@ -28,7 +28,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(
-                new AccountActivatedIntegrationEvent(@event.RequestId, @event.Email, @event.UserId), cancellationToken);
+                new AccountActivatedIntegrationEvent(@event.RequestId, @event.Email, @event.UserId,
+                    $"Successfully activated account for user with id: {@event.UserId}"), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

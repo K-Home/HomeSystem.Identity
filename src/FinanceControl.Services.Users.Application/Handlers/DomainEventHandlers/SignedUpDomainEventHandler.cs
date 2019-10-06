@@ -36,7 +36,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                     @event.User.Id), cancellationToken);
 
             await _massTransitBusService.PublishAsync(new SignedUpIntegrationEvent(@event.Request.Id, @event.User.Id,
-                @event.Message, @event.User.Role, @event.User.State), cancellationToken);
+                    $"Successfully signed up user with id: {@event.User.Id}.", @event.User.Role, @event.User.State),
+                cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

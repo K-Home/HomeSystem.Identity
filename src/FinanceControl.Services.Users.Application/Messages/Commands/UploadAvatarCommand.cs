@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
@@ -14,7 +13,7 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
         public string FileBase64 { get; }
 
         [JsonConstructor]
-        public UploadAvatarCommand(Guid userId, string filename, 
+        public UploadAvatarCommand(Guid userId, string filename,
             string fileContentType, string fileBase64)
         {
             Request = Request.New<UploadAvatarCommand>();

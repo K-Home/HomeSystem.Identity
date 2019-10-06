@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
@@ -13,7 +12,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Reason { get; }
 
         [JsonConstructor]
-        public UploadAvatarRejectedDomainEvent(Guid requestId, 
+        public UploadAvatarRejectedDomainEvent(Guid requestId,
             Guid userId, string code, string reason)
         {
             RequestId = requestId;

@@ -28,7 +28,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(
-                new ActivateAccountRejectedIntegrationEvent(@event.RequestId, @event.Email, @event.Code, @event.Reason),
+                new ActivateAccountRejectedIntegrationEvent(@event.RequestId, @event.Email,
+                    "Activated account rejected, because exception was thrown.", @event.Code, @event.Reason),
                 cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());

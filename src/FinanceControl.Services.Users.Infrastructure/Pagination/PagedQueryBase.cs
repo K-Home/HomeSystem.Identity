@@ -9,7 +9,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Pagination
         public string OrderBy { get; set; }
         public bool Ascending { get; set; }
     }
-    
+
     public abstract class PagedQueryBase<T> : IPagedQuery<T>
     {
         public int Page { get; set; }

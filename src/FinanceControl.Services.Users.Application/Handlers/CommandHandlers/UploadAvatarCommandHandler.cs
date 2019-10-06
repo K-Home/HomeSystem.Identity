@@ -27,7 +27,6 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
             _mediatRBus = mediatRBus.CheckIfNotEmpty();
             _avatarService = avatarService.CheckIfNotEmpty();
             _fileResolver = fileResolver.CheckIfNotEmpty();
-
         }
 
         protected override async Task Handle(UploadAvatarCommand command, CancellationToken cancellationToken)
