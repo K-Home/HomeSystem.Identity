@@ -34,18 +34,5 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
-
-        public async Task Handle(SignInRejectedDomainEvent @event, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
-                @event.GetGenericTypeName(), @event);
-
-            await _massTransitBusService.PublishAsync(
-                new SignInRejectedIntegrationEvent(@event.RequestId, @event.UserId,
-                    $"Logged in for user with id: {@event.UserId}, rejected, because exception was thrown.",
-                    @event.Reason, @event.Code), cancellationToken);
-
-            _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
-        }
     }
 }

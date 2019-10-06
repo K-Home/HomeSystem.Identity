@@ -28,7 +28,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Pagination
             var mod = totalNumberOfRecords % pageSize;
             var totalPageCount = totalNumberOfRecords / pageSize + (mod == 0 ? 0 : 1);
 
-            return PagedResult<T>.Create(page, results.Count, 
+            return PagedResult<T>.Create(page, results.Count,
                 totalPageCount, totalNumberOfRecords, results);
         }
     }

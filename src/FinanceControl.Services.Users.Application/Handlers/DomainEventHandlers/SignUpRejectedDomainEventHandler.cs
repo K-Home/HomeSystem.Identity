@@ -28,7 +28,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(new SignUpRejectedIntegrationEvent(@event.RequestId,
-                @event.UserId, @event.Message, @event.Code, @event.Reason), cancellationToken);
+                @event.UserId, $"Sign up for user with id: {@event.UserId} rejected, because exception was thrown.",
+                @event.Code, @event.Reason), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

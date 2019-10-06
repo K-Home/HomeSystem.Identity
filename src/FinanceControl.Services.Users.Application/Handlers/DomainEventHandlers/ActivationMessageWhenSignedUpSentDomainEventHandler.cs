@@ -35,7 +35,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             await _massTransitBusService.PublishAsync(
                 new ActivateAccountSecuredOperationCreatedIntegrationEvent(@event.Request.Id, @event.UserId,
-                    @event.OperationId, @event.Message), cancellationToken);
+                    @event.OperationId, $"Successfully created secured operation for user with id: {@event.UserId}."),
+                cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

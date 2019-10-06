@@ -28,8 +28,9 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(
-                new SignOutRejectedIntegrationEvent(@event.RequestId, @event.UserId, @event.Message, @event.Reason,
-                    @event.Code), cancellationToken);
+                new SignOutRejectedIntegrationEvent(@event.RequestId, @event.UserId,
+                    $"Logged out failed for user with id: {@event.UserId}, because custom exception was thrown.",
+                    @event.Reason, @event.Code), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

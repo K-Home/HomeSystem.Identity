@@ -7,7 +7,7 @@
         string OrderBy { get; }
         bool Ascending { get; }
     }
-    
+
     public interface IPagedQuery<out T> : IQuery<T>
     {
         int Page { get; }
@@ -15,4 +15,4 @@
         string OrderBy { get; }
         bool Ascending { get; }
     }
-}    
+}

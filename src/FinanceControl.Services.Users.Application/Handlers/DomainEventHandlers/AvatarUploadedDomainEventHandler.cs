@@ -29,7 +29,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(
-                new AvatarUploadedIntegrationEvent(@event.RequestId, @event.UserId, "", @event.AvatarUrl),
+                new AvatarUploadedIntegrationEvent(@event.RequestId, @event.UserId,
+                    $"Successfully uploaded avatar for user with id: {@event.UserId}", @event.AvatarUrl),
                 cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
