@@ -12,7 +12,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    internal class SignUpCommandHandler : AsyncRequestHandler<SignUpCommand>
+    internal sealed class SignUpCommandHandler : AsyncRequestHandler<SignUpCommand>
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;

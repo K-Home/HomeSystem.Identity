@@ -10,7 +10,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.QueryHandlers
 {
-    internal class GetUserSessionQueryHandler : IRequestHandler<GetUserSessionQuery, UserSessionDto>
+    internal sealed class GetUserSessionQueryHandler : IRequestHandler<GetUserSessionQuery, UserSessionDto>
     {
         private readonly IMapper _mapper;
         private readonly IAuthenticationService _authenticationService;
