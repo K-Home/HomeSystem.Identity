@@ -4,9 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Validations
 {
-    public class ChangePasswordCommandValidator : AbstractValidator<ChangeUsernameCommand>
+    public class ChangeUsernameCommandValidator : AbstractValidator<ChangeUsernameCommand>
     {
-        public ChangePasswordCommandValidator(ILogger<ChangePasswordCommandValidator> logger)
+        public ChangeUsernameCommandValidator(ILogger<ChangeUsernameCommandValidator> logger)
         {
             RuleFor(so => so.Request.Id).NotEmpty().WithMessage("RequestId is empty.");
             RuleFor(so => so.Request.Resource).NotEmpty().WithMessage("Resource from request or empty.");
