@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Application.Exceptions;
 using FinanceControl.Services.Users.Application.Services.Base;
@@ -69,6 +70,11 @@ namespace FinanceControl.Services.Users.Application.Services
             var user = await _userRepository.GetByUserIdAsync(userId);
             await RemoveAsync(user, userId);
             _userRepository.EditUser(user);
+        }
+        
+        public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            return await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
 
         private async Task RemoveAsync(User user, Guid userId)
