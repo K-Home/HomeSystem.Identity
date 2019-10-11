@@ -4,16 +4,16 @@ using Newtonsoft.Json;
 
 namespace FinanceControl.Services.Users.Application.Messages.Commands
 {
-    public class DisableTwoFactorAuthorizationCommand : IAuthenticatedCommand
+    public class DisableTwoFactorAuthenticationCommand : IAuthenticatedCommand
     {
         public Request Request { get; }
         public Guid UserId { get; }
         public bool DisableTwoFactorAuthentication { get; }
 
         [JsonConstructor]
-        public DisableTwoFactorAuthorizationCommand(Guid userId, bool disableTwoFactorAuthentication)
+        public DisableTwoFactorAuthenticationCommand(Guid userId, bool disableTwoFactorAuthentication)
         {
-            Request = Request.New<DisableTwoFactorAuthorizationCommand>();
+            Request = Request.New<DisableTwoFactorAuthenticationCommand>();
             UserId = userId;
             DisableTwoFactorAuthentication = disableTwoFactorAuthentication;
         }
