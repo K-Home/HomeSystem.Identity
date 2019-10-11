@@ -47,7 +47,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error(exception, "Error when activating account.");
+                    logger.Error(exception, $"Error when activating account for user with id: {command.UserId}.", exception);
                     await _mediatRBus.PublishAsync(
                         new ChangeUsernameRejectedDomainEvent(command.Request.Id, command.UserId, command.Name,
                             Codes.Error, exception.Message), cancellationToken);

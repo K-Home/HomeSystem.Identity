@@ -2,23 +2,23 @@
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
-namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
+namespace FinanceControl.IntegrationMessages
 {
-    public class DeleteAccountRejectedDomainEvent : IDomainRejectedEvent
+    public class EditUserRejectedIntegrationEvent : IIntegrationRejectedEvent
     {
         public Guid RequestId { get; }
-        public Guid UserId { get;  }
-        public bool Soft { get;  }
+        public Guid UserId { get; }
+        public string Message { get; }
         public string Reason { get; }
         public string Code { get; }
 
         [JsonConstructor]
-        public DeleteAccountRejectedDomainEvent(Guid requestId, 
-            Guid userId, bool soft, string reason, string code)
+        public EditUserRejectedIntegrationEvent(Guid requestId, Guid userId, 
+            string message, string reason, string code)
         {
             RequestId = requestId;
             UserId = userId;
-            Soft = soft;
+            Message = message;
             Reason = reason;
             Code = code;
         }

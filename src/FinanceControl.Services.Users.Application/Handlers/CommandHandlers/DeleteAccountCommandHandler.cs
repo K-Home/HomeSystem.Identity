@@ -11,47 +11,45 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    internal sealed class ActivateAccountCommandHandler : AsyncRequestHandler<ActivateAccountCommand>
+    internal sealed class DeleteAccountCommandHandler : AsyncRequestHandler<DeleteAccountCommand>
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;
         private readonly IUserService _userService;
 
-        public ActivateAccountCommandHandler(IHandler handler, IMediatRBus mediatRBus,
-            IUserService userService)
+        public DeleteAccountCommandHandler(IHandler handler, IMediatRBus mediatRBus, IUserService userService)
         {
             _handler = handler.CheckIfNotEmpty();
             _mediatRBus = mediatRBus.CheckIfNotEmpty();
             _userService = userService.CheckIfNotEmpty();
         }
 
-        protected override async Task Handle(ActivateAccountCommand command, CancellationToken cancellationToken)
+        protected override async Task Handle(DeleteAccountCommand command, CancellationToken cancellationToken)
         {
             await _handler
                 .Run(async () =>
                 {
-                    await _userService.ActivateAsync(command.Email, command.Token);
+                    await _userService.DeleteAsync(command.UserId, command.Soft);
                     await _userService.SaveChangesAsync(cancellationToken);
                 })
                 .OnSuccess(async () =>
                 {
-                    var user = await _userService.GetByEmailAsync(command.Email);
                     await _mediatRBus.PublishAsync(
-                        new AccountActivatedDomainEvent(command.Request.Id, command.Email, user.Id),
+                        new AccountDeletedDomainEvent(command.Request.Id, command.UserId, command.Soft),
                         cancellationToken);
                 })
                 .OnCustomError(async customException =>
                 {
                     await _mediatRBus.PublishAsync(
-                        new ActivateAccountRejectedDomainEvent(command.Request.Id, command.Email,
+                        new DeleteAccountRejectedDomainEvent(command.Request.Id, command.UserId, command.Soft,
                             customException.Code, customException.Message), cancellationToken);
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error(exception, $"Error when activating account for user with email: {command.Email}.", exception);
+                    logger.Error($"Error when deleting account for user with id: {command.UserId}.", exception);
                     await _mediatRBus.PublishAsync(
-                        new ActivateAccountRejectedDomainEvent(command.Request.Id, command.Email, Codes.Error,
-                            exception.Message), cancellationToken);
+                        new DeleteAccountRejectedDomainEvent(command.Request.Id, command.UserId, command.Soft,
+                            Codes.Error, exception.Message), cancellationToken);
                 })
                 .ExecuteAsync();
         }

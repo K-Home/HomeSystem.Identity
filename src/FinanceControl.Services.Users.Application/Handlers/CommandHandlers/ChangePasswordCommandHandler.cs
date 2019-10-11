@@ -30,10 +30,10 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
         {
             await _handler
                 .Run(async () =>
-                    {
-                        await _passwordService.ChangeAsync(command.UserId, command.CurrentPassword,
-                            command.NewPassword);
-                    })
+                {
+                    await _passwordService.ChangeAsync(command.UserId, command.CurrentPassword,
+                        command.NewPassword);
+                })
                 .OnSuccess(async () =>
                 {
                     await _mediatRBus.PublishAsync(
@@ -48,7 +48,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error(exception, "Error when changing a password.");
+                    logger.Error(exception, $"Error when changing a password for user with id: {command.UserId}.", exception);
                     await _mediatRBus.PublishAsync(
                         new ChangePasswordRejectedDomainEvent(command.Request.Id, command.UserId, Codes.Error,
                             exception.Message), cancellationToken);
