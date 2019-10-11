@@ -60,7 +60,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error($"Error occured when uploading avatar for user with id: {command.UserId}");
+                    logger.Error($"Error occured when uploading avatar for user with id: {command.UserId}", exception);
                     await _mediatRBus.PublishAsync(new UploadAvatarRejectedDomainEvent(command.Request.Id,
                         command.UserId, Codes.Error, exception.Message), cancellationToken);
                 })

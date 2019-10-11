@@ -44,7 +44,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                         cancellationToken))
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error("Error occured while signing out user.", exception);
+                    logger.Error($"Error occured while signing out user with id: {command.UserId}.", exception);
                     await _mediatRBus.PublishAsync(
                         new SignOutRejectedDomainEvent(command.Request.Id, command.UserId, exception.Message,
                             Codes.Error), cancellationToken);

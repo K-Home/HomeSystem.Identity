@@ -46,7 +46,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error("Error when deleting account.");
+                    logger.Error($"Error when deleting account for user with id: {command.UserId}.", exception);
                     await _mediatRBus.PublishAsync(
                         new DeleteAccountRejectedDomainEvent(command.Request.Id, command.UserId, command.Soft,
                             Codes.Error, exception.Message), cancellationToken);
