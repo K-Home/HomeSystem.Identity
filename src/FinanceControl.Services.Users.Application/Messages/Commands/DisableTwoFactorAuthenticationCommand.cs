@@ -8,14 +8,12 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
     {
         public Request Request { get; }
         public Guid UserId { get; }
-        public bool DisableTwoFactorAuthentication { get; }
 
         [JsonConstructor]
         public DisableTwoFactorAuthenticationCommand(Guid userId, bool disableTwoFactorAuthentication)
         {
             Request = Request.New<DisableTwoFactorAuthenticationCommand>();
             UserId = userId;
-            DisableTwoFactorAuthentication = disableTwoFactorAuthentication;
         }
     }
 }

@@ -10,30 +10,26 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    internal sealed class
-        TwoFactorAuthenticationDisabledDomainEventHandler : INotificationHandler<
-            TwoFactorAuthenticationDisabledDomainEvent>
+    internal sealed class NewPasswordSetDomainEventHandler : INotificationHandler<NewPasswordSetDomainEvent>
     {
-        private readonly ILogger<TwoFactorAuthenticationDisabledDomainEventHandler> _logger;
+        private readonly ILogger<NewPasswordSetDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
 
-        public TwoFactorAuthenticationDisabledDomainEventHandler(
-            ILogger<TwoFactorAuthenticationDisabledDomainEventHandler> logger,
+        public NewPasswordSetDomainEventHandler(ILogger<NewPasswordSetDomainEventHandler> logger,
             IMassTransitBusService massTransitBusService)
         {
             _logger = logger.CheckIfNotEmpty();
             _massTransitBusService = massTransitBusService.CheckIfNotEmpty();
         }
 
-        public async Task Handle(TwoFactorAuthenticationDisabledDomainEvent @event, CancellationToken cancellationToken)
+        public async Task Handle(NewPasswordSetDomainEvent @event, CancellationToken cancellationToken)
         {
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
                 @event.GetGenericTypeName(), @event);
 
             await _massTransitBusService.PublishAsync(
-                new TwoFactorAuthenticationDisabledIntegrationEvent(@event.RequestId, @event.UserId,
-                    $"Successfully disabled two factor authentication for user with id: {@event.UserId}."),
-                cancellationToken);
+                new NewPasswordSetIntegrationEvent(@event.RequestId, @event.Email,
+                    $"Password for user with email: {@event.Email} has been successfully set."), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
