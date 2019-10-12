@@ -13,7 +13,8 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Code { get; }
 
         [JsonConstructor]
-        public LockAccountRejectedDomainEvent(Guid requestId, Guid userId, Guid lockedUserId, string reason, string code)
+        public LockAccountRejectedDomainEvent(Guid requestId, Guid userId, 
+            Guid lockedUserId, string reason, string code)
         {
             RequestId = requestId;
             UserId = userId;
