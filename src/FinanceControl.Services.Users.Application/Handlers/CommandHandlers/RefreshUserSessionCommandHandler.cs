@@ -4,7 +4,6 @@ using FinanceControl.Services.Users.Application.Messages.Commands;
 using FinanceControl.Services.Users.Application.Services.Base;
 using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Infrastructure.Handlers;
-using FinanceControl.Services.Users.Infrastructure.MediatR.Bus;
 using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers

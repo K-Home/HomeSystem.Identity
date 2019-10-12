@@ -31,8 +31,6 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 
         protected override async Task Handle(UploadAvatarCommand command, CancellationToken cancellationToken)
         {
-            string avatarUrl;
-
             await _handler
                 .Run(async () =>
                 {
@@ -49,7 +47,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnSuccess(async () =>
                 {
-                    avatarUrl = await _avatarService.GetUrlAsync(command.UserId);
+                    var avatarUrl = await _avatarService.GetUrlAsync(command.UserId);
                     await _mediatRBus.PublishAsync(new AvatarUploadedDomainEvent(command.Request.Id, command.UserId,
                         avatarUrl), cancellationToken);
                 })

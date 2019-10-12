@@ -1,5 +1,5 @@
-Write-Host "------------ Building docker image ------------------------"
+Write-Verbose "------------ Building docker image ------------------------"
 
 & docker build -t financecontrol.services.users:local .
 
-Write-Host "------------ Building docker image completed --------------"
+Write-Verbose "------------ Building docker image completed --------------"

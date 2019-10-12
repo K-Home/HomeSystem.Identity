@@ -34,7 +34,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization.Extensions
                         ValidateIssuer = settings.ValidateIssuer,
                         ValidAudience = settings.ValidAudience,
                         ValidateAudience = settings.ValidateAudience,
-                        ValidateLifetime = settings.ValidateLifetime,
+                        ValidateLifetime = settings.ValidateLifetime
                     };
                 });
         }

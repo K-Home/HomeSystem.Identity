@@ -6,7 +6,7 @@ namespace FinanceControl.Services.Users.Application.Validations
 {
     internal sealed class UploadAvatarCommandValidator : AbstractValidator<UploadAvatarCommand>
     {
-        public UploadAvatarCommandValidator(ILogger<UploadAvatarCommandValidator> logger)
+        public UploadAvatarCommandValidator(ILogger logger)
         {
             RuleFor(so => so.Request.Id).NotEmpty().WithMessage("RequestId is empty.");
             RuleFor(so => so.Request.Culture).NotEmpty().WithMessage("Culture from request is empty.");

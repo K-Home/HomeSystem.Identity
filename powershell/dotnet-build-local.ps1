@@ -1,5 +1,5 @@
-Write-Host "------------ Building application ------------------------"
+Write-Verbose "------------ Building application ------------------------"
 
 & dotnet build
 
-Write-Host "------------ Building application completed --------------"
+Write-Verbose "------------ Building application completed --------------"
