@@ -11,7 +11,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    internal class ActivateAccountCommandHandler : AsyncRequestHandler<ActivateAccountCommand>
+    internal sealed class ActivateAccountCommandHandler : AsyncRequestHandler<ActivateAccountCommand>
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;
@@ -48,7 +48,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error(exception, "Error when activating account.");
+                    logger.Error(exception, $"Error when activating account for user with email: {command.Email}.",
+                        exception);
                     await _mediatRBus.PublishAsync(
                         new ActivateAccountRejectedDomainEvent(command.Request.Id, command.Email, Codes.Error,
                             exception.Message), cancellationToken);

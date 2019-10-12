@@ -4,11 +4,11 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Validations
 {
-    internal class SignUpCommandValidator : AbstractValidator<SignUpCommand>
+    internal sealed class SignUpCommandValidator : AbstractValidator<SignUpCommand>
     {
         public SignUpCommandValidator(ILogger<SignUpCommandValidator> logger)
         {
-            RuleFor(so => so.Request.Id).NotNull().WithMessage("RequestId is empty.");
+            RuleFor(so => so.Request.Id).NotEmpty().WithMessage("RequestId is empty.");
             RuleFor(so => so.Request.Culture).NotEmpty().WithMessage("Culture from request is empty.");
             RuleFor(so => so.Request.Resource).NotEmpty().WithMessage("Resource from request is empty.");
             RuleFor(sg => sg.UserName).NotEmpty().WithMessage("Username is empty.");

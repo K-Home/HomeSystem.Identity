@@ -67,7 +67,7 @@ namespace FinanceControl.Services.Users.Infrastructure.Authorization
                 new Claim(SessionClaim, sessionId.ToString()),
                 new Claim(StateClaim, state),
                 new Claim(IpAddressClaim, ipAddress),
-                new Claim(UserAgentClaim, userAgent),
+                new Claim(UserAgentClaim, userAgent)
             };
             var expires = now.AddDays(_settings.ExpiryDays);
             var jwt = new JwtSecurityToken(

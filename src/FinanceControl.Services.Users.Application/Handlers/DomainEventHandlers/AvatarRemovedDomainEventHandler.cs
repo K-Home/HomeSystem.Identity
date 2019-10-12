@@ -10,33 +10,26 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    internal class ActivationMessageSentDomainEventHandler :
-        INotificationHandler<ActivateAccountSecuredOperationCreatedDomainEvent>
+    internal sealed class AvatarRemovedDomainEventHandler : INotificationHandler<AvatarRemovedDomainEvent>
     {
-        private readonly ILogger<ActivationMessageSentDomainEventHandler> _logger;
+        private readonly ILogger<AvatarRemovedDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
 
-        public ActivationMessageSentDomainEventHandler(
-            ILogger<ActivationMessageSentDomainEventHandler> logger,
+        public AvatarRemovedDomainEventHandler(ILogger<AvatarRemovedDomainEventHandler> logger,
             IMassTransitBusService massTransitBusService)
         {
             _logger = logger.CheckIfNotEmpty();
             _massTransitBusService = massTransitBusService.CheckIfNotEmpty();
         }
 
-        public async Task Handle(ActivateAccountSecuredOperationCreatedDomainEvent @event,
-            CancellationToken cancellationToken)
+        public async Task Handle(AvatarRemovedDomainEvent @event, CancellationToken cancellationToken)
         {
             _logger.LogInformation("----- Handling domain event {DomainEventName} ({@Event})",
                 @event.GetGenericTypeName(), @event);
 
-            await _massTransitBusService.SendAsync(new SendActivateAccountMessageIntegrationCommand(@event.Request,
-                @event.Email, @event.Username, @event.Token, @event.Endpoint), cancellationToken);
-
             await _massTransitBusService.PublishAsync(
-                new ActivateAccountSecuredOperationCreatedIntegrationEvent(@event.Request.Id, @event.UserId,
-                    @event.OperationId, $"Successfully created secured operation for user with id: {@event.UserId}."),
-                cancellationToken);
+                new AvatarRemovedIntegrationEvent(@event.RequestId, @event.UserId,
+                    $"Avatar has been successfully removed for user with id: {@event.UserId}"), cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

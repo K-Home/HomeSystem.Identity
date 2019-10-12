@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Validations
 {
-    internal class SignOutCommandValidator : AbstractValidator<SignOutCommand>
+    internal sealed class SignOutCommandValidator : AbstractValidator<SignOutCommand>
     {
         public SignOutCommandValidator(ILogger<SignOutCommandValidator> logger)
         {

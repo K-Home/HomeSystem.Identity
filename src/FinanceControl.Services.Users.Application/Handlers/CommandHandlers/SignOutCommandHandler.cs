@@ -11,19 +11,17 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    public class SignOutCommandHandler : AsyncRequestHandler<SignOutCommand>
+    internal sealed class SignOutCommandHandler : AsyncRequestHandler<SignOutCommand>
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;
-        private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
 
-        public SignOutCommandHandler(IHandler handler, IMediatRBus mediatRBus,
-            IUserService userService, IAuthenticationService authenticationService)
+        public SignOutCommandHandler(IHandler handler, 
+            IMediatRBus mediatRBus, IAuthenticationService authenticationService)
         {
             _handler = handler.CheckIfNotEmpty();
             _mediatRBus = mediatRBus.CheckIfNotEmpty();
-            _userService = userService.CheckIfNotEmpty();
             _authenticationService = authenticationService.CheckIfNotEmpty();
         }
 
@@ -44,7 +42,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                         cancellationToken))
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error("Error occured while signing out user.", exception);
+                    logger.Error($"Error occured while signing out user with id: {command.UserId}.", exception);
                     await _mediatRBus.PublishAsync(
                         new SignOutRejectedDomainEvent(command.Request.Id, command.UserId, exception.Message,
                             Codes.Error), cancellationToken);

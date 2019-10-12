@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Validations
 {
-    internal class SignInCommandValidator : AbstractValidator<SignInCommand>
+    internal sealed class SignInCommandValidator : AbstractValidator<SignInCommand>
     {
         public SignInCommandValidator(ILogger<SignInCommandValidator> logger)
         {

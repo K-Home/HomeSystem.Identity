@@ -15,7 +15,7 @@ namespace FinanceControl.Services.Users.Api
 {
     public class Startup
     {
-        private static readonly string[] Headers = new[] {"X-Operation", "X-Resource", "X-Total-Count"};
+        private static readonly string[] Headers = {"X-Operation", "X-Resource", "X-Total-Count"};
 
         private IContainer Container { get; set; }
 

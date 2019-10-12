@@ -12,7 +12,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    internal class SignUpCommandHandler : AsyncRequestHandler<SignUpCommand>
+    internal sealed class SignUpCommandHandler : AsyncRequestHandler<SignUpCommand>
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;
@@ -53,7 +53,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error("Error occured while signing up a user.", exception);
+                    logger.Error($"Error occured while signing up a user with email: {command.Email}.", exception);
                     await _mediatRBus.PublishAsync(
                         new SignUpRejectedDomainEvent(command.Request.Id, userId, exception.Message, Codes.Error),
                         cancellationToken);

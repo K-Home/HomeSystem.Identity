@@ -10,12 +10,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{2BE22C69-1D46-4B87-8C8F-F944C4251BBE}"
 	ProjectSection(SolutionItems) = preProject
 		scripts\docker-build-local.sh = scripts\docker-build-local.sh
-		scripts\dotnet-add-migrations.sh = scripts\dotnet-add-migrations.sh
 		scripts\dotnet-build-local.sh = scripts\dotnet-build-local.sh
 		scripts\dotnet-build.sh = scripts\dotnet-build.sh
 		scripts\dotnet-publish.sh = scripts\dotnet-publish.sh
 		scripts\dotnet-run.sh = scripts\dotnet-run.sh
-		scripts\dotnet-update-database.sh = scripts\dotnet-update-database.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceControl.Services.Users.Tests", "tests\FinanceControl.Services.Users.Tests\FinanceControl.Services.Users.Tests.csproj", "{B9354528-8F74-44D7-BD62-A45EA3487081}"
@@ -29,6 +27,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceControl.Services.Users.Domain", "src\FinanceControl.Services.Users.Domain\FinanceControl.Services.Users.Domain.csproj", "{ECEDABA4-6170-4D9F-B28A-7F416BC5971F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceControl.Services.Users.Infrastructure", "src\FinanceControl.Services.Users.Infrastructure\FinanceControl.Services.Users.Infrastructure.csproj", "{2889FA23-18E3-460B-8CEF-9FA1FE675FDA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "powershell", "powershell", "{538BF27F-FCF2-4E6C-84A1-AAB0E93C79A4}"
+ProjectSection(SolutionItems) = preProject
+	powershell\docker-build.ps1 = powershell\docker-build.ps1
+	powershell\dotnet-build-local.ps1 = powershell\dotnet-build-local.ps1
+	powershell\dotnet-build.ps1 = powershell\dotnet-build.ps1
+	powershell\dotnet-publish.ps1 = powershell\dotnet-publish.ps1
+	powershell\dotnet-run.ps1 = powershell\dotnet-run.ps1
+EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

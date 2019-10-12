@@ -13,7 +13,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    internal class UploadAvatarCommandHandler : AsyncRequestHandler<UploadAvatarCommand>
+    internal sealed class UploadAvatarCommandHandler : AsyncRequestHandler<UploadAvatarCommand>
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;
@@ -31,8 +31,6 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 
         protected override async Task Handle(UploadAvatarCommand command, CancellationToken cancellationToken)
         {
-            string avatarUrl;
-
             await _handler
                 .Run(async () =>
                 {
@@ -49,7 +47,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnSuccess(async () =>
                 {
-                    avatarUrl = await _avatarService.GetUrlAsync(command.UserId);
+                    var avatarUrl = await _avatarService.GetUrlAsync(command.UserId);
                     await _mediatRBus.PublishAsync(new AvatarUploadedDomainEvent(command.Request.Id, command.UserId,
                         avatarUrl), cancellationToken);
                 })
@@ -60,7 +58,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error($"Error occured when uploading avatar for user with id: {command.UserId}");
+                    logger.Error($"Error occured when uploading avatar for user with id: {command.UserId}", exception);
                     await _mediatRBus.PublishAsync(new UploadAvatarRejectedDomainEvent(command.Request.Id,
                         command.UserId, Codes.Error, exception.Message), cancellationToken);
                 })
