@@ -1,5 +1,5 @@
-Write-Host ------------ Building application ------------------------
+Write-Host "------------ Building application ------------------------"
 
 & dotnet build
 
-Write-Host ------------ Building application completed --------------
+Write-Host "------------ Building application completed --------------"

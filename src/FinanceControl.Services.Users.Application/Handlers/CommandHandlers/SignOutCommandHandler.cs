@@ -15,15 +15,13 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;
-        private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
 
-        public SignOutCommandHandler(IHandler handler, IMediatRBus mediatRBus,
-            IUserService userService, IAuthenticationService authenticationService)
+        public SignOutCommandHandler(IHandler handler, 
+            IMediatRBus mediatRBus, IAuthenticationService authenticationService)
         {
             _handler = handler.CheckIfNotEmpty();
             _mediatRBus = mediatRBus.CheckIfNotEmpty();
-            _userService = userService.CheckIfNotEmpty();
             _authenticationService = authenticationService.CheckIfNotEmpty();
         }
 
