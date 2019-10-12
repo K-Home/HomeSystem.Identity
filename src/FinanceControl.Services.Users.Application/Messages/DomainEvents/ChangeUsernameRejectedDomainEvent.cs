@@ -1,5 +1,6 @@
 ﻿using System;
 using FinanceControl.Services.Users.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 {
@@ -11,6 +12,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Reason { get; }
         public string Code { get; }
 
+        [JsonConstructor]
         public ChangeUsernameRejectedDomainEvent(Guid requestId, Guid userId,
             string name, string reason, string code)
         {
