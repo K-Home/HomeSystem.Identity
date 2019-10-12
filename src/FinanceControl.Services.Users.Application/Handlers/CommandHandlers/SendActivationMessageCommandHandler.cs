@@ -63,7 +63,9 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error("Error occured while creating a secured operation.", exception);
+                    logger.Error(
+                        $"Error occured while creating a secured operation for user with id: {command.UserId}.",
+                        exception);
                     await _mediatRBus.PublishAsync(new CreateActivateAccountSecuredOperationRejectedDomainEvent(
                             command.Request.Id, command.UserId, operationId, exception.Message, Codes.Error),
                         cancellationToken);

@@ -1,5 +1,6 @@
 ﻿using System;
 using FinanceControl.Services.Users.Infrastructure.Messages;
+using Newtonsoft.Json;
 
 // namespace must be the same in services, required by MassTransit library
 // https://stackoverflow.com/questions/52477283/masstransit-consume-equal-objects-defined-in-different-namespaces
@@ -15,6 +16,7 @@ namespace FinanceControl.IntegrationMessages
         public string Reason { get; }
         public string Code { get; }
 
+        [JsonConstructor]
         public ChangeUsernameRejectedIntegrationEvent(Guid requestId, Guid userId,
             string name, string message, string reason, string code)
         {

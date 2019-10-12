@@ -10,7 +10,8 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    internal sealed class ActivateAccountRejectedDomainEventHandler : INotificationHandler<ActivateAccountRejectedDomainEvent>
+    internal sealed class
+        ActivateAccountRejectedDomainEventHandler : INotificationHandler<ActivateAccountRejectedDomainEvent>
     {
         private readonly ILogger<ActivateAccountRejectedDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
