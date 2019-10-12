@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using FinanceControl.Services.Users.Application.Exceptions;
 using FinanceControl.Services.Users.Application.Services.Base;
@@ -74,6 +75,11 @@ namespace FinanceControl.Services.Users.Application.Services
 
             user.SetPassword(password, _encrypter);
             _userRepository.EditUser(user);
+        }
+
+        public Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            return _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }
 }
