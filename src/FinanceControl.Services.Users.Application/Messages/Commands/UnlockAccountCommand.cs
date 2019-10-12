@@ -8,10 +8,10 @@ namespace FinanceControl.Services.Users.Application.Messages.Commands
     {
         public Request Request { get; }
         public Guid UserId { get; }
-        public string UnlockUserId { get; }
+        public Guid UnlockUserId { get; }
 
         [JsonConstructor]
-        public UnlockAccountCommand(Guid userId, string unlockUserId)
+        public UnlockAccountCommand(Guid userId, Guid unlockUserId)
         {
             Request = Request.New<UnlockAccountCommand>();
             UserId = userId;
