@@ -14,7 +14,7 @@ namespace FinanceControl.IntegrationMessages
         public string Email { get; }
         public string Message { get; }
 
-        public SetNewPasswordRejectedIntegrationEvent(Guid requestId, 
+        public SetNewPasswordRejectedIntegrationEvent(Guid requestId,
             string code, string reason, string email, string message)
         {
             RequestId = requestId;

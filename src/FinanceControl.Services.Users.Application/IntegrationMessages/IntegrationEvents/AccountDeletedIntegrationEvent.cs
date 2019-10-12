@@ -10,12 +10,12 @@ namespace FinanceControl.IntegrationMessages
     public class AccountDeletedIntegrationEvent : IIntegrationEvent
     {
         public Guid RequestId { get; }
-        public Guid UserId { get;  }
+        public Guid UserId { get; }
         public string Message { get; }
-        public bool Soft { get;  }
+        public bool Soft { get; }
 
         [JsonConstructor]
-        public AccountDeletedIntegrationEvent(Guid requestId, 
+        public AccountDeletedIntegrationEvent(Guid requestId,
             Guid userId, string message, bool soft)
         {
             RequestId = requestId;

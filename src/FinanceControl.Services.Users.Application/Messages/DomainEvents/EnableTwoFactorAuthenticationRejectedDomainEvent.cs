@@ -12,7 +12,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Code { get; }
 
         [JsonConstructor]
-        public EnableTwoFactorAuthenticationRejectedDomainEvent(Guid requestId, 
+        public EnableTwoFactorAuthenticationRejectedDomainEvent(Guid requestId,
             Guid userId, string reason, string code)
         {
             RequestId = requestId;

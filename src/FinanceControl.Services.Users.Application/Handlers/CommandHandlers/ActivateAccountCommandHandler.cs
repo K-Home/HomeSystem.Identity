@@ -48,7 +48,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error(exception, $"Error when activating account for user with email: {command.Email}.", exception);
+                    logger.Error(exception, $"Error when activating account for user with email: {command.Email}.",
+                        exception);
                     await _mediatRBus.PublishAsync(
                         new ActivateAccountRejectedDomainEvent(command.Request.Id, command.Email, Codes.Error,
                             exception.Message), cancellationToken);

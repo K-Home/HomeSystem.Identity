@@ -9,14 +9,14 @@ namespace FinanceControl.IntegrationMessages
 {
     public class RemoveAvatarRejectedIntegrationEvent : IIntegrationRejectedEvent
     {
-        public Guid RequestId { get;  }
-        public Guid UserId { get;  }
+        public Guid RequestId { get; }
+        public Guid UserId { get; }
         public string Message { get; }
         public string Reason { get; }
         public string Code { get; }
 
         [JsonConstructor]
-        public RemoveAvatarRejectedIntegrationEvent(Guid requestId, 
+        public RemoveAvatarRejectedIntegrationEvent(Guid requestId,
             Guid userId, string message, string reason, string code)
         {
             RequestId = requestId;

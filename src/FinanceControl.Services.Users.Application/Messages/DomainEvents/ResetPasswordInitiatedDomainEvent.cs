@@ -12,7 +12,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Endpoint { get; }
 
         [JsonConstructor]
-        public ResetPasswordInitiatedDomainEvent(Request request, 
+        public ResetPasswordInitiatedDomainEvent(Request request,
             Guid operationId, string email, string endpoint)
         {
             Request = request;

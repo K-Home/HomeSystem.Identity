@@ -12,7 +12,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Reason { get; }
 
         [JsonConstructor]
-        public ChangePasswordRejectedDomainEvent(Guid requestId, 
+        public ChangePasswordRejectedDomainEvent(Guid requestId,
             Guid userId, string code, string reason)
         {
             RequestId = requestId;

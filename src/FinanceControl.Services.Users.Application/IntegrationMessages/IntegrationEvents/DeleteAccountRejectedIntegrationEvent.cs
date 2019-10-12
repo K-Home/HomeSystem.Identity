@@ -10,14 +10,14 @@ namespace FinanceControl.IntegrationMessages
     public class DeleteAccountRejectedIntegrationEvent : IIntegrationRejectedEvent
     {
         public Guid RequestId { get; }
-        public Guid UserId { get;  }
-        public bool Soft { get;  }
+        public Guid UserId { get; }
+        public bool Soft { get; }
         public string Message { get; }
         public string Reason { get; }
         public string Code { get; }
 
         [JsonConstructor]
-        public DeleteAccountRejectedIntegrationEvent(Guid requestId, Guid userId, 
+        public DeleteAccountRejectedIntegrationEvent(Guid requestId, Guid userId,
             bool soft, string message, string reason, string code)
         {
             RequestId = requestId;

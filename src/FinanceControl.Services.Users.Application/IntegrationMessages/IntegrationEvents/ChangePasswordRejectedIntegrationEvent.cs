@@ -16,7 +16,7 @@ namespace FinanceControl.IntegrationMessages
         public string Reason { get; }
 
         [JsonConstructor]
-        public ChangePasswordRejectedIntegrationEvent(Guid requestId, 
+        public ChangePasswordRejectedIntegrationEvent(Guid requestId,
             Guid userId, string message, string code, string reason)
         {
             RequestId = requestId;

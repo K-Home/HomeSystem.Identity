@@ -16,7 +16,7 @@ namespace FinanceControl.IntegrationMessages
         public string Message { get; }
 
         [JsonConstructor]
-        public EnableTwoFactorAuthenticationRejectedIntegrationEvent(Guid requestId, 
+        public EnableTwoFactorAuthenticationRejectedIntegrationEvent(Guid requestId,
             Guid userId, string reason, string code, string message)
         {
             RequestId = requestId;

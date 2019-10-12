@@ -15,7 +15,7 @@ namespace FinanceControl.IntegrationMessages
         public string Message { get; }
 
         [JsonConstructor]
-        public AccountLockedIntegrationEvent(Guid requestId, 
+        public AccountLockedIntegrationEvent(Guid requestId,
             Guid userId, Guid lockedUserId, string message)
         {
             RequestId = requestId;

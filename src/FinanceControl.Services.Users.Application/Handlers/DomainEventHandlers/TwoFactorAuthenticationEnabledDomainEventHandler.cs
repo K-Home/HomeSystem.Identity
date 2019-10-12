@@ -34,7 +34,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
                 new TwoFactorAuthenticationEnabledIntegrationEvent(@event.RequestId, @event.UserId,
                     $"Successfully enabled two factor authentication for user with id: {@event.UserId}."),
                 cancellationToken);
-            
+
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }
     }

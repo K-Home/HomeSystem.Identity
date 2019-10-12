@@ -13,7 +13,7 @@ namespace FinanceControl.IntegrationMessages
         public string Code { get; }
 
         [JsonConstructor]
-        public EditUserRejectedIntegrationEvent(Guid requestId, Guid userId, 
+        public EditUserRejectedIntegrationEvent(Guid requestId, Guid userId,
             string message, string reason, string code)
         {
             RequestId = requestId;

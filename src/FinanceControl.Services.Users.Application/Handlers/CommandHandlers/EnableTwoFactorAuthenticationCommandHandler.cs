@@ -50,7 +50,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error($"Error occured when enabling two factor auth for user with id: {command.UserId}", exception);
+                    logger.Error($"Error occured when enabling two factor auth for user with id: {command.UserId}",
+                        exception);
                     await _mediatRBus.PublishAsync(
                         new EnableTwoFactorAuthenticationRejectedDomainEvent(command.Request.Id, command.UserId,
                             exception.Message, Codes.Error),

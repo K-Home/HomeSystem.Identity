@@ -17,7 +17,7 @@ namespace FinanceControl.IntegrationMessages
         public string Reason { get; }
 
         [JsonConstructor]
-        public LockAccountRejectedIntegrationEvent(Guid requestId, Guid userId, 
+        public LockAccountRejectedIntegrationEvent(Guid requestId, Guid userId,
             Guid lockedUserId, string message, string code, string reason)
         {
             RequestId = requestId;

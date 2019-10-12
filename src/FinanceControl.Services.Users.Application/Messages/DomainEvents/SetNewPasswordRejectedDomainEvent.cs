@@ -10,7 +10,7 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public string Code { get; }
         public string Email { get; }
 
-        public SetNewPasswordRejectedDomainEvent(Guid requestId, 
+        public SetNewPasswordRejectedDomainEvent(Guid requestId,
             string code, string reason, string email)
         {
             RequestId = requestId;

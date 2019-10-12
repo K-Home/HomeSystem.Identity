@@ -71,7 +71,7 @@ namespace FinanceControl.Services.Users.Application.Services
             await RemoveAsync(user, userId);
             _userRepository.EditUser(user);
         }
-        
+
         public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)
         {
             return await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);

@@ -9,9 +9,9 @@ namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
         public Guid RequestId { get; }
         public Guid UserId { get; }
         public string Name { get; }
-        
+
         [JsonConstructor]
-        public UsernameChangedDomainEvent(Guid requestId, 
+        public UsernameChangedDomainEvent(Guid requestId,
             Guid userId, string name)
         {
             RequestId = requestId;

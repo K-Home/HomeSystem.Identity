@@ -33,10 +33,7 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 
                     await _authenticationService.SaveChangesAsync(cancellationToken);
                 })
-                .OnError((exception, logger) =>
-                {
-                    logger.Error($"Error when refreshing session for user", exception);
-                })
+                .OnError((exception, logger) => { logger.Error($"Error when refreshing session for user", exception); })
                 .ExecuteAsync();
         }
     }

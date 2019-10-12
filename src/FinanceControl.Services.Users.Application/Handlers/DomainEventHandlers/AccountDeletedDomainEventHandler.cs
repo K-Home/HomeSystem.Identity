@@ -29,7 +29,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 
             await _massTransitBusService.PublishAsync(
                 new AccountDeletedIntegrationEvent(@event.RequestId, @event.UserId,
-                    $"Successfully deleted account for user with id: {@event.UserId}.", @event.Soft), cancellationToken);
+                    $"Successfully deleted account for user with id: {@event.UserId}.", @event.Soft),
+                cancellationToken);
 
             _logger.LogInformation("----- Domain event {DomainEvent} handled", @event.GetGenericTypeName());
         }

@@ -46,7 +46,8 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 })
                 .OnError(async (exception, logger) =>
                 {
-                    logger.Error($"Error occured when unlocking a account for user with id: {command.UserId}.", exception);
+                    logger.Error($"Error occured when unlocking a account for user with id: {command.UserId}.",
+                        exception);
                     await _mediatRBus.PublishAsync(
                         new UnlockAccountRejectedDomainEvent(command.Request.Id, command.UserId, command.UnlockUserId,
                             exception.Message, Codes.Error), cancellationToken);
@@ -54,4 +55,4 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
                 .ExecuteAsync();
         }
     }
-} 
+}

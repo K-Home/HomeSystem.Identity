@@ -15,7 +15,7 @@ namespace FinanceControl.IntegrationMessages
         public string Message { get; }
 
         [JsonConstructor]
-        public UsernameChangedIntegrationEvent(Guid requestId, 
+        public UsernameChangedIntegrationEvent(Guid requestId,
             Guid userId, string name, string message)
         {
             RequestId = requestId;
@@ -25,4 +25,3 @@ namespace FinanceControl.IntegrationMessages
         }
     }
 }
- 
