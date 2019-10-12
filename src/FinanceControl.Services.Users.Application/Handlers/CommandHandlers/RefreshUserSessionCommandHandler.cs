@@ -12,14 +12,11 @@ namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
     internal sealed class RefreshUserSessionCommandHandler : AsyncRequestHandler<RefreshUserSessionCommand>
     {
         private readonly IHandler _handler;
-        private readonly IMediatRBus _mediatRBus;
         private readonly IAuthenticationService _authenticationService;
 
-        public RefreshUserSessionCommandHandler(IHandler handler,
-            IMediatRBus mediatRBus, IAuthenticationService authenticationService)
+        public RefreshUserSessionCommandHandler(IHandler handler, IAuthenticationService authenticationService)
         {
             _handler = handler.CheckIfNotEmpty();
-            _mediatRBus = mediatRBus.CheckIfNotEmpty();
             _authenticationService = authenticationService.CheckIfNotEmpty();
         }
 
