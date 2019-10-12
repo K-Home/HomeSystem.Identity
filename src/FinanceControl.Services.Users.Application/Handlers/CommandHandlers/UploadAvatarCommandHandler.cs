@@ -13,7 +13,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    internal class UploadAvatarCommandHandler : AsyncRequestHandler<UploadAvatarCommand>
+    internal sealed class UploadAvatarCommandHandler : AsyncRequestHandler<UploadAvatarCommand>
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;

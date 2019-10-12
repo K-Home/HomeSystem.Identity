@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    internal class ActivationMessageSentDomainEventHandler :
+    internal sealed class ActivationMessageSentDomainEventHandler :
         INotificationHandler<ActivateAccountSecuredOperationCreatedDomainEvent>
     {
         private readonly ILogger<ActivationMessageSentDomainEventHandler> _logger;

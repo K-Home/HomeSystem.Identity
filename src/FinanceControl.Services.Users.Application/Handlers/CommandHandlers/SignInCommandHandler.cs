@@ -11,7 +11,7 @@ using MediatR;
 
 namespace FinanceControl.Services.Users.Application.Handlers.CommandHandlers
 {
-    internal class SignInCommandHandler : AsyncRequestHandler<SignInCommand>
+    internal sealed class SignInCommandHandler : AsyncRequestHandler<SignInCommand>
     {
         private readonly IHandler _handler;
         private readonly IMediatRBus _mediatRBus;

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinanceControl.Services.Users.Application.Handlers.DomainEventHandlers
 {
-    internal class AvatarUploadedDomainEventHandler : INotificationHandler<AvatarUploadedDomainEvent>
+    internal sealed class AvatarUploadedDomainEventHandler : INotificationHandler<AvatarUploadedDomainEvent>
     {
         private readonly ILogger<AvatarUploadedDomainEventHandler> _logger;
         private readonly IMassTransitBusService _massTransitBusService;
