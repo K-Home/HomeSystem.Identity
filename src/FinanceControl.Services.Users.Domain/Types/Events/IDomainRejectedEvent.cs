@@ -1,4 +1,4 @@
-﻿namespace FinanceControl.Services.Users.Infrastructure.Messages
+﻿namespace FinanceControl.Services.Users.Domain.Types.Events
 {
     public interface IDomainRejectedEvent : IDomainEvent
     {

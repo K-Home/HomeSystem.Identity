@@ -1,19 +1,16 @@
 ﻿using FinanceControl.Services.Users.Domain.Aggregates;
 using FinanceControl.Services.Users.Domain.Types.Events;
-using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 
-namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
+namespace FinanceControl.Services.Users.Domain.DomainEvents
 {
     public class SignedUpDomainEvent : IDomainEvent
     {
-        public Request Request { get; }
         public User User { get; }
 
         [JsonConstructor]
-        public SignedUpDomainEvent(Request request, User user)
+        public SignedUpDomainEvent(User user)
         {
-            Request = request;
             User = user;
         }
     }

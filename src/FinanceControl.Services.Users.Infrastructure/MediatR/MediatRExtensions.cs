@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FinanceControl.Services.Users.Infrastructure.MediatR
 {
-    internal static class MediatRExtension
+    internal static class MediatRExtensions
     {
         public static async Task DispatchDomainEventsAsync(this IMediator mediator, IdentityDbContext ctx)
         {

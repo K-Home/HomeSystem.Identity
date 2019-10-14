@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FinanceControl.Services.Users.Domain.DomainEvents;
 using FinanceControl.Services.Users.Domain.Enumerations;
 using FinanceControl.Services.Users.Domain.Exceptions;
 using FinanceControl.Services.Users.Domain.Extensions;
@@ -52,6 +53,8 @@ namespace FinanceControl.Services.Users.Domain.Aggregates
             TwoFactorAuthentication = false;
             SetCulture(DefaultCulture);
             CreatedAt = DateTime.UtcNow;
+            
+            AddDomainEvent(new SignedUpDomainEvent(this));
         }
 
         public void SetFirstName(string firstName)

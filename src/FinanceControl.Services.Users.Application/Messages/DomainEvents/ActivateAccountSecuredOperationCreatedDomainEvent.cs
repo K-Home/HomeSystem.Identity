@@ -1,4 +1,5 @@
 ﻿using System;
+using FinanceControl.Services.Users.Domain.Types.Events;
 using FinanceControl.Services.Users.Infrastructure.Messages;
 using Newtonsoft.Json;
 

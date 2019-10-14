@@ -1,5 +1,5 @@
 ﻿using System;
-using FinanceControl.Services.Users.Infrastructure.Messages;
+using FinanceControl.Services.Users.Domain.Types.Events;
 
 namespace FinanceControl.Services.Users.Application.Messages.DomainEvents
 {
