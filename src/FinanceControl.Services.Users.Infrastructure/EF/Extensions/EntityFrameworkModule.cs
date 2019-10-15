@@ -25,7 +25,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Extensions
             services.AddSingleton(settings);
 
             services.AddEntityFrameworkSqlServer()
-                .AddDbContext<IdentityDbContext>();
+                .AddDbContext<AuthorizationDbContext>();
 
             services.AddScoped<IOneTimeSecuredOperationRepository, OneTimeSecuredOperationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();

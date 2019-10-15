@@ -10,11 +10,11 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Repositories
 {
     public class UserSessionRepository : IUserSessionRepository
     {
-        private readonly IdentityDbContext _identityDbContext;
+        private readonly AuthorizationDbContext _identityDbContext;
 
         public IUnitOfWork UnitOfWork => _identityDbContext;
 
-        public UserSessionRepository(IdentityDbContext identityDbContext)
+        public UserSessionRepository(AuthorizationDbContext identityDbContext)
         {
             _identityDbContext = identityDbContext.CheckIfNotEmpty();
         }

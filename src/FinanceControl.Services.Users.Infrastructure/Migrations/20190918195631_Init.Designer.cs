@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinanceControl.Services.Users.Infrastructure.Migrations
 {
-    [DbContext(typeof(IdentityDbContext))]
+    [DbContext(typeof(AuthorizationDbContext))]
     [Migration("20190918195631_Init")]
     partial class Init
     {

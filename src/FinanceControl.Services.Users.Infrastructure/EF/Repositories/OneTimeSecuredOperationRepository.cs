@@ -10,11 +10,11 @@ namespace FinanceControl.Services.Users.Infrastructure.EF.Repositories
 {
     public class OneTimeSecuredOperationRepository : IOneTimeSecuredOperationRepository
     {
-        private readonly IdentityDbContext _identityDbContext;
+        private readonly AuthorizationDbContext _identityDbContext;
 
         public IUnitOfWork UnitOfWork => _identityDbContext;
 
-        public OneTimeSecuredOperationRepository(IdentityDbContext identityDbContext)
+        public OneTimeSecuredOperationRepository(AuthorizationDbContext identityDbContext)
         {
             _identityDbContext = identityDbContext.CheckIfNotEmpty();
         }

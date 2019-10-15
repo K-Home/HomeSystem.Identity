@@ -16,9 +16,9 @@ namespace FinanceControl.Services.Users.Application.Behaviors
         where TRequest : ICommand
     {
         private readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;
-        private readonly IdentityDbContext _dbContext;
+        private readonly AuthorizationDbContext _dbContext;
 
-        public TransactionBehaviour(IdentityDbContext dbContext,
+        public TransactionBehaviour(AuthorizationDbContext dbContext,
             ILogger<TransactionBehaviour<TRequest, TResponse>> logger)
         {
             _dbContext = dbContext.CheckIfNotEmpty();

@@ -7,19 +7,23 @@ using FinanceControl.Services.Users.Domain.Aggregates;
 using FinanceControl.Services.Users.Domain.Extensions;
 using FinanceControl.Services.Users.Domain.SeedWork;
 using FinanceControl.Services.Users.Infrastructure.EF.Configurations;
+using FinanceControl.Services.Users.Infrastructure.MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
 
 namespace FinanceControl.Services.Users.Infrastructure.EF
 {
-    public class IdentityDbContext : DbContext, IUnitOfWork
+    public class AuthorizationDbContext : DbContext, IUnitOfWork
     {
         private readonly IOptions<SqlOptions> _sqlOptions;
+        private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;
-
-        public IdentityDbContext(IOptions<SqlOptions> sqlOptions)
+        
+        public AuthorizationDbContext(IOptions<SqlOptions> sqlOptions, IMediator mediator)
         {
+            _mediator = mediator.CheckIfNotEmpty();
             _sqlOptions = sqlOptions.CheckIfNotEmpty();
         }
 
@@ -50,7 +54,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
             optionsBuilder.UseSqlServer(_sqlOptions.Value.ConnectionString,
                 sqlOptions =>
                 {
-                    sqlOptions.MigrationsAssembly(typeof(IdentityDbContext).GetTypeInfo().Assembly.GetName().Name);
+                    sqlOptions.MigrationsAssembly(typeof(AuthorizationDbContext).GetTypeInfo().Assembly.GetName().Name);
                     sqlOptions.EnableRetryOnFailure(10, TimeSpan.FromSeconds(30), null);
                 });
         }
@@ -67,14 +71,18 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
         }
 
         public async Task<bool> SaveEntitiesAsync()
-        {
+        {        
+            await _mediator.DispatchDomainEventsAsync(this);
             await base.SaveChangesAsync();
+            
             return true;
         }
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken)
         {
+            await _mediator.DispatchDomainEventsAsync(this);
             await base.SaveChangesAsync(cancellationToken);
+            
             return true;
         }
 
@@ -129,7 +137,7 @@ namespace FinanceControl.Services.Users.Infrastructure.EF
             {
                 if (_currentTransaction.HasValue())
                 {
-                    _currentTransaction.Dispose();
+                    _currentTransaction?.Dispose();
                     _currentTransaction = null;
                 }
             }
